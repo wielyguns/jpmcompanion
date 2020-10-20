@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 const loginRoute = '/login-route';
-const dashboardRoute = '/dashboard-route';
+const dashboardRoute = '/';
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));

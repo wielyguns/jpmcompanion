@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/mainModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
+
+import '../const.dart';
 
 class LoginViewModel extends BaseViewModel {
   TextEditingController _username = TextEditingController(text: '');
@@ -67,11 +70,25 @@ class LoginViewModel extends BaseViewModel {
     }
     isError('');
     _isLoadingApi = true;
+    FocusScope.of(context).unfocus();
     var input = {
       "username": "${_username.text}",
       "password": "${_password.text}",
     };
     var result = await MainModel().login(input);
+
+    if (result['status'] == 1) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', result['api_key'].toString());
+      prefs.setString('id', result['data']['id'].toString());
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        dashboardRoute,
+        (route) => false,
+      );
+    } else {
+      messageToast(result['message'], Colors.red);
+    }
+
     print(result);
 
     _isLoadingApi = false;

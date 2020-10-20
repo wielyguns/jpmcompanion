@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/route.dart';
 
+import 'const.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: (settings) => Routers.generateRoute(settings),
-      initialRoute: loginRoute,
+      initialRoute: dashboardRoute,
     );
   }
 }
