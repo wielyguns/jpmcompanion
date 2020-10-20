@@ -1,0 +1,73 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:jpmcompanion/const.dart';
+import 'package:stacked/stacked.dart';
+
+class LoginViewModel extends BaseViewModel {
+  TextEditingController _username = TextEditingController(text: '');
+  TextEditingController _password = TextEditingController(text: '');
+  String _usernameError;
+  String _passwordError;
+  bool _submit = false;
+  bool _isLoadingApi = false;
+  final _formKey = GlobalKey<FormState>();
+  //GETTER
+  TextEditingController get username => _username;
+  TextEditingController get password => _password;
+  String get usernameError => _usernameError;
+  String get passwordError => _passwordError;
+  bool get isLoadingApi => _isLoadingApi;
+  GlobalKey get formKey => _formKey;
+
+  init() async {
+    _username.addListener(() {
+      if (_submit) {
+        _usernameError = null;
+        _formKey.currentState.validate();
+        notifyListeners();
+      }
+    });
+
+    _password.addListener(() {
+      if (_submit) {
+        _passwordError = null;
+        _formKey.currentState.validate();
+        notifyListeners();
+      }
+    });
+  }
+
+  isError(input) {
+    switch (input) {
+      case 'username':
+        _usernameError = 'Username harus diisi';
+        notifyListeners();
+        return 'error';
+        break;
+      case 'password':
+        _passwordError = 'Password harus diisi';
+        notifyListeners();
+        return 'error';
+        break;
+      default:
+        _usernameError = null;
+        _passwordError = null;
+    }
+  }
+
+  login(context) async {
+    _submit = true;
+    notifyListeners();
+    if (_formKey.currentState.validate() == false) {
+      var color = Colors.red;
+      messageToast('Cek kembali data anda', color);
+      _isLoadingApi = false;
+      return;
+    }
+    isError('');
+    _isLoadingApi = true;
+    await Future.delayed(Duration(milliseconds: 1000));
+    _isLoadingApi = false;
+    notifyListeners();
+  }
+}
