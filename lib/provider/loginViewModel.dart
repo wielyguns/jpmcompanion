@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/model/mainModel.dart';
 import 'package:stacked/stacked.dart';
 
 class LoginViewModel extends BaseViewModel {
@@ -66,7 +67,13 @@ class LoginViewModel extends BaseViewModel {
     }
     isError('');
     _isLoadingApi = true;
-    await Future.delayed(Duration(milliseconds: 1000));
+    var input = {
+      "username": "${_username.text}",
+      "password": "${_password.text}",
+    };
+    var result = await MainModel().login(input);
+    print(result);
+
     _isLoadingApi = false;
     notifyListeners();
   }

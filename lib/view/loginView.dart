@@ -179,6 +179,7 @@ class _LoginViewState extends State<LoginView> {
                                 return null;
                               },
                               controller: model.password,
+                              obscureText: true,
                               decoration: InputDecoration(
                                 hintText: 'Password',
                                 contentPadding: EdgeInsets.only(
