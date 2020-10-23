@@ -5,6 +5,11 @@ import 'package:stacked/stacked.dart';
 import '../const.dart';
 
 class DashboardViewModel extends BaseViewModel {
+  // SETTER
+  TextEditingController _search = TextEditingController();
+  // GETTER
+  TextEditingController get search => _search;
+  // FUNCTION
   init(context) async {
     setBusy(true);
     SharedPreferences prefs = await SharedPreferences.getInstance();

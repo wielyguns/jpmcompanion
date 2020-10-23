@@ -14,6 +14,7 @@ Color hintColor = Color(hexStringToHexInt('#C2C2C2'));
 Color titleColor = Color(hexStringToHexInt('#505050'));
 Color purpleTheme = Color(hexStringToHexInt('#5A4CF4'));
 Color purpleLightTheme = Color(hexStringToHexInt('#D9CBFF'));
+Color purpleChart = Color(hexStringToHexInt('#9B51E0'));
 
 // FUNCTION
 hexStringToHexInt(String hex) {

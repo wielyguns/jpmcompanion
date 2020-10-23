@@ -39,6 +39,7 @@ dependencies:
   fluttertoast: ^4.0.1
   http: ^0.12.0+4
   shared_preferences: ^0.5.8
+  fl_chart: ^0.12.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -74,6 +75,9 @@ flutter:
       fonts:
         - asset: fonts/Roboto-Regular.ttf
         - asset: fonts/Roboto-Bold.ttf
+    - family: PlexSans
+      fonts:
+        - asset: fonts/IBMPlexSans-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
