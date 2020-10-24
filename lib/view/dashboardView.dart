@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/provider/dashboardViewModel.dart';
+import 'package:jpmcompanion/widget/customBottomNavigationBar.dart';
 import 'package:jpmcompanion/widget/dashboardCard.dart';
 import 'package:jpmcompanion/widget/dashboardGraphicReport.dart';
 import 'package:jpmcompanion/widget/dashboardHeader.dart';
@@ -236,10 +237,34 @@ class _DashboardViewState extends State<DashboardView> {
                                 onPressed: () {},
                                 shape: RoundedRectangleBorder(),
                                 child: Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage('assets/Component 2.png'),
+                                  constraints:
+                                      BoxConstraints(minHeight: 0.1.hp),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(0.01.wp),
+                                        child: Image(
+                                          width: 0.1.wp,
+                                          image: AssetImage(
+                                            'assets/Asset 47300 2.png',
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Input DO',
+                                        style: TextStyle(
+                                          color: Color(
+                                            hexStringToHexInt('#736B6D'),
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "PlexSans",
+                                          fontSize: 35.ssp,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -251,10 +276,34 @@ class _DashboardViewState extends State<DashboardView> {
                                 onPressed: () {},
                                 shape: RoundedRectangleBorder(),
                                 child: Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage('assets/Component 1.png'),
+                                  constraints:
+                                      BoxConstraints(minHeight: 0.1.hp),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(0.01.wp),
+                                        child: Image(
+                                          width: 0.1.wp,
+                                          image: AssetImage(
+                                            'assets/Asset 48300 1.png',
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Input DO',
+                                        style: TextStyle(
+                                          color: Color(
+                                            hexStringToHexInt('#736B6D'),
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "PlexSans",
+                                          fontSize: 35.ssp,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -266,11 +315,34 @@ class _DashboardViewState extends State<DashboardView> {
                                 onPressed: () {},
                                 shape: RoundedRectangleBorder(),
                                 child: Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage(
-                                        'assets/Component 3 (2).png'),
+                                  constraints:
+                                      BoxConstraints(minHeight: 0.1.hp),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(0.01.wp),
+                                        child: Image(
+                                          width: 0.12.wp,
+                                          image: AssetImage(
+                                            'assets/Asset 50 1.png',
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Tracking DO',
+                                        style: TextStyle(
+                                          color: Color(
+                                            hexStringToHexInt('#736B6D'),
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "PlexSans",
+                                          fontSize: 35.ssp,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -282,22 +354,50 @@ class _DashboardViewState extends State<DashboardView> {
                                 onPressed: () {},
                                 shape: RoundedRectangleBorder(),
                                 child: Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage('assets/Component 2.png'),
+                                  constraints:
+                                      BoxConstraints(minHeight: 0.1.hp),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(0.01.wp),
+                                        child: Image(
+                                          width: 0.1.wp,
+                                          image: AssetImage(
+                                            'assets/Asset 52 1.png',
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Master',
+                                        style: TextStyle(
+                                          color: Color(
+                                            hexStringToHexInt('#736B6D'),
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "PlexSans",
+                                          fontSize: 35.ssp,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             )
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        height: 0.02.hp,
                       )
                     ],
                   ),
                 ),
               ),
             ),
+            bottomNavigationBar: CustomBottomNavigationBar(),
           ),
         ),
       ),
