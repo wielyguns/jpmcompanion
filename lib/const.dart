@@ -1,6 +1,7 @@
 //ROUTE
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 const loginRoute = '/login-route';
 const dashboardRoute = '/';
@@ -15,6 +16,7 @@ Color titleColor = Color(hexStringToHexInt('#505050'));
 Color purpleTheme = Color(hexStringToHexInt('#5A4CF4'));
 Color purpleLightTheme = Color(hexStringToHexInt('#D9CBFF'));
 Color purpleChart = Color(hexStringToHexInt('#9B51E0'));
+final oCcy = new NumberFormat("###,###,###", "id");
 
 // FUNCTION
 hexStringToHexInt(String hex) {

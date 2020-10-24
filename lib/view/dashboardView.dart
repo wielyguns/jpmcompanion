@@ -1,11 +1,9 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/provider/dashboardViewModel.dart';
-import 'package:jpmcompanion/widget/barChartLine.dart';
-import 'package:jpmcompanion/widget/chartLine.dart';
-import 'package:jpmcompanion/widget/dashboardLineChart1.dart';
+import 'package:jpmcompanion/widget/dashboardCard.dart';
+import 'package:jpmcompanion/widget/dashboardGraphicReport.dart';
 import 'package:jpmcompanion/widget/dashboardHeader.dart';
 import 'package:jpmcompanion/widget/dashboardSearchBar.dart';
 import 'package:stacked/stacked.dart';
@@ -103,24 +101,17 @@ class _DashboardViewState extends State<DashboardView> {
                       DashboardHeader(),
                       DashboardSearchBar(),
                       Container(
-                        margin: EdgeInsets.only(top: 0.04.hp),
+                        margin: EdgeInsets.only(top: 0.04.hp, bottom: 0.02.hp),
                         padding: EdgeInsets.symmetric(horizontal: 0.04.wp),
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 0.02.hp),
-                              child: Text(
-                                'Graphic Report',
-                                style: TextStyle(
-                                  color: Color(
-                                    hexStringToHexInt('#5F5F5F'),
-                                  ),
-                                  fontSize: 50.ssp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                        child: Text(
+                          'Graphic Report',
+                          style: TextStyle(
+                            color: Color(
+                              hexStringToHexInt('#5F5F5F'),
                             ),
-                          ],
+                            fontSize: 50.ssp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       Container(
@@ -130,110 +121,178 @@ class _DashboardViewState extends State<DashboardView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Card(
-                                elevation: 5,
-                                child: Container(
-                                  width: 0.42.wp,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 0.01.hp,
-                                          horizontal: 0.02.wp,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Pendapatan',
-                                              style: TextStyle(color: textGrey),
-                                            ),
-                                            Container(
-                                              width: 0.1.wp,
-                                              height: 0.1.wp,
-                                              alignment: Alignment.center,
-                                              child: MaterialButton(
-                                                onPressed: () {},
-                                                elevation: 0,
-                                                color: Colors.white,
-                                                child: Icon(
-                                                  FontAwesomeIcons.ellipsisH,
-                                                  color: textGrey,
-                                                ),
-                                                padding: EdgeInsets.all(0),
-                                                shape: CircleBorder(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 0.02.wp,
-                                        ),
-                                        child: LineChartSample5(),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: 0.02.hp,
-                                          bottom: 0.01.hp,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            RichText(
-                                              textAlign: TextAlign.center,
-                                              text: TextSpan(children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    FontAwesomeIcons
-                                                        .solidCircle,
-                                                    color: purpleLightTheme,
-                                                    size: 45.ssp,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: '\nSept',
-                                                  style: TextStyle(
-                                                    color: textGrey,
-                                                    fontFamily: 'PlexSans',
-                                                  ),
-                                                )
-                                              ]),
-                                            ),
-                                            RichText(
-                                              textAlign: TextAlign.center,
-                                              text: TextSpan(children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    FontAwesomeIcons
-                                                        .solidCircle,
-                                                    color: purpleChart,
-                                                    size: 45.ssp,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: '\nOkt',
-                                                  style: TextStyle(
-                                                    color: textGrey,
-                                                    fontFamily: 'PlexSans',
-                                                  ),
-                                                )
-                                              ]),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                              DashboardGraphicReport(
+                                title: 'Pendapatan',
+                                spots: model.pendapatanSpots,
+                              ),
+                              DashboardGraphicReport(
+                                title: 'Delivery Order',
+                                spots: model.deliveryOrderSpots,
                               ),
                             ],
                           ),
                         ),
                       ),
+                      Container(
+                        margin: EdgeInsets.only(top: 0.04.hp, bottom: 0.02.hp),
+                        padding: EdgeInsets.symmetric(horizontal: 0.04.wp),
+                        child: Text(
+                          'Dashboard',
+                          style: TextStyle(
+                            color: Color(
+                              hexStringToHexInt('#5F5F5F'),
+                            ),
+                            fontSize: 50.ssp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 1.wp,
+                        child: NotificationListener<
+                            OverscrollIndicatorNotification>(
+                          onNotification:
+                              (OverscrollIndicatorNotification scroll) {
+                            scroll.disallowGlow();
+                            return;
+                          },
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 0.02.hp),
+                              child: Row(
+                                children: [
+                                  DashboardCard(
+                                    total: 27,
+                                    title: 'Barang\nManifest',
+                                    color: Color(
+                                      hexStringToHexInt('#F57466'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                      left: 0.04.wp,
+                                    ),
+                                  ),
+                                  DashboardCard(
+                                    total: 8478,
+                                    title: 'Barang Sedang\nDikirim',
+                                    color: Color(
+                                      hexStringToHexInt('#6AD0B8'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                    ),
+                                  ),
+                                  DashboardCard(
+                                    total: 9802,
+                                    title: 'Barang Sampai\nTujuan',
+                                    color: Color(
+                                      hexStringToHexInt('#8684F3'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                    ),
+                                  ),
+                                  DashboardCard(
+                                    total: 15,
+                                    title: 'Barang\nPending',
+                                    color: Color(
+                                      hexStringToHexInt('#BFA5F8'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 0.02.hp, bottom: 0.02.hp),
+                        padding: EdgeInsets.symmetric(horizontal: 0.04.wp),
+                        child: Text(
+                          'Main Menu',
+                          style: TextStyle(
+                            color: Color(
+                              hexStringToHexInt('#5F5F5F'),
+                            ),
+                            fontSize: 50.ssp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 0.04.wp),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 0.2.wp,
+                              child: MaterialButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {},
+                                shape: RoundedRectangleBorder(),
+                                child: Container(
+                                  padding: EdgeInsets.all(0.01.wp),
+                                  child: Image(
+                                    width: 0.1.wp,
+                                    image: AssetImage('assets/Component 2.png'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 0.2.wp,
+                              child: MaterialButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {},
+                                shape: RoundedRectangleBorder(),
+                                child: Container(
+                                  padding: EdgeInsets.all(0.01.wp),
+                                  child: Image(
+                                    width: 0.1.wp,
+                                    image: AssetImage('assets/Component 1.png'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 0.2.wp,
+                              child: MaterialButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {},
+                                shape: RoundedRectangleBorder(),
+                                child: Container(
+                                  padding: EdgeInsets.all(0.01.wp),
+                                  child: Image(
+                                    width: 0.1.wp,
+                                    image: AssetImage(
+                                        'assets/Component 3 (2).png'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 0.2.wp,
+                              child: MaterialButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {},
+                                shape: RoundedRectangleBorder(),
+                                child: Container(
+                                  padding: EdgeInsets.all(0.01.wp),
+                                  child: Image(
+                                    width: 0.1.wp,
+                                    image: AssetImage('assets/Component 2.png'),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),

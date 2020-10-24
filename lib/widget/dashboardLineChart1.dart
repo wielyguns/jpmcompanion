@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
 
 class LineChartSample5 extends StatefulWidget {
+  final allSpots;
+
+  const LineChartSample5({Key key, this.allSpots}) : super(key: key);
   @override
   _LineChartSample5State createState() => _LineChartSample5State();
 }
@@ -10,18 +13,13 @@ class LineChartSample5 extends StatefulWidget {
 class _LineChartSample5State extends State<LineChartSample5> {
   final List<int> showIndexes = const [1, 3, 5];
   double touchedValue;
-  final List<FlSpot> allSpots = [
-    FlSpot(0, 0),
-    FlSpot(1, 1.2),
-    FlSpot(2, 2),
-  ];
 
   @override
   Widget build(BuildContext context) {
     final lineBarsData = [
       LineChartBarData(
           showingIndicators: showIndexes,
-          spots: allSpots,
+          spots: widget.allSpots,
           isCurved: true,
           barWidth: 1,
           shadow: const Shadow(
@@ -86,7 +84,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
                   }
 
                   return LineTooltipItem(
-                    '${flSpot.y} juta',
+                    '${oCcy.format(flSpot.y)}',
                     const TextStyle(color: Colors.white),
                   );
                 }).toList();

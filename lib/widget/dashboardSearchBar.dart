@@ -18,6 +18,7 @@ class _DashboardSearchBarState extends State<DashboardSearchBar> {
         top: 0.04.hp,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
