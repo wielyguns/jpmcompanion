@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/model/mainModel.dart';
+
+import 'package:jpmcompanion/service/mainService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
@@ -75,7 +76,7 @@ class LoginViewModel extends BaseViewModel {
       "username": "${_username.text}",
       "password": "${_password.text}",
     };
-    var result = await MainModel().login(input);
+    var result = await MainService().login(input);
 
     if (result['status'] == 1) {
       SharedPreferences prefs = await SharedPreferences.getInstance();

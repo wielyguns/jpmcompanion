@@ -65,7 +65,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
           ]),
     ];
 
-    final LineChartBarData tooltipsOnBar = lineBarsData[0];
+    // final LineChartBarData tooltipsOnBar = lineBarsData[0];
 
     return SizedBox(
       width: 300,

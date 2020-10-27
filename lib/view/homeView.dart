@@ -3,11 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/provider/homeViewModel.dart';
 import 'package:jpmcompanion/view/dashboardTabView.dart';
+import 'package:jpmcompanion/view/mapTabView.dart';
 import 'package:jpmcompanion/widget/customBottomNavigationBar.dart';
-import 'package:jpmcompanion/widget/dashboardCard.dart';
-import 'package:jpmcompanion/widget/dashboardGraphicReport.dart';
-import 'package:jpmcompanion/widget/dashboardHeader.dart';
-import 'package:jpmcompanion/widget/dashboardSearchBar.dart';
+
 import 'package:stacked/stacked.dart';
 
 import '../const.dart';
@@ -35,7 +33,7 @@ class _HomeViewState extends State<HomeView>
           showLoadingApi: false,
           showLoadingScreen: model.isBusy,
           child: Scaffold(
-            drawer: Drawer(),
+            drawer: model.drawer(context),
             appBar: AppBar(
               elevation: 0,
               leading: Container(
@@ -103,7 +101,7 @@ class _HomeViewState extends State<HomeView>
                           child: DashboardTabView(),
                         ),
                         Container(
-                          child: Text('Tab 2'),
+                          child: MapTabView(),
                         ),
                         Container(
                           child: Text('Tab 3'),

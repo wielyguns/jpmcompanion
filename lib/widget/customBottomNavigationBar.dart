@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jpmcompanion/classModel.dart';
+import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/const.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {

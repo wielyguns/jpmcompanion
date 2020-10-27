@@ -17,7 +17,6 @@ Color purpleTheme = Color(hexStringToHexInt('#5A4CF4'));
 Color purpleLightTheme = Color(hexStringToHexInt('#D9CBFF'));
 Color purpleChart = Color(hexStringToHexInt('#9B51E0'));
 final oCcy = new NumberFormat("###,###,###", "id");
-
 // FUNCTION
 hexStringToHexInt(String hex) {
   hex = hex.replaceFirst('#', '');
