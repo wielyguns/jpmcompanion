@@ -4,6 +4,9 @@ import 'package:jpmcompanion/classModel.dart';
 import 'package:jpmcompanion/const.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
+  final Function(int) onTap;
+
+  const CustomBottomNavigationBar({Key key, this.onTap}) : super(key: key);
   @override
   _CustomBottomNavigationBarState createState() =>
       _CustomBottomNavigationBarState();
@@ -19,14 +22,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
       color: '#FED9E0',
     ),
     BottomBarModel(
-      icon: 'assets/Asset 47300 2.png',
-      title: 'Feed',
-      route: '/feed',
+      icon: 'assets/Asset 67300 1.png',
+      title: 'Map ',
+      route: '/map',
       color: '#F57466',
     ),
     BottomBarModel(
-      icon: 'assets/Asset 50 1.png',
-      title: 'Peta',
+      icon: 'assets/Asset 68300 1.png',
+      title: 'Timeline',
       route: '/real-time-map',
       color: '#BFA5F8',
     ),
@@ -37,7 +40,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
       color: '#6AD0B8',
     ),
   ];
-  List<double> _width = [0.1.wp, 0, 0, 0];
+  List<double> _width = [0.15.wp, 0, 0, 0];
   double _mark = 0.2.wp;
   double _left = 0.11.wp;
   int _position = 0;
@@ -53,7 +56,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
 
   changePosition(index) async {
     setState(() {
-      _width[index] = 0.1.wp;
+      _width[index] = 0.18.wp;
       if (_position > index) {
         _mark = 0.2.wp;
       } else {
@@ -68,8 +71,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
     await Future.delayed(Duration(milliseconds: 200)).then(
       (value) {
         setState(() {
-          _left = (0.1 + index / 5).wp;
-          _mark = 0.2.wp;
+          if (index > 1) {
+            _left = (0.1 + index / 5.8).wp;
+            _mark = 0.23.wp;
+          } else {
+            _left = (0.1 + index / 6).wp;
+            _mark = 0.18.wp;
+          }
           _position = index;
         });
       },
@@ -106,7 +114,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
               children: _data.asMap().entries.map<Widget>((e) {
                 return GestureDetector(
                   onTap: () {
-                    print('tapped');
+                    widget.onTap(e.key);
                     changePosition(e.key);
                   },
                   child: Container(
@@ -117,6 +125,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
                           margin: EdgeInsets.only(right: 0.02.wp),
                           child: Image(
                             width: 0.05.wp,
+                            height: 0.05.wp,
                             image: AssetImage(e.value.icon),
                           ),
                         ),

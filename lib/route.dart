@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/routeTransition.dart';
-import 'package:jpmcompanion/view/dashboardView.dart';
+import 'package:jpmcompanion/view/homeView.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 
 import 'const.dart';
@@ -10,7 +10,7 @@ class Routers {
     switch (settings.name) {
       case dashboardRoute:
         return RouteAnimationDurationTween(
-          widget: DashboardView(),
+          widget: HomeView(),
         );
       case loginRoute:
         return RouteAnimationDurationTween(

@@ -5,8 +5,9 @@ import 'package:stacked/stacked.dart';
 
 import '../const.dart';
 
-class DashboardViewModel extends BaseViewModel {
+class HomeViewModel extends BaseViewModel {
   // SETTER
+  TabController _tabController;
   TextEditingController _search = TextEditingController();
   List<FlSpot> _pendapatanSpots = [
     FlSpot(0, 0),
@@ -22,11 +23,13 @@ class DashboardViewModel extends BaseViewModel {
 
   // GETTER
   TextEditingController get search => _search;
+  TabController get tabController => _tabController;
   List<FlSpot> get pendapatanSpots => _pendapatanSpots;
   List<FlSpot> get deliveryOrderSpots => _deliveryOrderSpots;
   // FUNCTION
-  init(context) async {
+  init(context, vsync) async {
     setBusy(true);
+    _tabController = TabController(length: 4, vsync: vsync);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString('token') == null) {
       return Navigator.popAndPushNamed(context, loginRoute);
@@ -40,5 +43,11 @@ class DashboardViewModel extends BaseViewModel {
     prefs.remove('token');
     prefs.remove('id');
     Navigator.popAndPushNamed(context, loginRoute);
+  }
+
+  changeTab(index) {
+    print(index);
+    _tabController.animateTo(index);
+    notifyListeners();
   }
 }
