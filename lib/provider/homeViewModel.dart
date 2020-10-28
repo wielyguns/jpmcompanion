@@ -39,7 +39,7 @@ class HomeViewModel extends BaseViewModel {
       return Navigator.popAndPushNamed(context, loginRoute);
     }
 
-    await getAllNopolActive();
+    // await getAllNopolActive();
     setBusy(false);
     notifyListeners();
   }
