@@ -1,57 +1,28 @@
 class TrackingResult {
-  int responseCode;
-  String responseMessage;
-  List<Data> data;
-
-  TrackingResult({this.responseCode, this.responseMessage, this.data});
-
-  TrackingResult.fromJson(Map<String, dynamic> json) {
-    responseCode = json['ResponseCode'];
-    responseMessage = json['ResponseMessage'];
-    if (json['Data'] != null) {
-      data = new List<Data>();
-      json['Data'].forEach((v) {
-        data.add(new Data.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ResponseCode'] = this.responseCode;
-    data['ResponseMessage'] = this.responseMessage;
-    if (this.data != null) {
-      data['Data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Data {
-  Null currentDO;
-  int currentDoIDV3;
-  int currentDoIDV2;
-  int currentDoID;
-  Null overSpeedStatus;
-  Null overSpeedInGeoStatus;
-  Null currentgoogleKec;
-  Null currentgoogleKota;
-  Null output2Status;
-  Null output1Status;
-  Null inputanalog2Status;
-  Null inputanalog1Status;
-  Null input3Status;
-  Null input2Status;
-  Null input1Status;
-  Null currentGeoUplineAreaStatus;
-  Null currentGeoUplineLocStatus;
-  Null currentGeoAreaStatus;
-  Null currentGeoLocationStatus;
+  String currentDO;
+  dynamic currentDoIDV3;
+  dynamic currentDoIDV2;
+  dynamic currentDoID;
+  String overSpeedStatus;
+  dynamic overSpeedInGeoStatus;
+  dynamic currentgoogleKec;
+  dynamic currentgoogleKota;
+  dynamic output2Status;
+  dynamic output1Status;
+  dynamic inputanalog2Status;
+  dynamic inputanalog1Status;
+  dynamic input3Status;
+  dynamic input2Status;
+  dynamic input1Status;
+  dynamic currentGeoUplineAreaStatus;
+  dynamic currentGeoUplineLocStatus;
+  dynamic currentGeoAreaStatus;
+  dynamic currentGeoLocationStatus;
   TotalkmYtd totalkmYtd;
   TotalkmYtd totalkmMtd;
   CurrentUtilisasiStatus currentUtilisasiStatus;
-  Null currentFatiqueStatus;
-  Null currentDOV2;
+  dynamic currentFatiqueStatus;
+  dynamic currentDOV2;
   String gsmNo;
   String noAset;
   String groupNm;
@@ -59,22 +30,22 @@ class Data {
   String companyNm;
   TotalkmYtd totalkmToday;
   String carType;
-  Null fuelUsedGps;
-  Null rfidDriver;
-  Null currentRuteGeoStatus;
-  Null currentDMSScoreStatus;
-  Null fuelSensorStatus;
-  Null weightSensorStatus;
-  Null currentDOV3;
+  dynamic fuelUsedGps;
+  dynamic rfidDriver;
+  dynamic currentRuteGeoStatus;
+  dynamic currentDMSScoreStatus;
+  dynamic fuelSensorStatus;
+  dynamic weightSensorStatus;
+  dynamic currentDOV3;
   String carModel;
-  int input2;
-  int input1;
-  int gpsSatelit;
-  int gsmSignal;
+  dynamic input2;
+  dynamic input1;
+  dynamic gpsSatelit;
+  dynamic gsmSignal;
   String addr;
-  int sos;
-  int acc;
-  int isAlarm;
+  dynamic sos;
+  dynamic acc;
+  dynamic isAlarm;
   String kodePos;
   String provinsi;
   String kota;
@@ -84,14 +55,14 @@ class Data {
   String direction;
   CurrentStatusVehicle currentStatusVehicle;
   String driverNm;
-  Null rfid;
+  dynamic rfid;
   String gpsSn;
   String gpsTime;
   String stime;
-  int input3;
-  int input4;
-  int output1;
-  int output2;
+  dynamic input3;
+  dynamic input4;
+  dynamic output1;
+  dynamic output2;
   String geoUplineLocationTag;
   String geoUplineAreaTag;
   String geoUplinetypeNm;
@@ -106,19 +77,19 @@ class Data {
   String geoAreaNm;
   String geoLocationCode;
   String geoLocationNm;
-  int speed;
-  double odometer;
-  double lat;
-  double lon;
-  int fuelLevel;
-  double batteryPercent;
-  double mainPowerVoltage;
-  Null temperatur2;
-  Null temperatur1;
-  int inputAnalog2;
-  Null inputAnalog;
+  dynamic speed;
+  dynamic odometer;
+  dynamic lat;
+  dynamic lon;
+  dynamic fuelLevel;
+  dynamic batteryPercent;
+  dynamic mainPowerVoltage;
+  dynamic temperatur2;
+  dynamic temperatur1;
+  dynamic inputAnalog2;
+  dynamic inputAnalog;
 
-  Data(
+  TrackingResult(
       {this.currentDO,
       this.currentDoIDV3,
       this.currentDoIDV2,
@@ -209,7 +180,7 @@ class Data {
       this.inputAnalog2,
       this.inputAnalog});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  TrackingResult.fromJson(Map<String, dynamic> json) {
     currentDO = json['currentDO'];
     currentDoIDV3 = json['currentDoIDV3'];
     currentDoIDV2 = json['currentDoIDV2'];
@@ -417,7 +388,7 @@ class Data {
 }
 
 class TotalkmYtd {
-  double totalKm;
+  dynamic totalKm;
   String startDateCounting;
 
   TotalkmYtd({this.totalKm, this.startDateCounting});
@@ -437,12 +408,12 @@ class TotalkmYtd {
 
 class CurrentUtilisasiStatus {
   InfoStartComplete infoStartComplete;
-  int status;
-  int geoTipeSeq;
-  int nextSeq;
-  int durtemp;
-  int dur1temp;
-  int durRittemp;
+  dynamic status;
+  dynamic geoTipeSeq;
+  dynamic nextSeq;
+  dynamic durtemp;
+  dynamic dur1temp;
+  dynamic durRittemp;
   String ketStatus;
   List<Ritase> ritase;
 
@@ -496,16 +467,16 @@ class CurrentUtilisasiStatus {
 }
 
 class InfoStartComplete {
-  double startOdometer;
-  int stopOdometer;
-  int totalKm;
+  dynamic startOdometer;
+  dynamic stopOdometer;
+  dynamic totalKm;
   String startTime;
   String stopTime;
   DurasiDriving durasi;
   DurasiDriving durasiDriving;
-  DurasiDriving durasiParking;
-  Null durasiIdle;
-  int durasi2;
+  Durasi durasiParking;
+  DurasiDriving durasiIdle;
+  dynamic durasi2;
 
   InfoStartComplete(
       {this.startOdometer,
@@ -532,9 +503,11 @@ class InfoStartComplete {
         ? new DurasiDriving.fromJson(json['durasi_driving'])
         : null;
     durasiParking = json['durasi_parking'] != null
-        ? new DurasiDriving.fromJson(json['durasi_parking'])
+        ? new Durasi.fromJson(json['durasi_parking'])
         : null;
-    durasiIdle = json['durasi_idle'];
+    durasiIdle = json['durasi_idle'] != null
+        ? new DurasiDriving.fromJson(json['durasi_idle'])
+        : null;
     durasi2 = json['durasi2'];
   }
 
@@ -554,14 +527,16 @@ class InfoStartComplete {
     if (this.durasiParking != null) {
       data['durasi_parking'] = this.durasiParking.toJson();
     }
-    data['durasi_idle'] = this.durasiIdle;
+    if (this.durasiIdle != null) {
+      data['durasi_idle'] = this.durasiIdle.toJson();
+    }
     data['durasi2'] = this.durasi2;
     return data;
   }
 }
 
 class Durasi {
-  double value;
+  dynamic value;
   String text;
 
   Durasi({this.value, this.text});
@@ -580,7 +555,7 @@ class Durasi {
 }
 
 class DurasiDriving {
-  int value;
+  dynamic value;
   String text;
 
   DurasiDriving({this.value, this.text});
@@ -599,8 +574,8 @@ class DurasiDriving {
 }
 
 class Ritase {
-  int geoId;
-  int geoSeq;
+  dynamic geoId;
+  dynamic geoSeq;
   String geoNm;
   String geoCode;
   String geotypeNm;
@@ -608,11 +583,11 @@ class Ritase {
   String startTime;
   String stopTime;
   DurasiDriving duration;
-  double inOdometer;
-  double outOdometer;
+  dynamic inOdometer;
+  dynamic outOdometer;
   InfoStartComplete infoToNext;
-  Null timeIn;
-  Null timeOut;
+  dynamic timeIn;
+  dynamic timeOut;
 
   Ritase(
       {this.geoId,
@@ -676,12 +651,12 @@ class Ritase {
 }
 
 class CurrentStatusVehicle {
-  int status;
+  dynamic status;
   String ket;
   Driving driving;
-  Null parking;
-  Null idle;
-  Null rfidDriver;
+  String parking;
+  String idle;
+  String rfidDriver;
   Moving moving;
 
   CurrentStatusVehicle(
@@ -728,18 +703,18 @@ class Driving {
   DurasiDriving duration;
   DurasiDriving idle;
   DurasiDriving durMoving;
-  int maxSpeed;
-  double avgSpeed;
-  double totalKm;
-  int durMov2;
+  dynamic maxSpeed;
+  dynamic avgSpeed;
+  dynamic totalKm;
+  dynamic durMov2;
   StartDetail startDetail;
   StartDetail stopDetail;
-  int harshBrakeCount;
-  int harshAccelCount;
-  int harshCorneringCount;
-  int impactCount;
-  List<String> listMoving;
-  int fuelConsumption;
+  dynamic harshBrakeCount;
+  dynamic harshAccelCount;
+  dynamic harshCorneringCount;
+  dynamic impactCount;
+  List<dynamic> listMoving;
+  dynamic fuelConsumption;
 
   Driving(
       {this.startTime,
@@ -823,11 +798,11 @@ class Driving {
 }
 
 class StartDetail {
-  double lon;
-  double lat;
+  dynamic lon;
+  dynamic lat;
   String addr;
-  int geoLocationId;
-  int geoAreaId;
+  dynamic geoLocationId;
+  dynamic geoAreaId;
   String geoLocationNm;
   String geoAreaNm;
   String geoLocationCode;
@@ -875,15 +850,15 @@ class Moving {
   String startTime;
   String stopTime;
   DurasiDriving duration;
-  int maxSpeed;
-  double avgSpeed;
-  double totalKm;
+  dynamic maxSpeed;
+  dynamic avgSpeed;
+  dynamic totalKm;
   StartDetail startDetail;
   StartDetail stopDetail;
-  int harshBrakeCount;
-  int harshAccelCount;
-  int harshCorneringCount;
-  int impactCount;
+  dynamic harshBrakeCount;
+  dynamic harshAccelCount;
+  dynamic harshCorneringCount;
+  dynamic impactCount;
 
   Moving(
       {this.startTime,
