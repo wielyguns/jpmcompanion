@@ -113,10 +113,18 @@ class HomeViewModel extends BaseViewModel {
                             margin: EdgeInsets.symmetric(vertical: 0.01.hp),
                             padding: EdgeInsets.symmetric(
                               vertical: 0.01.hp,
-                              horizontal: 0.01.wp,
+                              horizontal: 0.02.wp,
                             ),
                             decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: borderBox),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(0.02.wp),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 4),
+                                  color: borderBox,
+                                  spreadRadius: 1,
+                                ),
+                              ],
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,12 +132,12 @@ class HomeViewModel extends BaseViewModel {
                                 Container(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Image(
-                                        width: 0.1.wp,
+                                        width: 0.14.wp,
                                         image: AssetImage(
-                                          'assets/Asset 68300 1 (1).png',
+                                          'assets/Asset 55300 1.png',
                                         ),
                                       ),
                                       SizedBox(
@@ -137,16 +145,103 @@ class HomeViewModel extends BaseViewModel {
                                       ),
                                       Text(
                                         '${e.nopol}',
-                                        style: TextStyle(color: textGrey),
+                                        style: TextStyle(
+                                          color: Color(
+                                            hexStringToHexInt('#29D130'),
+                                          ),
+                                          fontSize: 35.ssp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       )
                                     ],
                                   ),
                                 ),
-                                Image(
-                                  width: 0.15.wp,
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                    'assets/green.png',
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Image(
+                                                width: 40.ssp,
+                                                image: AssetImage(
+                                                  'assets/Asset 50300 1.png',
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: 0.04.wp,
+                                                ),
+                                                child: Text(
+                                                  '${e.provinsi}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'PlexSans',
+                                                    fontSize: 35.ssp,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Image(
+                                                width: 40.ssp,
+                                                image: AssetImage(
+                                                  'assets/Asset 67300 1.png',
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: 0.04.wp,
+                                                ),
+                                                child: Text(
+                                                  '${e.addr}',
+                                                  softWrap: false,
+                                                  overflow: TextOverflow.fade,
+                                                  style: TextStyle(
+                                                    fontFamily: 'PlexSans',
+                                                    fontSize: 35.ssp,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Image(
+                                                width: 40.ssp,
+                                                image: AssetImage(
+                                                  'assets/Asset 76300 1.png',
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: 0.04.wp,
+                                                ),
+                                                child: Text(
+                                                  'ON',
+                                                  softWrap: false,
+                                                  overflow: TextOverflow.fade,
+                                                  style: TextStyle(
+                                                    fontFamily: 'PlexSans',
+                                                    fontSize: 35.ssp,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
