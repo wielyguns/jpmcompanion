@@ -6,15 +6,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/trackingPositionModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
+import 'package:jpmcompanion/widget/mapDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
-
 import '../const.dart';
 
 class HomeViewModel extends BaseViewModel {
   // SETTER
   TabController _tabController;
   TextEditingController _search = TextEditingController();
+
   List<FlSpot> _pendapatanSpots = [
     FlSpot(0, 0),
     FlSpot(1, 2567895670),
@@ -29,11 +30,15 @@ class HomeViewModel extends BaseViewModel {
   int _index = 0;
   TrackingPosition _trackingPosition = TrackingPosition();
   List<TrackingResult> _trackingResult = [];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  TrackingResult _activeTracking = TrackingResult();
   // GETTER
   TextEditingController get search => _search;
   TabController get tabController => _tabController;
+  TrackingResult get activeTracking => _activeTracking;
   List<FlSpot> get pendapatanSpots => _pendapatanSpots;
   List<FlSpot> get deliveryOrderSpots => _deliveryOrderSpots;
+  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   // FUNCTION
   init(context, vsync) async {
     setBusy(true);
@@ -70,7 +75,6 @@ class HomeViewModel extends BaseViewModel {
 
   changeTab(index) {
     _index = index;
-    print(index);
     _tabController.animateTo(index);
     notifyListeners();
   }
@@ -79,182 +83,17 @@ class HomeViewModel extends BaseViewModel {
     ScreenUtil.init(context);
     switch (_index) {
       case 1:
-        return Drawer(
-          child: Container(
-            margin: EdgeInsets.only(
-              top: 0.04.hp,
-              left: 0.02.wp,
-              right: 0.02.wp,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(
-                    'List Kendaraan Aktif',
-                    style: TextStyle(
-                      color: Color(
-                        hexStringToHexInt('#FF5373'),
-                      ),
-                      fontSize: 60.ssp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 0.02.hp,
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: _trackingResult.map(
-                        (TrackingResult e) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 0.01.hp),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 0.01.hp,
-                              horizontal: 0.02.wp,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(0.02.wp),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(0, 4),
-                                  color: borderBox,
-                                  spreadRadius: 1,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        width: 0.14.wp,
-                                        image: AssetImage(
-                                          'assets/Asset 55300 1.png',
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 0.01.hp,
-                                      ),
-                                      Text(
-                                        '${e.nopol}',
-                                        style: TextStyle(
-                                          color: Color(
-                                            hexStringToHexInt('#29D130'),
-                                          ),
-                                          fontSize: 35.ssp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Image(
-                                                width: 40.ssp,
-                                                image: AssetImage(
-                                                  'assets/Asset 50300 1.png',
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                  right: 0.04.wp,
-                                                ),
-                                                child: Text(
-                                                  '${e.provinsi}',
-                                                  style: TextStyle(
-                                                    fontFamily: 'PlexSans',
-                                                    fontSize: 35.ssp,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Image(
-                                                width: 40.ssp,
-                                                image: AssetImage(
-                                                  'assets/Asset 67300 1.png',
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                  right: 0.04.wp,
-                                                ),
-                                                child: Text(
-                                                  '${e.addr}',
-                                                  softWrap: false,
-                                                  overflow: TextOverflow.fade,
-                                                  style: TextStyle(
-                                                    fontFamily: 'PlexSans',
-                                                    fontSize: 35.ssp,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Image(
-                                                width: 40.ssp,
-                                                image: AssetImage(
-                                                  'assets/Asset 76300 1.png',
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                  right: 0.04.wp,
-                                                ),
-                                                child: Text(
-                                                  'ON',
-                                                  softWrap: false,
-                                                  overflow: TextOverflow.fade,
-                                                  style: TextStyle(
-                                                    fontFamily: 'PlexSans',
-                                                    fontSize: 35.ssp,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+        return MapDrawer(
+          result: _trackingResult,
+          onTap: (e) async {
+            _scaffoldKey.currentState.openEndDrawer();
+            _activeTracking = e;
+            notifyListeners();
+          },
+          onRefresh: () async {
+            await getAllNopolActive();
+            notifyListeners();
+          },
         );
         break;
       default:

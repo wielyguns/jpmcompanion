@@ -33,6 +33,7 @@ class _HomeViewState extends State<HomeView>
           showLoadingApi: false,
           showLoadingScreen: model.isBusy,
           child: Scaffold(
+            key: model.scaffoldKey,
             drawer: model.drawer(context),
             appBar: AppBar(
               elevation: 0,
@@ -101,7 +102,9 @@ class _HomeViewState extends State<HomeView>
                           child: DashboardTabView(),
                         ),
                         Container(
-                          child: MapTabView(),
+                          child: MapTabView(
+                            result: model.activeTracking,
+                          ),
                         ),
                         Container(
                           child: Text('Tab 3'),

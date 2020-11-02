@@ -18,17 +18,16 @@ class MainService extends Model {
     return responseJson;
   }
 
-  Future<Map<String, dynamic>> getNopolActive(TrackingPosition body) async {
+  Future<Map<String, dynamic>> getNopolActive(TrackingPosition data) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'token': '$easygoToken',
     };
 
-    var body = jsonEncode({
-      "list_nopol": "[]",
-      "status_vehicle": "2",
-      "geo_code": "null",
-    });
+    if (data.listNopol == null) {
+      data.listNopol = [];
+    }
+    var body = jsonEncode(data.toJson());
     var responseJson;
     try {
       final response = await http.post(
@@ -37,6 +36,7 @@ class MainService extends Model {
         body: body,
       );
       responseJson = _response(response);
+      print(responseJson);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }

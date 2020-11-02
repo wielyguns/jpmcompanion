@@ -1,9 +1,9 @@
 class TrackingResult {
-  String currentDO;
+  CurrentDO currentDO;
   dynamic currentDoIDV3;
   dynamic currentDoIDV2;
   dynamic currentDoID;
-  String overSpeedStatus;
+  dynamic overSpeedStatus;
   dynamic overSpeedInGeoStatus;
   dynamic currentgoogleKec;
   dynamic currentgoogleKota;
@@ -20,7 +20,7 @@ class TrackingResult {
   dynamic currentGeoLocationStatus;
   TotalkmYtd totalkmYtd;
   TotalkmYtd totalkmMtd;
-  CurrentUtilisasiStatus currentUtilisasiStatus;
+  dynamic currentUtilisasiStatus;
   dynamic currentFatiqueStatus;
   dynamic currentDOV2;
   String gsmNo;
@@ -181,7 +181,9 @@ class TrackingResult {
       this.inputAnalog});
 
   TrackingResult.fromJson(Map<String, dynamic> json) {
-    currentDO = json['currentDO'];
+    currentDO = json['currentDO'] != null
+        ? new CurrentDO.fromJson(json['currentDO'])
+        : null;
     currentDoIDV3 = json['currentDoIDV3'];
     currentDoIDV2 = json['currentDoIDV2'];
     currentDoID = json['currentDoID'];
@@ -206,9 +208,7 @@ class TrackingResult {
     totalkmMtd = json['totalkm_mtd'] != null
         ? new TotalkmYtd.fromJson(json['totalkm_mtd'])
         : null;
-    currentUtilisasiStatus = json['currentUtilisasiStatus'] != null
-        ? new CurrentUtilisasiStatus.fromJson(json['currentUtilisasiStatus'])
-        : null;
+    currentUtilisasiStatus = json['currentUtilisasiStatus'];
     currentFatiqueStatus = json['currentFatiqueStatus'];
     currentDOV2 = json['currentDOV2'];
     gsmNo = json['gsm_no'];
@@ -284,7 +284,9 @@ class TrackingResult {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['currentDO'] = this.currentDO;
+    if (this.currentDO != null) {
+      data['currentDO'] = this.currentDO.toJson();
+    }
     data['currentDoIDV3'] = this.currentDoIDV3;
     data['currentDoIDV2'] = this.currentDoIDV2;
     data['currentDoID'] = this.currentDoID;
@@ -309,9 +311,7 @@ class TrackingResult {
     if (this.totalkmMtd != null) {
       data['totalkm_mtd'] = this.totalkmMtd.toJson();
     }
-    if (this.currentUtilisasiStatus != null) {
-      data['currentUtilisasiStatus'] = this.currentUtilisasiStatus.toJson();
-    }
+    data['currentUtilisasiStatus'] = this.currentUtilisasiStatus;
     data['currentFatiqueStatus'] = this.currentFatiqueStatus;
     data['currentDOV2'] = this.currentDOV2;
     data['gsm_no'] = this.gsmNo;
@@ -387,6 +387,679 @@ class TrackingResult {
   }
 }
 
+class CurrentDO {
+  dynamic doId;
+  dynamic statusDo;
+  dynamic opsiComplete;
+  dynamic isAlarm;
+  dynamic durValidTujuan;
+  dynamic companyId;
+  dynamic useridMonitor;
+  String companyNm;
+  String note;
+  String flag;
+  String gpsSn;
+  String snEseal;
+  dynamic noEseal;
+  String ketStatusDo;
+  String ketOpsiComplete;
+  dynamic ketClose;
+  String tglDo;
+  String tglInput;
+  String tglBl;
+  String tglLockAsal;
+  String tglUnlockTujuan;
+  String tglBalikAsal;
+  String tglClosed;
+  String tglPod;
+  dynamic maxTimeChecking;
+  dynamic maxTimeDelivery;
+  dynamic avgSuhu;
+  String noSj;
+  String noDo;
+  dynamic noContainer;
+  dynamic noContainer2;
+  dynamic transportir;
+  String driverNm;
+  String sizeContainer;
+  dynamic tipeContainer;
+  dynamic noPolisi;
+  String alertTelegram;
+  String alertEmail;
+  List<Asal> asal;
+  List<Tujuan> tujuan;
+  List<dynamic> alert;
+  List<dynamic> alarm;
+  InfoAsalTujuan infoAsalTujuan;
+  InfoAsalTujuan infoTujuanAsal;
+  InfoAsalComplete infoAsalComplete;
+  dynamic versiDo;
+  dynamic routeCheckpodynamic;
+  InfoShipment infoShipment;
+
+  CurrentDO(
+      {this.doId,
+      this.statusDo,
+      this.opsiComplete,
+      this.isAlarm,
+      this.durValidTujuan,
+      this.companyId,
+      this.useridMonitor,
+      this.companyNm,
+      this.note,
+      this.flag,
+      this.gpsSn,
+      this.snEseal,
+      this.noEseal,
+      this.ketStatusDo,
+      this.ketOpsiComplete,
+      this.ketClose,
+      this.tglDo,
+      this.tglInput,
+      this.tglBl,
+      this.tglLockAsal,
+      this.tglUnlockTujuan,
+      this.tglBalikAsal,
+      this.tglClosed,
+      this.tglPod,
+      this.maxTimeChecking,
+      this.maxTimeDelivery,
+      this.avgSuhu,
+      this.noSj,
+      this.noDo,
+      this.noContainer,
+      this.noContainer2,
+      this.transportir,
+      this.driverNm,
+      this.sizeContainer,
+      this.tipeContainer,
+      this.noPolisi,
+      this.alertTelegram,
+      this.alertEmail,
+      this.asal,
+      this.tujuan,
+      this.alert,
+      this.alarm,
+      this.infoAsalTujuan,
+      this.infoTujuanAsal,
+      this.infoAsalComplete,
+      this.versiDo,
+      this.routeCheckpodynamic,
+      this.infoShipment});
+
+  CurrentDO.fromJson(Map<String, dynamic> json) {
+    doId = json['do_id'];
+    statusDo = json['status_do'];
+    opsiComplete = json['opsi_complete'];
+    isAlarm = json['is_alarm'];
+    durValidTujuan = json['dur_valid_tujuan'];
+    companyId = json['company_id'];
+    useridMonitor = json['userid_monitor'];
+    companyNm = json['company_nm'];
+    note = json['note'];
+    flag = json['flag'];
+    gpsSn = json['gps_sn'];
+    snEseal = json['sn_eseal'];
+    noEseal = json['no_eseal'];
+    ketStatusDo = json['ket_status_do'];
+    ketOpsiComplete = json['ket_opsi_complete'];
+    ketClose = json['ket_close'];
+    tglDo = json['tgl_do'];
+    tglInput = json['tgl_input'];
+    tglBl = json['tgl_bl'];
+    tglLockAsal = json['tgl_lock_asal'];
+    tglUnlockTujuan = json['tgl_unlock_tujuan'];
+    tglBalikAsal = json['tgl_balik_asal'];
+    tglClosed = json['tgl_closed'];
+    tglPod = json['tgl_pod'];
+    maxTimeChecking = json['max_time_checking'];
+    maxTimeDelivery = json['max_time_delivery'];
+    avgSuhu = json['avg_suhu'];
+    noSj = json['no_sj'];
+    noDo = json['no_do'];
+    noContainer = json['no_container'];
+    noContainer2 = json['no_container2'];
+    transportir = json['transportir'];
+    driverNm = json['driver_nm'];
+    sizeContainer = json['size_container'];
+    tipeContainer = json['tipe_container'];
+    noPolisi = json['no_polisi'];
+    alertTelegram = json['alert_telegram'];
+    alarm = json['alarm'];
+    alert = json['alert'];
+    if (json['asal'] != null) {
+      asal = new List<Asal>();
+      json['asal'].forEach((v) {
+        asal.add(new Asal.fromJson(v));
+      });
+    }
+    if (json['tujuan'] != null) {
+      tujuan = new List<Tujuan>();
+      json['tujuan'].forEach((v) {
+        tujuan.add(new Tujuan.fromJson(v));
+      });
+    }
+
+    infoAsalTujuan = json['info_asal_tujuan'] != null
+        ? new InfoAsalTujuan.fromJson(json['info_asal_tujuan'])
+        : null;
+    infoTujuanAsal = json['info_tujuan_asal'] != null
+        ? new InfoAsalTujuan.fromJson(json['info_tujuan_asal'])
+        : null;
+    infoAsalComplete = json['info_asal_complete'] != null
+        ? new InfoAsalComplete.fromJson(json['info_asal_complete'])
+        : null;
+    versiDo = json['versi_do'];
+    routeCheckpodynamic = json['routeCheckpodynamic'];
+    infoShipment = json['info_shipment'] != null
+        ? new InfoShipment.fromJson(json['info_shipment'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['do_id'] = this.doId;
+    data['status_do'] = this.statusDo;
+    data['opsi_complete'] = this.opsiComplete;
+    data['is_alarm'] = this.isAlarm;
+    data['dur_valid_tujuan'] = this.durValidTujuan;
+    data['company_id'] = this.companyId;
+    data['userid_monitor'] = this.useridMonitor;
+    data['company_nm'] = this.companyNm;
+    data['note'] = this.note;
+    data['flag'] = this.flag;
+    data['gps_sn'] = this.gpsSn;
+    data['sn_eseal'] = this.snEseal;
+    data['no_eseal'] = this.noEseal;
+    data['ket_status_do'] = this.ketStatusDo;
+    data['ket_opsi_complete'] = this.ketOpsiComplete;
+    data['ket_close'] = this.ketClose;
+    data['tgl_do'] = this.tglDo;
+    data['tgl_input'] = this.tglInput;
+    data['tgl_bl'] = this.tglBl;
+    data['tgl_lock_asal'] = this.tglLockAsal;
+    data['tgl_unlock_tujuan'] = this.tglUnlockTujuan;
+    data['tgl_balik_asal'] = this.tglBalikAsal;
+    data['tgl_closed'] = this.tglClosed;
+    data['tgl_pod'] = this.tglPod;
+    data['max_time_checking'] = this.maxTimeChecking;
+    data['max_time_delivery'] = this.maxTimeDelivery;
+    data['avg_suhu'] = this.avgSuhu;
+    data['no_sj'] = this.noSj;
+    data['no_do'] = this.noDo;
+    data['no_container'] = this.noContainer;
+    data['no_container2'] = this.noContainer2;
+    data['transportir'] = this.transportir;
+    data['driver_nm'] = this.driverNm;
+    data['size_container'] = this.sizeContainer;
+    data['tipe_container'] = this.tipeContainer;
+    data['no_polisi'] = this.noPolisi;
+    data['alert_telegram'] = this.alertTelegram;
+    data['alert_email'] = this.alertEmail;
+    if (this.asal != null) {
+      data['asal'] = this.asal.map((v) => v.toJson()).toList();
+    }
+    if (this.tujuan != null) {
+      data['tujuan'] = this.tujuan.map((v) => v.toJson()).toList();
+    }
+    if (this.alert != null) {
+      data['alert'] = this.alert.map((v) => v.toJson()).toList();
+    }
+    if (this.alarm != null) {
+      data['alarm'] = this.alarm.map((v) => v.toJson()).toList();
+    }
+    if (this.infoAsalTujuan != null) {
+      data['info_asal_tujuan'] = this.infoAsalTujuan.toJson();
+    }
+    if (this.infoTujuanAsal != null) {
+      data['info_tujuan_asal'] = this.infoTujuanAsal.toJson();
+    }
+    if (this.infoAsalComplete != null) {
+      data['info_asal_complete'] = this.infoAsalComplete.toJson();
+    }
+    data['versi_do'] = this.versiDo;
+    data['routeCheckpodynamic'] = this.routeCheckpodynamic;
+    if (this.infoShipment != null) {
+      data['info_shipment'] = this.infoShipment.toJson();
+    }
+    return data;
+  }
+}
+
+class Asal {
+  dynamic geoId;
+  dynamic dosId;
+  String geoNm;
+  String geoCode;
+  String tglMasuk;
+  String tglKeluar;
+  String tglUnlock;
+  String tglLock;
+  String planLoadingTime;
+  Durations duration;
+  bool complete;
+  dynamic lat;
+  dynamic lon;
+  dynamic desc;
+
+  Asal(
+      {this.geoId,
+      this.dosId,
+      this.geoNm,
+      this.geoCode,
+      this.tglMasuk,
+      this.tglKeluar,
+      this.tglUnlock,
+      this.tglLock,
+      this.planLoadingTime,
+      this.duration,
+      this.complete,
+      this.lat,
+      this.lon,
+      this.desc});
+
+  Asal.fromJson(Map<String, dynamic> json) {
+    geoId = json['geo_id'];
+    dosId = json['dos_id'];
+    geoNm = json['geo_nm'];
+    geoCode = json['geo_code'];
+    tglMasuk = json['tgl_masuk'];
+    tglKeluar = json['tgl_keluar'];
+    tglUnlock = json['tgl_unlock'];
+    tglLock = json['tgl_lock'];
+    planLoadingTime = json['plan_loading_time'];
+    duration = json['duration'] != null
+        ? new Durations.fromJson(json['duration'])
+        : null;
+    complete = json['Complete'];
+    lat = json['lat'];
+    lon = json['lon'];
+    desc = json['desc'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['geo_id'] = this.geoId;
+    data['dos_id'] = this.dosId;
+    data['geo_nm'] = this.geoNm;
+    data['geo_code'] = this.geoCode;
+    data['tgl_masuk'] = this.tglMasuk;
+    data['tgl_keluar'] = this.tglKeluar;
+    data['tgl_unlock'] = this.tglUnlock;
+    data['tgl_lock'] = this.tglLock;
+    data['plan_loading_time'] = this.planLoadingTime;
+    if (this.duration != null) {
+      data['duration'] = this.duration.toJson();
+    }
+    data['Complete'] = this.complete;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['desc'] = this.desc;
+    return data;
+  }
+}
+
+class Durations {
+  dynamic value;
+  String text;
+
+  Durations({this.value, this.text});
+
+  Durations.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+    text = json['text'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['value'] = this.value;
+    data['text'] = this.text;
+    return data;
+  }
+}
+
+class Tujuan {
+  dynamic geoId;
+  dynamic dosId;
+  String geoNm;
+  String geoCode;
+  String noSj;
+  String tglMasuk;
+  String tglKeluar;
+  String tglUnlock;
+  String tglLock;
+  String startBongkar;
+  String selesaiBongkar;
+  String planUnloadingTime;
+  bool complete;
+  Durations duration;
+  dynamic lon;
+  dynamic lat;
+  dynamic radius;
+  dynamic eTA;
+  dynamic authRfid;
+  String desc;
+  String custTelegram;
+  String custEmail;
+  dynamic infoFromAsal;
+
+  Tujuan(
+      {this.geoId,
+      this.dosId,
+      this.geoNm,
+      this.geoCode,
+      this.noSj,
+      this.tglMasuk,
+      this.tglKeluar,
+      this.tglUnlock,
+      this.tglLock,
+      this.startBongkar,
+      this.selesaiBongkar,
+      this.planUnloadingTime,
+      this.complete,
+      this.duration,
+      this.lon,
+      this.lat,
+      this.radius,
+      this.eTA,
+      this.authRfid,
+      this.desc,
+      this.custTelegram,
+      this.custEmail,
+      this.infoFromAsal});
+
+  Tujuan.fromJson(Map<String, dynamic> json) {
+    geoId = json['geo_id'];
+    dosId = json['dos_id'];
+    geoNm = json['geo_nm'];
+    geoCode = json['geo_code'];
+    noSj = json['no_sj'];
+    tglMasuk = json['tgl_masuk'];
+    tglKeluar = json['tgl_keluar'];
+    tglUnlock = json['tgl_unlock'];
+    tglLock = json['tgl_lock'];
+    startBongkar = json['start_bongkar'];
+    selesaiBongkar = json['selesai_bongkar'];
+    planUnloadingTime = json['plan_unloading_time'];
+    complete = json['Complete'];
+    duration = json['duration'] != null
+        ? new Durations.fromJson(json['duration'])
+        : null;
+    lon = json['lon'];
+    lat = json['lat'];
+    radius = json['radius'];
+    eTA = json['ETA'];
+    authRfid = json['auth_rfid'];
+    desc = json['desc'];
+    custTelegram = json['cust_telegram'];
+    custEmail = json['cust_email'];
+    infoFromAsal = json['info_from_asal'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['geo_id'] = this.geoId;
+    data['dos_id'] = this.dosId;
+    data['geo_nm'] = this.geoNm;
+    data['geo_code'] = this.geoCode;
+    data['no_sj'] = this.noSj;
+    data['tgl_masuk'] = this.tglMasuk;
+    data['tgl_keluar'] = this.tglKeluar;
+    data['tgl_unlock'] = this.tglUnlock;
+    data['tgl_lock'] = this.tglLock;
+    data['start_bongkar'] = this.startBongkar;
+    data['selesai_bongkar'] = this.selesaiBongkar;
+    data['plan_unloading_time'] = this.planUnloadingTime;
+    data['Complete'] = this.complete;
+    if (this.duration != null) {
+      data['duration'] = this.duration.toJson();
+    }
+    data['lon'] = this.lon;
+    data['lat'] = this.lat;
+    data['radius'] = this.radius;
+    data['ETA'] = this.eTA;
+    data['auth_rfid'] = this.authRfid;
+    data['desc'] = this.desc;
+    data['cust_telegram'] = this.custTelegram;
+    data['cust_email'] = this.custEmail;
+    data['info_from_asal'] = this.infoFromAsal;
+    return data;
+  }
+}
+
+class InfoAsalTujuan {
+  dynamic startOdometer;
+  dynamic stopOdometer;
+  dynamic totalKm;
+  String startTime;
+  String stopTime;
+  Durations durasi;
+  dynamic durasiDriving;
+  dynamic durasiParking;
+  dynamic durasiIdle;
+  dynamic durasi2;
+
+  InfoAsalTujuan(
+      {this.startOdometer,
+      this.stopOdometer,
+      this.totalKm,
+      this.startTime,
+      this.stopTime,
+      this.durasi,
+      this.durasiDriving,
+      this.durasiParking,
+      this.durasiIdle,
+      this.durasi2});
+
+  InfoAsalTujuan.fromJson(Map<String, dynamic> json) {
+    startOdometer = json['start_odometer'];
+    stopOdometer = json['stop_odometer'];
+    totalKm = json['total_km'];
+    startTime = json['start_time'];
+    stopTime = json['stop_time'];
+    durasi =
+        json['durasi'] != null ? new Durations.fromJson(json['durasi']) : null;
+    durasiDriving = json['durasi_driving'];
+    durasiParking = json['durasi_parking'];
+    durasiIdle = json['durasi_idle'];
+    durasi2 = json['durasi2'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['start_odometer'] = this.startOdometer;
+    data['stop_odometer'] = this.stopOdometer;
+    data['total_km'] = this.totalKm;
+    data['start_time'] = this.startTime;
+    data['stop_time'] = this.stopTime;
+    if (this.durasi != null) {
+      data['durasi'] = this.durasi.toJson();
+    }
+    data['durasi_driving'] = this.durasiDriving;
+    data['durasi_parking'] = this.durasiParking;
+    data['durasi_idle'] = this.durasiIdle;
+    data['durasi2'] = this.durasi2;
+    return data;
+  }
+}
+
+class InfoAsalComplete {
+  dynamic startOdometer;
+  dynamic stopOdometer;
+  dynamic totalKm;
+  String startTime;
+  String stopTime;
+  Durations durasi;
+  dynamic durasiDriving;
+  dynamic durasiParking;
+  dynamic durasiIdle;
+  dynamic durasi2;
+  ETA eTA;
+
+  InfoAsalComplete(
+      {this.startOdometer,
+      this.stopOdometer,
+      this.totalKm,
+      this.startTime,
+      this.stopTime,
+      this.durasi,
+      this.durasiDriving,
+      this.durasiParking,
+      this.durasiIdle,
+      this.durasi2,
+      this.eTA});
+
+  InfoAsalComplete.fromJson(Map<String, dynamic> json) {
+    startOdometer = json['start_odometer'];
+    stopOdometer = json['stop_odometer'];
+    totalKm = json['total_km'];
+    startTime = json['start_time'];
+    stopTime = json['stop_time'];
+    durasi =
+        json['durasi'] != null ? new Durations.fromJson(json['durasi']) : null;
+    durasiDriving = json['durasi_driving'];
+    durasiParking = json['durasi_parking'];
+    durasiIdle = json['durasi_idle'];
+    durasi2 = json['durasi2'];
+    eTA = json['ETA'] != null ? new ETA.fromJson(json['ETA']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['start_odometer'] = this.startOdometer;
+    data['stop_odometer'] = this.stopOdometer;
+    data['total_km'] = this.totalKm;
+    data['start_time'] = this.startTime;
+    data['stop_time'] = this.stopTime;
+    if (this.durasi != null) {
+      data['durasi'] = this.durasi.toJson();
+    }
+    data['durasi_driving'] = this.durasiDriving;
+    data['durasi_parking'] = this.durasiParking;
+    data['durasi_idle'] = this.durasiIdle;
+    data['durasi2'] = this.durasi2;
+    if (this.eTA != null) {
+      data['ETA'] = this.eTA.toJson();
+    }
+    return data;
+  }
+}
+
+class ETA {
+  String estimatedTime;
+  Durations estimatedDurasi;
+  dynamic totalKm;
+
+  ETA({this.estimatedTime, this.estimatedDurasi, this.totalKm});
+
+  ETA.fromJson(Map<String, dynamic> json) {
+    estimatedTime = json['estimated_time'];
+    estimatedDurasi = json['estimated_durasi'] != null
+        ? new Durations.fromJson(json['estimated_durasi'])
+        : null;
+    totalKm = json['total_km'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['estimated_time'] = this.estimatedTime;
+    if (this.estimatedDurasi != null) {
+      data['estimated_durasi'] = this.estimatedDurasi.toJson();
+    }
+    data['total_km'] = this.totalKm;
+    return data;
+  }
+}
+
+class InfoShipment {
+  String jnsMuatan;
+  String noTiketTimbangan;
+  String noteShipment;
+  String truckId;
+  String noContainer;
+  String jnsCont;
+  String sizeCont;
+  String driverName2;
+  String driverPhone2;
+  String consignee;
+  dynamic volSj;
+  dynamic volTimbangan;
+  dynamic volKosong;
+  dynamic volTujuan;
+  dynamic cptyMuatan;
+  dynamic tarifAngkut;
+  dynamic uangJalan;
+  dynamic addUangJalan;
+  dynamic downPayment;
+
+  InfoShipment(
+      {this.jnsMuatan,
+      this.noTiketTimbangan,
+      this.noteShipment,
+      this.truckId,
+      this.noContainer,
+      this.jnsCont,
+      this.sizeCont,
+      this.driverName2,
+      this.driverPhone2,
+      this.consignee,
+      this.volSj,
+      this.volTimbangan,
+      this.volKosong,
+      this.volTujuan,
+      this.cptyMuatan,
+      this.tarifAngkut,
+      this.uangJalan,
+      this.addUangJalan,
+      this.downPayment});
+
+  InfoShipment.fromJson(Map<String, dynamic> json) {
+    jnsMuatan = json['jns_muatan'];
+    noTiketTimbangan = json['no_tiket_timbangan'];
+    noteShipment = json['note_shipment'];
+    truckId = json['truck_id'];
+    noContainer = json['no_container'];
+    jnsCont = json['jns_cont'];
+    sizeCont = json['size_cont'];
+    driverName2 = json['driver_name2'];
+    driverPhone2 = json['driver_phone2'];
+    consignee = json['consignee'];
+    volSj = json['vol_sj'];
+    volTimbangan = json['vol_timbangan'];
+    volKosong = json['vol_kosong'];
+    volTujuan = json['vol_tujuan'];
+    cptyMuatan = json['cpty_muatan'];
+    tarifAngkut = json['tarif_angkut'];
+    uangJalan = json['uang_jalan'];
+    addUangJalan = json['add_uang_jalan'];
+    downPayment = json['down_payment'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['jns_muatan'] = this.jnsMuatan;
+    data['no_tiket_timbangan'] = this.noTiketTimbangan;
+    data['note_shipment'] = this.noteShipment;
+    data['truck_id'] = this.truckId;
+    data['no_container'] = this.noContainer;
+    data['jns_cont'] = this.jnsCont;
+    data['size_cont'] = this.sizeCont;
+    data['driver_name2'] = this.driverName2;
+    data['driver_phone2'] = this.driverPhone2;
+    data['consignee'] = this.consignee;
+    data['vol_sj'] = this.volSj;
+    data['vol_timbangan'] = this.volTimbangan;
+    data['vol_kosong'] = this.volKosong;
+    data['vol_tujuan'] = this.volTujuan;
+    data['cpty_muatan'] = this.cptyMuatan;
+    data['tarif_angkut'] = this.tarifAngkut;
+    data['uang_jalan'] = this.uangJalan;
+    data['add_uang_jalan'] = this.addUangJalan;
+    data['down_payment'] = this.downPayment;
+    return data;
+  }
+}
+
 class TotalkmYtd {
   dynamic totalKm;
   String startDateCounting;
@@ -406,257 +1079,13 @@ class TotalkmYtd {
   }
 }
 
-class CurrentUtilisasiStatus {
-  InfoStartComplete infoStartComplete;
-  dynamic status;
-  dynamic geoTipeSeq;
-  dynamic nextSeq;
-  dynamic durtemp;
-  dynamic dur1temp;
-  dynamic durRittemp;
-  String ketStatus;
-  List<Ritase> ritase;
-
-  CurrentUtilisasiStatus(
-      {this.infoStartComplete,
-      this.status,
-      this.geoTipeSeq,
-      this.nextSeq,
-      this.durtemp,
-      this.dur1temp,
-      this.durRittemp,
-      this.ketStatus,
-      this.ritase});
-
-  CurrentUtilisasiStatus.fromJson(Map<String, dynamic> json) {
-    infoStartComplete = json['info_start_complete'] != null
-        ? new InfoStartComplete.fromJson(json['info_start_complete'])
-        : null;
-    status = json['status'];
-    geoTipeSeq = json['geo_tipe_seq'];
-    nextSeq = json['next_seq'];
-    durtemp = json['durtemp'];
-    dur1temp = json['dur1temp'];
-    durRittemp = json['durRittemp'];
-    ketStatus = json['ket_status'];
-    if (json['ritase'] != null) {
-      ritase = new List<Ritase>();
-      json['ritase'].forEach((v) {
-        ritase.add(new Ritase.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.infoStartComplete != null) {
-      data['info_start_complete'] = this.infoStartComplete.toJson();
-    }
-    data['status'] = this.status;
-    data['geo_tipe_seq'] = this.geoTipeSeq;
-    data['next_seq'] = this.nextSeq;
-    data['durtemp'] = this.durtemp;
-    data['dur1temp'] = this.dur1temp;
-    data['durRittemp'] = this.durRittemp;
-    data['ket_status'] = this.ketStatus;
-    if (this.ritase != null) {
-      data['ritase'] = this.ritase.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class InfoStartComplete {
-  dynamic startOdometer;
-  dynamic stopOdometer;
-  dynamic totalKm;
-  String startTime;
-  String stopTime;
-  DurasiDriving durasi;
-  DurasiDriving durasiDriving;
-  Durasi durasiParking;
-  DurasiDriving durasiIdle;
-  dynamic durasi2;
-
-  InfoStartComplete(
-      {this.startOdometer,
-      this.stopOdometer,
-      this.totalKm,
-      this.startTime,
-      this.stopTime,
-      this.durasi,
-      this.durasiDriving,
-      this.durasiParking,
-      this.durasiIdle,
-      this.durasi2});
-
-  InfoStartComplete.fromJson(Map<String, dynamic> json) {
-    startOdometer = json['start_odometer'];
-    stopOdometer = json['stop_odometer'];
-    totalKm = json['total_km'];
-    startTime = json['start_time'];
-    stopTime = json['stop_time'];
-    durasi = json['durasi'] != null
-        ? new DurasiDriving.fromJson(json['durasi'])
-        : null;
-    durasiDriving = json['durasi_driving'] != null
-        ? new DurasiDriving.fromJson(json['durasi_driving'])
-        : null;
-    durasiParking = json['durasi_parking'] != null
-        ? new Durasi.fromJson(json['durasi_parking'])
-        : null;
-    durasiIdle = json['durasi_idle'] != null
-        ? new DurasiDriving.fromJson(json['durasi_idle'])
-        : null;
-    durasi2 = json['durasi2'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['start_odometer'] = this.startOdometer;
-    data['stop_odometer'] = this.stopOdometer;
-    data['total_km'] = this.totalKm;
-    data['start_time'] = this.startTime;
-    data['stop_time'] = this.stopTime;
-    if (this.durasi != null) {
-      data['durasi'] = this.durasi.toJson();
-    }
-    if (this.durasiDriving != null) {
-      data['durasi_driving'] = this.durasiDriving.toJson();
-    }
-    if (this.durasiParking != null) {
-      data['durasi_parking'] = this.durasiParking.toJson();
-    }
-    if (this.durasiIdle != null) {
-      data['durasi_idle'] = this.durasiIdle.toJson();
-    }
-    data['durasi2'] = this.durasi2;
-    return data;
-  }
-}
-
-class Durasi {
-  dynamic value;
-  String text;
-
-  Durasi({this.value, this.text});
-
-  Durasi.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
-    text = json['text'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['value'] = this.value;
-    data['text'] = this.text;
-    return data;
-  }
-}
-
-class DurasiDriving {
-  dynamic value;
-  String text;
-
-  DurasiDriving({this.value, this.text});
-
-  DurasiDriving.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
-    text = json['text'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['value'] = this.value;
-    data['text'] = this.text;
-    return data;
-  }
-}
-
-class Ritase {
-  dynamic geoId;
-  dynamic geoSeq;
-  String geoNm;
-  String geoCode;
-  String geotypeNm;
-  String geoTag;
-  String startTime;
-  String stopTime;
-  DurasiDriving duration;
-  dynamic inOdometer;
-  dynamic outOdometer;
-  InfoStartComplete infoToNext;
-  dynamic timeIn;
-  dynamic timeOut;
-
-  Ritase(
-      {this.geoId,
-      this.geoSeq,
-      this.geoNm,
-      this.geoCode,
-      this.geotypeNm,
-      this.geoTag,
-      this.startTime,
-      this.stopTime,
-      this.duration,
-      this.inOdometer,
-      this.outOdometer,
-      this.infoToNext,
-      this.timeIn,
-      this.timeOut});
-
-  Ritase.fromJson(Map<String, dynamic> json) {
-    geoId = json['geo_id'];
-    geoSeq = json['geo_seq'];
-    geoNm = json['geo_nm'];
-    geoCode = json['geo_code'];
-    geotypeNm = json['geotype_nm'];
-    geoTag = json['geo_tag'];
-    startTime = json['start_time'];
-    stopTime = json['stop_time'];
-    duration = json['duration'] != null
-        ? new DurasiDriving.fromJson(json['duration'])
-        : null;
-    inOdometer = json['in_odometer'];
-    outOdometer = json['out_odometer'];
-    infoToNext = json['info_to_next'] != null
-        ? new InfoStartComplete.fromJson(json['info_to_next'])
-        : null;
-    timeIn = json['time_in'];
-    timeOut = json['time_out'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['geo_id'] = this.geoId;
-    data['geo_seq'] = this.geoSeq;
-    data['geo_nm'] = this.geoNm;
-    data['geo_code'] = this.geoCode;
-    data['geotype_nm'] = this.geotypeNm;
-    data['geo_tag'] = this.geoTag;
-    data['start_time'] = this.startTime;
-    data['stop_time'] = this.stopTime;
-    if (this.duration != null) {
-      data['duration'] = this.duration.toJson();
-    }
-    data['in_odometer'] = this.inOdometer;
-    data['out_odometer'] = this.outOdometer;
-    if (this.infoToNext != null) {
-      data['info_to_next'] = this.infoToNext.toJson();
-    }
-    data['time_in'] = this.timeIn;
-    data['time_out'] = this.timeOut;
-    return data;
-  }
-}
-
 class CurrentStatusVehicle {
   dynamic status;
   String ket;
   Driving driving;
-  String parking;
-  String idle;
-  String rfidDriver;
+  dynamic parking;
+  dynamic idle;
+  dynamic rfidDriver;
   Moving moving;
 
   CurrentStatusVehicle(
@@ -700,9 +1129,9 @@ class CurrentStatusVehicle {
 class Driving {
   String startTime;
   String stopTime;
-  DurasiDriving duration;
-  DurasiDriving idle;
-  DurasiDriving durMoving;
+  Durations duration;
+  Durations idle;
+  Durations durMoving;
   dynamic maxSpeed;
   dynamic avgSpeed;
   dynamic totalKm;
@@ -739,12 +1168,11 @@ class Driving {
     startTime = json['start_time'];
     stopTime = json['stop_time'];
     duration = json['duration'] != null
-        ? new DurasiDriving.fromJson(json['duration'])
+        ? new Durations.fromJson(json['duration'])
         : null;
-    idle =
-        json['idle'] != null ? new DurasiDriving.fromJson(json['idle']) : null;
+    idle = json['idle'] != null ? new Durations.fromJson(json['idle']) : null;
     durMoving = json['dur_moving'] != null
-        ? new DurasiDriving.fromJson(json['dur_moving'])
+        ? new Durations.fromJson(json['dur_moving'])
         : null;
     maxSpeed = json['max_speed'];
     avgSpeed = json['avg_speed'];
@@ -760,7 +1188,8 @@ class Driving {
     harshAccelCount = json['harsh_accel_count'];
     harshCorneringCount = json['harsh_cornering_count'];
     impactCount = json['impact_count'];
-    listMoving = json['ListMoving'].cast<String>();
+    listMoving = json['list_moving'];
+
     fuelConsumption = json['fuel_consumption'];
   }
 
@@ -791,7 +1220,9 @@ class Driving {
     data['harsh_accel_count'] = this.harshAccelCount;
     data['harsh_cornering_count'] = this.harshCorneringCount;
     data['impact_count'] = this.impactCount;
-    data['ListMoving'] = this.listMoving;
+    if (this.listMoving != null) {
+      data['ListMoving'] = this.listMoving.map((v) => v.toJson()).toList();
+    }
     data['fuel_consumption'] = this.fuelConsumption;
     return data;
   }
@@ -849,7 +1280,7 @@ class StartDetail {
 class Moving {
   String startTime;
   String stopTime;
-  DurasiDriving duration;
+  Durations duration;
   dynamic maxSpeed;
   dynamic avgSpeed;
   dynamic totalKm;
@@ -878,7 +1309,7 @@ class Moving {
     startTime = json['start_time'];
     stopTime = json['stop_time'];
     duration = json['duration'] != null
-        ? new DurasiDriving.fromJson(json['duration'])
+        ? new Durations.fromJson(json['duration'])
         : null;
     maxSpeed = json['max_speed'];
     avgSpeed = json['avg_speed'];

@@ -13,7 +13,6 @@ Future<ui.Image> getImageFromPath(String imagePath) async {
   File imageFile =
       await File('${(await getTemporaryDirectory()).path}/$imagePath')
           .create(recursive: true);
-  print(imageFile);
   imageFile = await imageFile.writeAsBytes(byteData.buffer
       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
