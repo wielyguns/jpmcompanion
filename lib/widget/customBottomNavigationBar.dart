@@ -5,8 +5,10 @@ import 'package:jpmcompanion/const.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final Function(int) onTap;
+  final height;
 
-  const CustomBottomNavigationBar({Key key, this.onTap}) : super(key: key);
+  const CustomBottomNavigationBar({Key key, this.onTap, this.height})
+      : super(key: key);
   @override
   _CustomBottomNavigationBarState createState() =>
       _CustomBottomNavigationBarState();
@@ -89,7 +91,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
     ScreenUtil.init(context);
     return Container(
       width: double.infinity,
-      height: 0.08.hp,
+      height: widget.height,
       child: Stack(
         alignment: Alignment.center,
         children: [

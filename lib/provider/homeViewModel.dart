@@ -28,6 +28,7 @@ class HomeViewModel extends BaseViewModel {
     FlSpot(2, 60444),
   ];
   int _index = 0;
+  bool _isSnapOpen = false;
   TrackingPosition _trackingPosition = TrackingPosition();
   List<TrackingResult> _trackingResult = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -39,6 +40,7 @@ class HomeViewModel extends BaseViewModel {
   List<FlSpot> get pendapatanSpots => _pendapatanSpots;
   List<FlSpot> get deliveryOrderSpots => _deliveryOrderSpots;
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+  bool get isSnapOpen => _isSnapOpen;
   // FUNCTION
   init(context, vsync) async {
     setBusy(true);
@@ -76,6 +78,15 @@ class HomeViewModel extends BaseViewModel {
   changeTab(index) {
     _index = index;
     _tabController.animateTo(index);
+    notifyListeners();
+  }
+
+  hideTab(value) {
+    if (value == 'open') {
+      _isSnapOpen = true;
+    } else {
+      _isSnapOpen = false;
+    }
     notifyListeners();
   }
 

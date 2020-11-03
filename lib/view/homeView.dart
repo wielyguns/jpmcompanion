@@ -43,7 +43,9 @@ class _HomeViewState extends State<HomeView>
                 alignment: Alignment.center,
                 child: MaterialButton(
                   splashColor: purpleLightTheme,
-                  onPressed: () {},
+                  onPressed: () {
+                    model.scaffoldKey.currentState.openDrawer();
+                  },
                   elevation: 0,
                   color: Colors.white,
                   child: Icon(
@@ -104,6 +106,7 @@ class _HomeViewState extends State<HomeView>
                         Container(
                           child: MapTabView(
                             result: model.activeTracking,
+                            onSnapOpen: (value) => model.hideTab(value),
                           ),
                         ),
                         Container(
@@ -117,6 +120,7 @@ class _HomeViewState extends State<HomeView>
                   : Container(),
             ),
             bottomNavigationBar: CustomBottomNavigationBar(
+              height: (model.isSnapOpen) ? 0.0 : 0.08.hp,
               onTap: (index) {
                 model.changeTab(index);
               },

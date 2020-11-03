@@ -1083,8 +1083,8 @@ class CurrentStatusVehicle {
   dynamic status;
   String ket;
   Driving driving;
-  dynamic parking;
-  dynamic idle;
+  Parking parking;
+  Idle idle;
   dynamic rfidDriver;
   Moving moving;
 
@@ -1102,8 +1102,9 @@ class CurrentStatusVehicle {
     ket = json['ket'];
     driving =
         json['driving'] != null ? new Driving.fromJson(json['driving']) : null;
-    parking = json['parking'];
-    idle = json['idle'];
+    parking =
+        json['parking'] != null ? new Parking.fromJson(json['parking']) : null;
+    idle = json['idle'] != null ? new Idle.fromJson(json['idle']) : null;
     rfidDriver = json['rfid_driver'];
     moving =
         json['moving'] != null ? new Moving.fromJson(json['moving']) : null;
@@ -1346,6 +1347,160 @@ class Moving {
     data['harsh_accel_count'] = this.harshAccelCount;
     data['harsh_cornering_count'] = this.harshCorneringCount;
     data['impact_count'] = this.impactCount;
+    return data;
+  }
+}
+
+class Parking {
+  String startTime;
+  String stopTime;
+  String startTime2;
+  Durations duration;
+  dynamic lon;
+  dynamic lat;
+  String addr;
+  dynamic geoLocationId;
+  dynamic geoAreaId;
+  String geoLocationNm;
+  String geoAreaNm;
+  String geoLocationCode;
+  String geoAreaCode;
+  bool bInserttoDB;
+  dynamic fuelConsumption;
+
+  Parking(
+      {this.startTime,
+      this.stopTime,
+      this.startTime2,
+      this.duration,
+      this.lon,
+      this.lat,
+      this.addr,
+      this.geoLocationId,
+      this.geoAreaId,
+      this.geoLocationNm,
+      this.geoAreaNm,
+      this.geoLocationCode,
+      this.geoAreaCode,
+      this.bInserttoDB,
+      this.fuelConsumption});
+
+  Parking.fromJson(Map<String, dynamic> json) {
+    startTime = json['start_time'];
+    stopTime = json['stop_time'];
+    startTime2 = json['start_time2'];
+    duration = json['duration'] != null
+        ? new Durations.fromJson(json['duration'])
+        : null;
+    lon = json['lon'];
+    lat = json['lat'];
+    addr = json['addr'];
+    geoLocationId = json['geo_location_id'];
+    geoAreaId = json['geo_area_id'];
+    geoLocationNm = json['geo_location_nm'];
+    geoAreaNm = json['geo_area_nm'];
+    geoLocationCode = json['geo_location_code'];
+    geoAreaCode = json['geo_area_code'];
+    bInserttoDB = json['bInserttoDB'];
+    fuelConsumption = json['fuel_consumption'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['start_time'] = this.startTime;
+    data['stop_time'] = this.stopTime;
+    data['start_time2'] = this.startTime2;
+    if (this.duration != null) {
+      data['duration'] = this.duration.toJson();
+    }
+    data['lon'] = this.lon;
+    data['lat'] = this.lat;
+    data['addr'] = this.addr;
+    data['geo_location_id'] = this.geoLocationId;
+    data['geo_area_id'] = this.geoAreaId;
+    data['geo_location_nm'] = this.geoLocationNm;
+    data['geo_area_nm'] = this.geoAreaNm;
+    data['geo_location_code'] = this.geoLocationCode;
+    data['geo_area_code'] = this.geoAreaCode;
+    data['bInserttoDB'] = this.bInserttoDB;
+    data['fuel_consumption'] = this.fuelConsumption;
+    return data;
+  }
+}
+
+class Idle {
+  String startTime;
+  String stopTime;
+  String startTime2;
+  Durations duration;
+  dynamic lon;
+  dynamic lat;
+  String addr;
+  dynamic geoLocationId;
+  dynamic geoAreaId;
+  String geoLocationNm;
+  String geoAreaNm;
+  String geoLocationCode;
+  String geoAreaCode;
+  bool bInserttoDB;
+  dynamic fuelConsumption;
+
+  Idle(
+      {this.startTime,
+      this.stopTime,
+      this.startTime2,
+      this.duration,
+      this.lon,
+      this.lat,
+      this.addr,
+      this.geoLocationId,
+      this.geoAreaId,
+      this.geoLocationNm,
+      this.geoAreaNm,
+      this.geoLocationCode,
+      this.geoAreaCode,
+      this.bInserttoDB,
+      this.fuelConsumption});
+
+  Idle.fromJson(Map<String, dynamic> json) {
+    startTime = json['start_time'];
+    stopTime = json['stop_time'];
+    startTime2 = json['start_time2'];
+    duration = json['duration'] != null
+        ? new Durations.fromJson(json['duration'])
+        : null;
+    lon = json['lon'];
+    lat = json['lat'];
+    addr = json['addr'];
+    geoLocationId = json['geo_location_id'];
+    geoAreaId = json['geo_area_id'];
+    geoLocationNm = json['geo_location_nm'];
+    geoAreaNm = json['geo_area_nm'];
+    geoLocationCode = json['geo_location_code'];
+    geoAreaCode = json['geo_area_code'];
+    bInserttoDB = json['bInserttoDB'];
+    fuelConsumption = json['fuel_consumption'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['start_time'] = this.startTime;
+    data['stop_time'] = this.stopTime;
+    data['start_time2'] = this.startTime2;
+    if (this.duration != null) {
+      data['duration'] = this.duration.toJson();
+    }
+    data['lon'] = this.lon;
+    data['lat'] = this.lat;
+    data['addr'] = this.addr;
+    data['geo_location_id'] = this.geoLocationId;
+    data['geo_area_id'] = this.geoAreaId;
+    data['geo_location_nm'] = this.geoLocationNm;
+    data['geo_area_nm'] = this.geoAreaNm;
+    data['geo_location_code'] = this.geoLocationCode;
+    data['geo_area_code'] = this.geoAreaCode;
+    data['bInserttoDB'] = this.bInserttoDB;
+    data['fuel_consumption'] = this.fuelConsumption;
     return data;
   }
 }

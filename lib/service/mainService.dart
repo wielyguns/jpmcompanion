@@ -27,6 +27,7 @@ class MainService extends Model {
     if (data.listNopol == null) {
       data.listNopol = [];
     }
+
     var body = jsonEncode(data.toJson());
     var responseJson;
     try {
@@ -36,7 +37,6 @@ class MainService extends Model {
         body: body,
       );
       responseJson = _response(response);
-      print(responseJson);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }

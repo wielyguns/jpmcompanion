@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class BottomBarModel {
   String icon;
   String title;
@@ -43,4 +46,11 @@ class TrackingPosition {
     data['geo_code'] = this.geoCode;
     return data;
   }
+}
+
+class PointObject {
+  Widget child;
+  LatLng location;
+
+  PointObject({this.child, this.location});
 }
