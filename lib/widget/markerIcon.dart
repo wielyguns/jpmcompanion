@@ -35,8 +35,7 @@ Future<BitmapDescriptor> getMarkerIcon(
 
   final Radius radius = Radius.circular(size.width / 2);
 
-  final Paint tagPaint = Paint()..color = Colors.blue;
-  final double tagWidth = 40.0;
+
 
   final Paint shadowPaint = Paint()..color = Colors.blue.withAlpha(100);
   final double shadowWidth = 15.0;

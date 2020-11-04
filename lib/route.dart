@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/view/homeView.dart';
 import 'package:jpmcompanion/view/loginView.dart';
+import 'package:jpmcompanion/view/purchaseOrderView.dart';
 
 import 'const.dart';
 
@@ -15,6 +16,10 @@ class Routers {
       case loginRoute:
         return RouteAnimationDurationTween(
           widget: LoginView(),
+        );
+      case purchaseOrderRoute:
+        return RouteAnimationDurationTween(
+          widget: PurchaseOrderView(),
         );
       default:
         return MaterialPageRoute(

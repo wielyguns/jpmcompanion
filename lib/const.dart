@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 const loginRoute = '/login-route';
 const dashboardRoute = '/';
+const purchaseOrderRoute = '/purchase-order-route';
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));
