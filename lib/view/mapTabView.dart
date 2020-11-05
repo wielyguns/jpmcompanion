@@ -58,7 +58,6 @@ class _MapTabViewState extends State<MapTabView> {
   void dispose() {
     _timer.cancel();
     _controller.dispose();
-
     super.dispose();
   }
 
@@ -239,6 +238,7 @@ class _MapTabViewState extends State<MapTabView> {
                           if (!mounted) {
                             return;
                           }
+
                           _controller.moveCamera(
                             CameraUpdate.newCameraPosition(
                               CameraPosition(

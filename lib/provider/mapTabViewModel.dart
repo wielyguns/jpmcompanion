@@ -11,7 +11,10 @@ class MapTabViewModel extends BaseViewModel {
 
   init(context) async {}
 
-  addPurchaseOrder(context) async {
-    var result = await Navigator.of(context).pushNamed(purchaseOrderRoute);
+  addPurchaseOrder(context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      purchaseOrderRoute,
+      (route) => false,
+    );
   }
 }

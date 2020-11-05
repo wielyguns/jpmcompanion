@@ -71,6 +71,7 @@ class _DashboardSearchBarState extends State<DashboardSearchBar> {
                 Container(
                   width: 0.7.wp,
                   child: TextField(
+                    onTap: () {},
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Cari Delivery Order...',

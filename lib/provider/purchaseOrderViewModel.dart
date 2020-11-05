@@ -7,4 +7,6 @@ class PurchaseOrderViewModel extends BaseViewModel {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   // SETTER
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+
+  // FUNCTION
 }

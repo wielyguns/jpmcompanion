@@ -120,7 +120,7 @@ class _HomeViewState extends State<HomeView>
                   : Container(),
             ),
             bottomNavigationBar: CustomBottomNavigationBar(
-              height: (model.isSnapOpen) ? 0.0 : 0.08.hp,
+              height: kToolbarHeight,
               onTap: (index) {
                 model.changeTab(index);
               },
