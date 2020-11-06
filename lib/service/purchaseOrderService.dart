@@ -2,62 +2,27 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/apiConst.dart';
-import 'package:jpmcompanion/model/RequestModel.dart';
+import 'package:jpmcompanion/const.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../const.dart';
-
-class MainService extends Model {
-  Future<Map<String, dynamic>> login(input) async {
-    var responseJson;
-
-    try {
-      final response = await http.post("$loginApi", body: input);
-      responseJson = _response(response);
-    } on SocketException {
-      responseJson = {"status": 502, "message": "No Internet connection"};
-    }
-    return responseJson;
-  }
-
-  Future<Map<String, dynamic>> getNopolActive(TrackingPosition data) async {
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'token': '$easygoToken',
-    };
-
-    if (data.listNopol == null) {
-      data.listNopol = [];
-    }
-
-    var body = jsonEncode(data.toJson());
-    var responseJson;
-    try {
-      final response = await http.post(
-        "$lastPositionApi",
-        headers: headers,
-        body: body,
-      );
-      responseJson = _response(response);
-    } on SocketException {
-      responseJson = {"status": 502, "message": "No Internet connection"};
-    }
-    return responseJson;
-  }
-
+class PurchaseOrderService extends Model {
   Future<Map<String, dynamic>> getKota(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${prefs.getString('token')}',
+    };
+    print('${prefs.getString('token')}');
+    var body;
     var responseJson;
     try {
       final response = await http.post(
         "$getAsalApi",
-        headers: {
-          'Authorization': 'Bearer ${prefs.getString('token')}',
-        },
-        body: data,
+        headers: headers,
+        body: body,
       );
       responseJson = await _response(response);
     } on SocketException {
@@ -66,7 +31,7 @@ class MainService extends Model {
     return responseJson;
   }
 
-  dynamic _response(http.Response response) {
+  dynamic _response(http.Response response) async {
     try {
       switch (response.statusCode) {
         case 201:

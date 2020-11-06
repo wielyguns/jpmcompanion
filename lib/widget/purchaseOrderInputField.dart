@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../const.dart';
 
 class PurchaseOrderInputField extends StatefulWidget {
-  @override
   final hintText;
-
-  const PurchaseOrderInputField({Key key, this.hintText}) : super(key: key);
+  final readOnly;
+  final Function onTap;
+  const PurchaseOrderInputField({
+    Key key,
+    this.hintText,
+    this.readOnly = false,
+    this.onTap,
+  }) : super(key: key);
   _PurchaseOrderInputFieldState createState() =>
       _PurchaseOrderInputFieldState();
 }
@@ -34,9 +40,18 @@ class _PurchaseOrderInputFieldState extends State<PurchaseOrderInputField> {
         ],
       ),
       child: TextField(
-        onTap: () {},
+        readOnly: widget.readOnly,
+        inputFormatters: [
+          UpperCaseTextFormatter(),
+        ],
+        onTap: () {
+          widget.onTap();
+        },
         decoration: InputDecoration(
           hintText: widget.hintText,
+          hintStyle: TextStyle(
+            color: borderBox,
+          ),
           contentPadding: EdgeInsets.only(
             left: 0.02.wp,
             right: 0.02.wp,
@@ -81,6 +96,17 @@ class _PurchaseOrderInputFieldState extends State<PurchaseOrderInputField> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text?.toUpperCase(),
+      selection: newValue.selection,
     );
   }
 }

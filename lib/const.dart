@@ -1,11 +1,15 @@
-//ROUTE
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:jpmcompanion/routeTransition.dart';
+import 'package:jpmcompanion/view/loginView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+//ROUTE
 
 const loginRoute = '/login-route';
 const dashboardRoute = '/';
 const purchaseOrderRoute = '/purchase-order-route';
+const listKotaRoute = '/list-kota-route';
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));
@@ -26,7 +30,7 @@ hexStringToHexInt(String hex) {
   return val;
 }
 
-messageToast(message, color) {
+messageToast(message, Color color) {
   Fluttertoast.showToast(
     msg: "$message",
     toastLength: Toast.LENGTH_SHORT,
@@ -35,5 +39,17 @@ messageToast(message, color) {
     backgroundColor: color,
     textColor: Colors.white,
     fontSize: 16.0,
+  );
+}
+
+void redirectToLogin(context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.clear();
+  Navigator.pushAndRemoveUntil(
+    context,
+    RouteAnimationDurationFade(
+      widget: LoginView(),
+    ),
+    (route) => false,
   );
 }
