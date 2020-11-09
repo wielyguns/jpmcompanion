@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/routeTransition.dart';
+import 'package:jpmcompanion/view/purchaseOrderView.dart';
 import 'package:stacked/stacked.dart';
 
 class MapTabViewModel extends BaseViewModel {
@@ -11,9 +12,14 @@ class MapTabViewModel extends BaseViewModel {
 
   init(context) async {}
 
-  addPurchaseOrder(context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      purchaseOrderRoute,
+  addPurchaseOrder(context, result) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      RouteAnimationDurationTween(
+        widget: PurchaseOrderView(
+          result: result,
+        ),
+      ),
       (route) => false,
     );
   }

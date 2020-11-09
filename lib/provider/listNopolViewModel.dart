@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/purchaseOrderModel.dart';
@@ -6,37 +5,36 @@ import 'package:jpmcompanion/service/mainService.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:stacked/stacked.dart';
 
-class ListKotaViewModel extends BaseViewModel {
+class ListNopolViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<Asal> _asal;
+  List<Nopol> _nopol;
   String _titleSnap;
-  List<Asal> _feedData = [];
+  List<Nopol> _feedData = [];
 
-  final LocalStorage storage = new LocalStorage('kota');
+  final LocalStorage storage = new LocalStorage('nopol');
   // SETTER
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-  List<Asal> get asal => _asal;
+  List<Nopol> get nopol => _nopol;
 
   String get titleSnap => _titleSnap;
-  List<Asal> get feedData => _feedData;
+  List<Nopol> get feedData => _feedData;
   // FUNCTION
   init(context) async {
-    await getKota(context);
+    await getNopol(context);
   }
 
-  getKota(context) async {
-    _asal = [];
-    Map data = {"jenis": "asal"};
-    if (storage.getItem('asal') == null) {
-      await MainService().getKota(data).then(
+  getNopol(context) async {
+    _nopol = [];
+    if (storage.getItem('nopol') == null) {
+      await MainService().getNopol().then(
         (value) async {
           if (value['status'] == 1) {
-            storage.setItem('asal', GetKota.fromJson(value));
-            var result = storage.getItem('asal');
+            storage.setItem('nopol', GetNopol.fromJson(value));
+            var result = storage.getItem('nopol');
 
             for (var item in result['data']) {
-              _asal.add(Asal.fromJson(item));
+              _nopol.add(Nopol.fromJson(item));
             }
           } else if (value['status'] == 0) {
             redirectToLogin(context);
@@ -44,9 +42,10 @@ class ListKotaViewModel extends BaseViewModel {
         },
       );
     } else {
-      var result = storage.getItem('asal');
+      var result = storage.getItem('nopol');
+      print(result);
       for (var item in result['data']) {
-        _asal.add(Asal.fromJson(item));
+        _nopol.add(Nopol.fromJson(item));
       }
     }
 
@@ -55,8 +54,8 @@ class ListKotaViewModel extends BaseViewModel {
 
   runFilter(value) async {
     _feedData = [];
-    for (Asal item in _asal) {
-      if (item.nama.contains(value.toUpperCase())) {
+    for (Nopol item in _nopol) {
+      if (item.nopol.contains(value.toUpperCase())) {
         _feedData.add(item);
       }
     }
@@ -65,6 +64,6 @@ class ListKotaViewModel extends BaseViewModel {
   }
 
   selectedData(context, item) {
-    Navigator.of(context).pop(item);
+    Navigator.of(context).pop(item.toJson());
   }
 }

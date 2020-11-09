@@ -12,6 +12,9 @@ import 'package:intl/intl.dart';
 import '../routeTransition.dart';
 
 class PurchaseOrderView extends StatefulWidget {
+  final result;
+
+  const PurchaseOrderView({Key key, this.result}) : super(key: key);
   @override
   _PurchaseOrderViewState createState() => _PurchaseOrderViewState();
 }
@@ -22,7 +25,7 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
       viewModelBuilder: () => PurchaseOrderViewModel(),
-      onModelReady: (model) => model.init(context),
+      onModelReady: (model) => model.init(context, widget.result),
       builder: (context, model, child) => WillPopScope(
         onWillPop: () {
           Navigator.pushAndRemoveUntil(
@@ -218,6 +221,7 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                               ),
                                             ),
                                             PurchaseOrderInputField(
+                                              controller: model.deliveryOrder,
                                               onTap: () {},
                                               hintText: '5569384',
                                             ),
@@ -269,17 +273,10 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                               ),
                                             ),
                                             PurchaseOrderInputField(
+                                              controller: model.tanggal,
                                               readOnly: true,
-                                              onTap: () {
-                                                return showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime.now(),
-                                                  lastDate:
-                                                      DateTime.now().subtract(
-                                                    Duration(days: -30),
-                                                  ),
-                                                );
+                                              onTap: () async {
+                                                model.changeDate(context);
                                               },
                                               hintText:
                                                   '${DateFormat("d/m/y").format(DateTime.now())}',
@@ -334,8 +331,9 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                             ),
                                             PurchaseOrderInputField(
                                               readOnly: true,
+                                              controller: model.asal,
                                               onTap: () {
-                                                model.getKotaAsal(context);
+                                                model.getOrigin(context);
                                               },
                                               hintText: 'KOTA SURABAYA',
                                             ),
@@ -388,7 +386,11 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                               ),
                                             ),
                                             PurchaseOrderInputField(
-                                              onTap: () {},
+                                              readOnly: true,
+                                              controller: model.tujuan,
+                                              onTap: () {
+                                                model.getDestination(context);
+                                              },
                                               hintText: 'KAB. MALANG',
                                             ),
                                           ],
@@ -440,7 +442,11 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                               ),
                                             ),
                                             PurchaseOrderInputField(
-                                              onTap: () {},
+                                              controller: model.nopol,
+                                              readOnly: true,
+                                              onTap: () {
+                                                model.getNopol(context);
+                                              },
                                               hintText: 'L 8758 PO',
                                             ),
                                           ],

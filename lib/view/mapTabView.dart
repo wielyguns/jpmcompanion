@@ -182,7 +182,7 @@ class _MapTabViewState extends State<MapTabView> {
                   },
                   zoomControlsEnabled: false,
                   zoomGesturesEnabled: true,
-                  myLocationEnabled: true,
+                  myLocationEnabled: false,
                   polylines: Set.from(_track),
                   onCameraMove: (CameraPosition position) {},
                 ),
@@ -232,13 +232,11 @@ class _MapTabViewState extends State<MapTabView> {
                       width: 0.08.wp,
                       height: 0.08.wp,
                       child: RaisedButton(
-                        color: purpleLightTheme,
-                        shape: CircleBorder(),
+                        color: Colors.white.withOpacity(0.8),
                         onPressed: () {
                           if (!mounted) {
                             return;
                           }
-
                           _controller.moveCamera(
                             CameraUpdate.newCameraPosition(
                               CameraPosition(
@@ -251,6 +249,7 @@ class _MapTabViewState extends State<MapTabView> {
                         },
                         padding: EdgeInsets.all(0),
                         child: Container(
+                          padding: EdgeInsets.all(0.01.wp),
                           child: Image(
                             image: AssetImage(
                               'assets/kisspng-computer-icons-location-google-maps-location-icon-5acb23f17cb2b4.1059350515232624495108.png',
@@ -407,7 +406,10 @@ class _MapTabViewState extends State<MapTabView> {
                                   RaisedButton(
                                     elevation: 5,
                                     onPressed: () {
-                                      model.addPurchaseOrder(context);
+                                      model.addPurchaseOrder(
+                                        context,
+                                        trackingResult,
+                                      );
                                     },
                                     color: Colors.white,
                                     child: Text(

@@ -8,11 +8,13 @@ class PurchaseOrderInputField extends StatefulWidget {
   final hintText;
   final readOnly;
   final Function onTap;
+  final TextEditingController controller;
   const PurchaseOrderInputField({
     Key key,
     this.hintText,
     this.readOnly = false,
     this.onTap,
+    this.controller,
   }) : super(key: key);
   _PurchaseOrderInputFieldState createState() =>
       _PurchaseOrderInputFieldState();
@@ -41,6 +43,7 @@ class _PurchaseOrderInputFieldState extends State<PurchaseOrderInputField> {
       ),
       child: TextField(
         readOnly: widget.readOnly,
+        controller: widget.controller,
         inputFormatters: [
           UpperCaseTextFormatter(),
         ],
