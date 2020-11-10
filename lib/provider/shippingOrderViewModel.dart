@@ -43,7 +43,7 @@ class ShippingOrderViewModel extends BaseViewModel {
 
   String get titleSnap => _titleSnap;
   // FUNCTION
-  init(context, po.ShippingOrderData result) async {
+  init(context, TrackingResult result) async {
     if (result != null) {
       _nopol.text = result.nopol;
     }
