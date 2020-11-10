@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jpmcompanion/model/shippingOrderModel.dart';
 
 import '../const.dart';
 
-class DeliveryOrderList extends StatefulWidget {
+class ShippingOrderList extends StatefulWidget {
   final Function() onPressed;
+  final ShippingOrderData result;
 
-  const DeliveryOrderList({Key key, this.onPressed}) : super(key: key);
+  const ShippingOrderList({Key key, this.onPressed, this.result})
+      : super(key: key);
   @override
-  _DeliveryOrderListState createState() => _DeliveryOrderListState();
+  _ShippingOrderListState createState() => _ShippingOrderListState();
 }
 
-class _DeliveryOrderListState extends State<DeliveryOrderList> {
+class _ShippingOrderListState extends State<ShippingOrderList> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -80,7 +83,7 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  '5533064',
+                                  '${widget.result.nomor}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontFamily: "PlexSans",
@@ -123,7 +126,7 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: 'KAB.BANYUWANGI',
+                                      text: '${widget.result.kota.nama}',
                                       style: TextStyle(
                                         fontSize: 25.ssp,
                                         fontWeight: FontWeight.bold,
@@ -143,6 +146,7 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                               flex: 2,
                               child: Container(
                                 child: RichText(
+                                  overflow: TextOverflow.ellipsis,
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
@@ -159,7 +163,7 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: 'KOTA SURABAYA',
+                                        text: '${widget.result.alamat}',
                                         style: TextStyle(
                                           fontSize: 25.ssp,
                                           fontWeight: FontWeight.bold,
@@ -183,7 +187,7 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: 'Harga\n',
+                                        text: 'Tonase\n',
                                         style: TextStyle(
                                           fontSize: 35.ssp,
                                           fontWeight: FontWeight.bold,
@@ -196,7 +200,8 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: '10,000',
+                                        text:
+                                            '${oCcy.format(int.parse(widget.result.jumlahUnit))}',
                                         style: TextStyle(
                                           fontSize: 25.ssp,
                                           fontWeight: FontWeight.bold,

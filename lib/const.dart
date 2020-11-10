@@ -12,6 +12,7 @@ const purchaseOrderRoute = '/purchase-order-route';
 const listKotaRoute = '/list-kota-route';
 const listNopolRoute = '/list-nopol-route';
 const mapSelectRoute = '/map-select-route';
+const shippingOrderDetailRoute = '/shipping-order-detail-route';
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));

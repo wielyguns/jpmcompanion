@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/model/purchaseOrderModel.dart';
+import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:stacked/stacked.dart';

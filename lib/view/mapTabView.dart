@@ -6,10 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
+import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/trackingPositionModel.dart';
 import 'package:jpmcompanion/provider/mapTabViewModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
-import 'package:jpmcompanion/widget/deliveryOrderList.dart';
+import 'package:jpmcompanion/service/shippingOrderService.dart';
+import 'package:jpmcompanion/widget/shippingOrderList.dart';
 import 'package:jpmcompanion/widget/markerIcon.dart';
 import 'package:jpmcompanion/widget/trackingItemList.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
@@ -35,6 +37,7 @@ class _MapTabViewState extends State<MapTabView> {
   double grabbingHeight = 0;
   TrackingPosition _data;
   List<Marker> _marker = [];
+  List<ShippingOrderData> _shippingOrderData = [];
   CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(-7.328025, 112.791785),
     zoom: 15,
@@ -100,12 +103,31 @@ class _MapTabViewState extends State<MapTabView> {
     );
   }
 
+  Future getShippingOrder(nopol) async {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _shippingOrderData = [];
+    });
+    await ShippingOrderService().getShippingOrder(nopol).then((value) {
+      if (value['status'] == 1) {
+        for (var item in value['data']) {
+          setState(() {
+            _shippingOrderData.add(ShippingOrderData.fromJson(item));
+          });
+        }
+      }
+    });
+  }
+
   addMarker() async {
     if (trackingResult != null &&
         trackingResult.lat != null &&
         trackingResult.lon != null) {
       if (initial != trackingResult.nopol) {
         _listPoint = [];
+        await getShippingOrder(trackingResult.nopol);
       }
       if (trackingResult.lat != _pos.latitude &&
           trackingResult.lon != _pos.longitude) {
@@ -334,20 +356,15 @@ class _MapTabViewState extends State<MapTabView> {
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    DeliveryOrderList(
-                                      onPressed: () {},
-                                    ),
-                                    DeliveryOrderList(
-                                      onPressed: () {},
-                                    ),
-                                    DeliveryOrderList(
-                                      onPressed: () {},
-                                    ),
-                                    DeliveryOrderList(
-                                      onPressed: () {},
-                                    ),
-                                  ],
+                                  children: _shippingOrderData
+                                      .map<Widget>((ShippingOrderData e) {
+                                    return ShippingOrderList(
+                                      result: e,
+                                      onPressed: () {
+                                        model.shippingOrderList(context,e);
+                                      },
+                                    );
+                                  }).toList(),
                                 ),
                               ),
                             ),
@@ -394,7 +411,7 @@ class _MapTabViewState extends State<MapTabView> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Delivery Order',
+                                    'Shipping Order',
                                     style: TextStyle(
                                       color: Color(
                                         hexStringToHexInt('#6B6B6B'),

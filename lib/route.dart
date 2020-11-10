@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/view/homeView.dart';
 import 'package:jpmcompanion/view/listKotaView.dart';
 import 'package:jpmcompanion/view/listNopolView.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/view/mapSelectView.dart';
-import 'package:jpmcompanion/view/purchaseOrderView.dart';
+import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
+import 'package:jpmcompanion/view/shippingOrderView.dart';
 
 import 'const.dart';
 
@@ -23,7 +25,7 @@ class Routers {
         );
       case purchaseOrderRoute:
         return RouteAnimationDurationTween(
-          widget: PurchaseOrderView(),
+          widget: ShippingOrderView(),
         );
       case listKotaRoute:
         return RouteAnimationDurationTween(
@@ -38,6 +40,13 @@ class Routers {
         return RouteAnimationDurationTween(
           widget: MapSelectView(
             position: position,
+          ),
+        );
+      case shippingOrderDetailRoute:
+        ShippingOrderData data = settings.arguments;
+        return RouteAnimationDurationTween(
+          widget: ShippingOrderDetailView(
+            param: data,
           ),
         );
       default:

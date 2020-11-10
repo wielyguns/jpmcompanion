@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/routeTransition.dart';
-import 'package:jpmcompanion/view/purchaseOrderView.dart';
+import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
+import 'package:jpmcompanion/view/shippingOrderView.dart';
 import 'package:stacked/stacked.dart';
 
 class MapTabViewModel extends BaseViewModel {
@@ -16,11 +18,27 @@ class MapTabViewModel extends BaseViewModel {
     Navigator.pushAndRemoveUntil(
       context,
       RouteAnimationDurationTween(
-        widget: PurchaseOrderView(
+        widget: ShippingOrderView(
           result: result,
         ),
       ),
       (route) => false,
     );
+  }
+
+  shippingOrderList(context, result) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      RouteAnimationDurationTween(
+        widget: ShippingOrderDetailView(
+          param: result,
+        ),
+      ),
+      (route) => false,
+    );
+    // Navigator.of(context).pushNamed(
+    //   shippingOrderDetailRoute,
+    //   arguments: result,
+    // );
   }
 }

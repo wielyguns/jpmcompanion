@@ -54,3 +54,49 @@ class PointObject {
 
   PointObject({this.child, this.location});
 }
+
+class ShippingOrder {
+  String nomor;
+  String tanggal;
+  String asalId;
+  String latitude;
+  String longitude;
+  String nopol;
+  String jumlahUnit;
+  String alamat;
+
+  ShippingOrder({
+    this.nomor,
+    this.tanggal,
+    this.asalId,
+    this.latitude,
+    this.longitude,
+    this.nopol,
+    this.jumlahUnit,
+    this.alamat,
+  });
+
+  ShippingOrder.fromJson(Map<String, dynamic> json) {
+    nomor = json['nomor'];
+    tanggal = json['tanggal'];
+    asalId = json['asal_id'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    nopol = json['nopol'];
+    jumlahUnit = json['jumlah_unit'];
+    alamat = json['alamat'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['nomor'] = this.nomor;
+    data['tanggal'] = this.tanggal;
+    data['asal_id'] = this.asalId;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['nopol'] = this.nopol;
+    data['jumlah_unit'] = this.jumlahUnit;
+    data['alamat'] = this.alamat;
+    return data;
+  }
+}
