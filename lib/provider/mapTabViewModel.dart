@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
 import 'package:jpmcompanion/view/shippingOrderView.dart';

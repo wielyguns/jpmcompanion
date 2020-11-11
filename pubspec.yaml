@@ -47,6 +47,9 @@ dependencies:
   searchable_dropdown: ^1.1.3
   localstorage: ^3.0.0
   geolocator: ^6.1.4
+  twitter_qr_scanner: ^1.0.4
+  audioplayers: ^0.16.2
+  vibration: ^1.7.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -66,7 +69,7 @@ flutter:
   assets:
     - assets/
     - assets/Asset 45300 1.png
-
+    - assets/sound.mp3
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

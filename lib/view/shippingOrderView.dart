@@ -417,7 +417,8 @@ class _ShippingOrderViewState extends State<ShippingOrderView> {
                                                   controller: model.tujuan,
                                                   onTap: () {
                                                     model.getDestination(
-                                                        context);
+                                                      context,
+                                                    );
                                                   },
                                                   hintText: 'KAB. MALANG',
                                                 ),

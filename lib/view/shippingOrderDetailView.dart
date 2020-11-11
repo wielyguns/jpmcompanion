@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
-import 'package:jpmcompanion/provider/shippingOrderViewModel.dart';
+import 'package:jpmcompanion/provider/shippingOrderDetailViewModel.dart';
 import 'package:jpmcompanion/view/homeView.dart';
 import 'package:jpmcompanion/widget/loadingScreen.dart';
 import 'package:stacked/stacked.dart';
@@ -25,7 +25,7 @@ class _ShippingOrderDetailViewState extends State<ShippingOrderDetailView> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      viewModelBuilder: () => ShippingOrderViewModel(),
+      viewModelBuilder: () => ShippingOrderDetailViewModel(),
       onModelReady: (model) => model.init(context, widget.param),
       builder: (context, model, child) => WillPopScope(
         onWillPop: () {

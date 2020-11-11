@@ -89,8 +89,11 @@ class ShippingOrderViewModel extends BaseViewModel {
 
   getNopol(context) async {
     var result = await Navigator.of(context).pushNamed(listNopolRoute);
-    po.Nopol temp = po.Nopol.fromJson(result);
-    _nopol.text = temp.nopol;
+    if (result != null) {
+      po.Nopol temp = po.Nopol.fromJson(result);
+      _nopol.text = temp.nopol;
+    }
+
     notifyListeners();
   }
 

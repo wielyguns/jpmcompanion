@@ -157,6 +157,41 @@ class MainService extends Model {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> getTrackingDescription() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$getTrackingDescriptionApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = _response(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getTrackingType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.get(
+        "$getTrackingTypeApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = _response(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
   dynamic _response(http.Response response) {
     try {
       switch (response.statusCode) {

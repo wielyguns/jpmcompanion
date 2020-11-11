@@ -9,6 +9,8 @@ import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/view/mapSelectView.dart';
 import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
 import 'package:jpmcompanion/view/shippingOrderView.dart';
+import 'package:jpmcompanion/view/updateDoScannerView.dart';
+import 'package:jpmcompanion/view/updateDoView.dart';
 
 import 'const.dart';
 
@@ -46,6 +48,18 @@ class Routers {
         ShippingOrderData data = settings.arguments;
         return RouteAnimationDurationTween(
           widget: ShippingOrderDetailView(
+            param: data,
+          ),
+        );
+      case updateDoRoute:
+        ShippingOrderData data = settings.arguments;
+        return RouteAnimationDurationTween(
+          widget: UpdateDoView(),
+        );
+      case updateDoScannerRoute:
+        var data = settings.arguments;
+        return RouteAnimationDurationTween(
+          widget: UpdateDoScannerView(
             param: data,
           ),
         );

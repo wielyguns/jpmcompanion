@@ -10,6 +10,7 @@ class ShippingOrderInputField extends StatefulWidget {
   final Function onTap;
   final TextEditingController controller;
   final String errorMessage;
+  final int maxLines;
   const ShippingOrderInputField({
     Key key,
     this.hintText,
@@ -17,6 +18,7 @@ class ShippingOrderInputField extends StatefulWidget {
     this.onTap,
     this.controller,
     this.errorMessage = '',
+    this.maxLines = 1,
   }) : super(key: key);
   _ShippingOrderInputFieldState createState() =>
       _ShippingOrderInputFieldState();
@@ -49,6 +51,8 @@ class _ShippingOrderInputFieldState extends State<ShippingOrderInputField> {
           ),
           child: TextFormField(
             readOnly: widget.readOnly,
+            maxLines: widget.maxLines,
+            keyboardType: TextInputType.multiline,
             controller: widget.controller,
             validator: (value) {
               if (mounted) {

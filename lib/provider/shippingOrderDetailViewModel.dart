@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/precisionLocation.dart';
-import 'package:jpmcompanion/model/trackingPositionModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
 import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/service/mainService.dart';
@@ -13,7 +12,7 @@ import 'package:jpmcompanion/view/homeView.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 
-class ShippingOrderViewModel extends BaseViewModel {
+class ShippingOrderDetailViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -43,7 +42,7 @@ class ShippingOrderViewModel extends BaseViewModel {
 
   String get titleSnap => _titleSnap;
   // FUNCTION
-  init(context, TrackingResult result) async {
+  init(context, po.ShippingOrderData result) async {
     notifyListeners();
   }
 
