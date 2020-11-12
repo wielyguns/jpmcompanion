@@ -1,15 +1,15 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/provider/updateDoScannerViewModel.dart';
+import 'package:jpmcompanion/service/mainService.dart';
 import 'package:jpmcompanion/widget/debouncer.dart';
 import 'package:jpmcompanion/widget/loadingScreen.dart';
 import 'package:stacked/stacked.dart';
 import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
 import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
 import 'package:vibration/vibration.dart';
-
-import '../routeTransition.dart';
 
 class UpdateDoScannerView extends StatefulWidget {
   final param;
@@ -24,7 +24,20 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
   final debounce = Debouncer(milliseconds: 200);
   AudioPlayer audioPlayer = AudioPlayer();
   bool isScanning = false;
+  Map<String, dynamic> _data;
   QRViewController controller;
+
+  @override
+  void initState() {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _data = widget.param;
+    });
+    super.initState();
+  }
+
   void _onQRViewCreate(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
@@ -37,15 +50,26 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
           if (await Vibration.hasVibrator()) {
             Vibration.vibrate();
           }
+
           print("QRCode: $scanData");
-          play();
+          _data['nomor'] = scanData;
+
+          print(_data);
+          await MainService().updateTracking(_data).then((value) {
+            if (value['status'] == 1) {
+              play(value['message']);
+            } else {
+              messageToast(value['message'], Colors.red);
+            }
+          });
         });
       });
     });
   }
 
-  play() async {
-    int result = await audioPlayer.play('https://api.jpmandiri.com/paimon.mp3');
+  play(scanData) async {
+    int result = await audioPlayer.play(
+        'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=$scanData&tl=id&total=1&idx=0&textlen=8');
     if (result == 1) {
       setState(() {
         isScanning = false;

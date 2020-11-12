@@ -25,7 +25,7 @@ class _DashboardTabViewState extends State<DashboardTabView> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) => model.init(context),
       viewModelBuilder: () => DashboardTabViewModel(),
       builder: (context, model, child) {
         return SingleChildScrollView(

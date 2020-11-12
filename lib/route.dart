@@ -52,6 +52,7 @@ class Routers {
           ),
         );
       case updateDoRoute:
+        // ignore: unused_local_variable
         ShippingOrderData data = settings.arguments;
         return RouteAnimationDurationTween(
           widget: UpdateDoView(),

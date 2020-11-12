@@ -21,11 +21,13 @@ class ListNopolViewModel extends BaseViewModel {
   List<Nopol> get feedData => _feedData;
   // FUNCTION
   init(context) async {
+    await redirectToLogin(context);
     await getNopol(context);
   }
 
   getNopol(context) async {
     _nopol = [];
+    storage.clear();
     if (storage.getItem('nopol') == null) {
       await MainService().getNopol().then(
         (value) async {
@@ -34,6 +36,7 @@ class ListNopolViewModel extends BaseViewModel {
             var result = storage.getItem('nopol');
 
             for (var item in result['data']) {
+              print(item);
               _nopol.add(Nopol.fromJson(item));
             }
           } else if (value['status'] == 0) {

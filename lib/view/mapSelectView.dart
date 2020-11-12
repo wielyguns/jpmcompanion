@@ -73,6 +73,7 @@ class _MapSelectViewState extends State<MapSelectView> {
                     duration: Duration(milliseconds: 200),
                     child: Container(
                       width: 1.wp,
+                      height: kToolbarHeight,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Color(
@@ -270,17 +271,12 @@ class _MapSelectViewState extends State<MapSelectView> {
                                       children: [
                                         Container(
                                           width: 1.wp,
-                                          height: 0.06.hp,
+                                          height: 0.08.hp,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 0.01.hp),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                offset: Offset(1, 1),
-                                                spreadRadius: 0,
-                                                blurRadius: 5,
-                                                color: textGrey,
-                                              )
-                                            ],
+                                            boxShadow: [],
                                           ),
                                           child: NotificationListener<
                                               OverscrollIndicatorNotification>(

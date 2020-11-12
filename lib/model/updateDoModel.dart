@@ -1,12 +1,12 @@
 class TrackingDescription {
-  int id;
-  String deskripsi;
-  int trackingTypeId;
-  String status;
-  String createdBy;
-  String updatedBy;
-  String createdAt;
-  String updatedAt;
+  dynamic id;
+  dynamic deskripsi;
+  dynamic trackingTypeId;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   TrackingDescription(
       {this.id,
@@ -44,13 +44,13 @@ class TrackingDescription {
 }
 
 class TrackingType {
-  int id;
-  String deskripsi;
-  String status;
-  String createdBy;
-  String updatedBy;
-  String createdAt;
-  String updatedAt;
+  dynamic id;
+  dynamic deskripsi;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   TrackingType(
       {this.id,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
 import 'package:stacked/stacked.dart';
 import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
+
+import '../const.dart';
 
 class UpdateDoScannerViewModel extends BaseViewModel {
   // GETTER
@@ -34,6 +35,7 @@ class UpdateDoScannerViewModel extends BaseViewModel {
   String get titleSnap => _titleSnap;
   // FUNCTION
   init(context, param) async {
+    await redirectToLogin(context);
     notifyListeners();
   }
 

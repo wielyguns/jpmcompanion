@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
@@ -76,21 +78,20 @@ class LoginViewModel extends BaseViewModel {
       "username": "${_username.text}",
       "password": "${_password.text}",
     };
-    var result = await MainService().login(input);
-
-    if (result['status'] == 1) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', result['api_key'].toString());
-      prefs.setString('id', result['data']['id'].toString());
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        dashboardRoute,
-        (route) => false,
-      );
-    } else {
-      messageToast(result['message'], Colors.red);
-    }
-
-    print(result);
+    await MainService().login(input).then((value) async {
+      if (value['status'] == 1) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', value['api_key'].toString());
+        prefs.setString('id', value['data']['id'].toString());
+        prefs.setString('user', jsonEncode(value['data']).toString());
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          dashboardRoute,
+          (route) => false,
+        );
+      } else {
+        messageToast(value['message'], Colors.red);
+      }
+    });
 
     _isLoadingApi = false;
     notifyListeners();

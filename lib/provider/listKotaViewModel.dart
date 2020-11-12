@@ -22,6 +22,7 @@ class ListKotaViewModel extends BaseViewModel {
   List<Asal> get feedData => _feedData;
   // FUNCTION
   init(context) async {
+    await redirectToLogin(context);
     await getKota(context);
   }
 

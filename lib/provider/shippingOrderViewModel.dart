@@ -44,6 +44,7 @@ class ShippingOrderViewModel extends BaseViewModel {
   String get titleSnap => _titleSnap;
   // FUNCTION
   init(context, TrackingResult result) async {
+    await redirectToLogin(context);
     if (result != null) {
       _nopol.text = result.nopol;
     }
@@ -113,7 +114,6 @@ class ShippingOrderViewModel extends BaseViewModel {
 
   proses(context) async {
     FocusScope.of(context).unfocus();
-    print(_formKey.currentState.validate());
     _deliveryOrderErrorMessage = '';
     notifyListeners();
     if (!_formKey.currentState.validate()) {
@@ -133,6 +133,7 @@ class ShippingOrderViewModel extends BaseViewModel {
 
     await ShippingOrderService().prosesShippingOrder(data).then(
       (value) async {
+        redirectToLogin(context);
         if (value['status'] == 1) {
           messageToast(value['message'], Colors.black);
           Navigator.pushAndRemoveUntil(

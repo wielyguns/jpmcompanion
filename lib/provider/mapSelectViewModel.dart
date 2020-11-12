@@ -44,6 +44,7 @@ class MapSelectViewModel extends BaseViewModel {
   double get top => _top;
   double get bottom => _bottom;
   init(context) async {
+    await redirectToLogin(context);
     await getRecentPrediction();
   }
 
@@ -82,7 +83,7 @@ class MapSelectViewModel extends BaseViewModel {
     ScreenUtil.init(_scaffoldKey.currentContext);
     _isFocused = true;
     snappingSheetController
-        .snapToPosition(SnapPosition(positionPixel: 0.87.hp));
+        .snapToPosition(SnapPosition(positionPixel: 1.hp - kToolbarHeight * 2));
     notifyListeners();
   }
 

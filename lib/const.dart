@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 //ROUTE
 
 const loginRoute = '/login-route';
@@ -47,14 +51,58 @@ messageToast(message, Color color) {
   );
 }
 
-void redirectToLogin(context) async {
+redirectToLogin(context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.clear();
-  Navigator.pushAndRemoveUntil(
-    context,
-    RouteAnimationDurationFade(
-      widget: LoginView(),
-    ),
-    (route) => false,
-  );
+  if (prefs.getString('token') == null) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      RouteAnimationDurationFade(
+        widget: LoginView(),
+      ),
+      (route) => false,
+    );
+  }
+}
+
+dynamic responseCheck(http.Response response) async {
+  try {
+    switch (response.statusCode) {
+      case 201:
+        var responseJson = json.decode(response.body.toString());
+        return responseJson;
+      case 200:
+        var responseJson = json.decode(response.body.toString());
+        return responseJson;
+      case 301:
+        var responseJson = {
+          "status": response.statusCode,
+          "message": "Api redirect error"
+        };
+        return responseJson;
+      case 400:
+        var responseJson = json.decode(response.body.toString());
+        return responseJson;
+      case 401:
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.remove('token');
+        await prefs.remove('id');
+        await prefs.remove('user');
+        var responseJson = json.decode(response.body.toString());
+        messageToast(responseJson['message'], Colors.red);
+        return responseJson;
+        break;
+      case 404:
+      case 403:
+        var responseJson = json.decode(response.body.toString());
+        return responseJson;
+      case 500:
+      default:
+        var responseJson = {"status": 502, "message": "No Internet connection"};
+        return responseJson;
+    }
+  } catch (e) {
+    print('${response.body.toString()}');
+    var responseJson = {"status": 502, "msg": "No Internet connection"};
+    return responseJson;
+  }
 }

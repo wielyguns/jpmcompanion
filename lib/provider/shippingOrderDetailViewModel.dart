@@ -43,6 +43,7 @@ class ShippingOrderDetailViewModel extends BaseViewModel {
   String get titleSnap => _titleSnap;
   // FUNCTION
   init(context, po.ShippingOrderData result) async {
+    await redirectToLogin(context);
     notifyListeners();
   }
 

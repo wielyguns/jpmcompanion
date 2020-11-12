@@ -28,6 +28,7 @@ class HomeViewModel extends BaseViewModel {
     FlSpot(2, 60444),
   ];
   int _index = 0;
+  User user;
   bool _isSnapOpen = false;
   TrackingPosition _trackingPosition = TrackingPosition();
   List<TrackingResult> _trackingResult = [];
@@ -43,13 +44,9 @@ class HomeViewModel extends BaseViewModel {
   bool get isSnapOpen => _isSnapOpen;
   // FUNCTION
   init(context, vsync) async {
+    await redirectToLogin(context);
     setBusy(true);
     _tabController = TabController(length: 4, vsync: vsync);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('token') == null) {
-      return Navigator.popAndPushNamed(context, loginRoute);
-    }
-
     await getAllNopolActive();
     setBusy(false);
     notifyListeners();

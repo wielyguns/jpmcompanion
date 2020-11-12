@@ -116,7 +116,7 @@ class Nopol {
   String divisi;
   String status;
   String vdrcde;
-  Null vdrnme;
+  String vdrnme;
   String kode;
   String merk;
   String tipeAngkutan;
@@ -145,20 +145,22 @@ class Nopol {
   String keterangan;
   String kodeCabang;
   int version;
-  Null createBy;
-  Null createAt;
-  Null updateBy;
-  Null updateAt;
+  String createBy;
+  String createAt;
+  String updateBy;
+  String updateAt;
   int act;
-  Null tglPajakTahunan;
-  Null tglPajak5Tahunan;
+  String tglPajakTahunan;
+  String tglPajak5Tahunan;
   String kodeSubcon;
   String aktif;
   String createdAt;
-  Null updatedAt;
+  String updatedAt;
   String nopolLama;
-  Null createdBy;
-  Null updatedBy;
+  String createdBy;
+  String updatedBy;
+  Angkutan angkutan;
+  Cabang cabang;
 
   Nopol(
       {this.id,
@@ -209,7 +211,9 @@ class Nopol {
       this.updatedAt,
       this.nopolLama,
       this.createdBy,
-      this.updatedBy});
+      this.updatedBy,
+      this.angkutan,
+      this.cabang});
 
   Nopol.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -261,6 +265,11 @@ class Nopol {
     nopolLama = json['nopol_lama'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
+    angkutan = json['angkutan'] != null
+        ? new Angkutan.fromJson(json['angkutan'])
+        : null;
+    cabang =
+        json['cabang'] != null ? new Cabang.fromJson(json['cabang']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -314,6 +323,110 @@ class Nopol {
     data['nopol_lama'] = this.nopolLama;
     data['created_by'] = this.createdBy;
     data['updated_by'] = this.updatedBy;
+    if (this.angkutan != null) {
+      data['angkutan'] = this.angkutan.toJson();
+    }
+    if (this.cabang != null) {
+      data['cabang'] = this.cabang.toJson();
+    }
+    return data;
+  }
+}
+
+class Angkutan {
+  String kode;
+  String nama;
+  int status;
+  int urutan;
+  String bahanBakar;
+  int bbmPerLiter;
+
+  Angkutan(
+      {this.kode,
+      this.nama,
+      this.status,
+      this.urutan,
+      this.bahanBakar,
+      this.bbmPerLiter});
+
+  Angkutan.fromJson(Map<String, dynamic> json) {
+    kode = json['kode'];
+    nama = json['nama'];
+    status = json['status'];
+    urutan = json['urutan'];
+    bahanBakar = json['bahan_bakar'];
+    bbmPerLiter = json['bbm_per_liter'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['kode'] = this.kode;
+    data['nama'] = this.nama;
+    data['status'] = this.status;
+    data['urutan'] = this.urutan;
+    data['bahan_bakar'] = this.bahanBakar;
+    data['bbm_per_liter'] = this.bbmPerLiter;
+    return data;
+  }
+}
+
+class Cabang {
+  String kode;
+  String nama;
+  String alamat;
+  String telpon;
+  String fax;
+  int idKota;
+  String version;
+  String createBy;
+  String createAt;
+  String updateBy;
+  String updateAt;
+  String status;
+
+  Cabang(
+      {this.kode,
+      this.nama,
+      this.alamat,
+      this.telpon,
+      this.fax,
+      this.idKota,
+      this.version,
+      this.createBy,
+      this.createAt,
+      this.updateBy,
+      this.updateAt,
+      this.status});
+
+  Cabang.fromJson(Map<String, dynamic> json) {
+    kode = json['kode'];
+    nama = json['nama'];
+    alamat = json['alamat'];
+    telpon = json['telpon'];
+    fax = json['fax'];
+    idKota = json['id_kota'];
+    version = json['version'];
+    createBy = json['create_by'];
+    createAt = json['create_at'];
+    updateBy = json['update_by'];
+    updateAt = json['update_at'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['kode'] = this.kode;
+    data['nama'] = this.nama;
+    data['alamat'] = this.alamat;
+    data['telpon'] = this.telpon;
+    data['fax'] = this.fax;
+    data['id_kota'] = this.idKota;
+    data['version'] = this.version;
+    data['create_by'] = this.createBy;
+    data['create_at'] = this.createAt;
+    data['update_by'] = this.updateBy;
+    data['update_at'] = this.updateAt;
+    data['status'] = this.status;
     return data;
   }
 }

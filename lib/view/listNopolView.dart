@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/provider/listNopolViewModel.dart';
+import 'package:jpmcompanion/widget/nopolList.dart';
 import 'package:stacked/stacked.dart';
 
 class ListNopolView extends StatefulWidget {
@@ -234,16 +235,14 @@ class _ListNopolViewState extends State<ListNopolView> {
                                 children:
                                     model.feedData.map<Widget>((Nopol item) {
                                   return Container(
-                                    alignment: Alignment.centerLeft,
-                                    margin: EdgeInsets.symmetric(),
-                                    child: FlatButton(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 0.04.wp,
+                                    ),
+                                    child: NopolList(
                                       onPressed: () {
                                         model.selectedData(context, item);
                                       },
-                                      child: Container(
-                                        width: 1.wp,
-                                        child: Text('${item.nopol}'),
-                                      ),
+                                      result: item,
                                     ),
                                   );
                                 }).toList(),

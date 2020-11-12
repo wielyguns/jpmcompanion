@@ -94,6 +94,7 @@ class _MapTabViewState extends State<MapTabView> {
           }
           setState(() {
             if (result['status'] == null) {
+              redirectToLogin(context);
               trackingResult = TrackingResult.fromJson(result['Data'][0]);
               addMarker();
             }
@@ -110,6 +111,7 @@ class _MapTabViewState extends State<MapTabView> {
     setState(() {
       _shippingOrderData = [];
     });
+
     await ShippingOrderService().getShippingOrder(nopol).then((value) {
       if (value['status'] == 1) {
         for (var item in value['data']) {
@@ -361,7 +363,7 @@ class _MapTabViewState extends State<MapTabView> {
                                     return ShippingOrderList(
                                       result: e,
                                       onPressed: () {
-                                        model.shippingOrderList(context,e);
+                                        model.shippingOrderList(context, e);
                                       },
                                     );
                                   }).toList(),
