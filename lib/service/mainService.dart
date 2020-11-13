@@ -8,6 +8,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:async/async.dart';
 import '../const.dart';
 
 class MainService extends Model {
@@ -212,16 +213,84 @@ class MainService extends Model {
   Future<Map<String, dynamic>> updateTracking(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var responseJson;
-
+    print(data);
     try {
       final response = await http.post(
         "$updateTrackingApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
-        body: jsonEncode(data),
+        body: data,
       );
       responseJson = await responseCheck(response);
+
+      print(response.body.toString());
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> processDelivered(data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String apiKey = (prefs.getString('token') ?? "");
+    apiKey = "Bearer " + apiKey;
+    var responseJson;
+    var dataJson;
+    print(data);
+    try {
+      var uri = Uri.parse('$updateTrackingApi');
+      var request = new http.MultipartRequest("POST", uri);
+      request.headers['Authorization'] = apiKey;
+
+      if (data['signature'] != null) {
+        var file = File(data['signature']);
+
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "signature",
+          stream,
+          length,
+          filename: file.toString(),
+        );
+        request.files.add(multipartFile);
+      }
+      request.fields['nomor'] = data['nomor'];
+      request.fields['penerima'] = data['penerima'];
+      request.fields['type'] = data['type'];
+      request.fields['deskripsi'] = data['deskripsi'];
+      responseJson = await request.send();
+      dataJson = await http.Response.fromStream(responseJson);
+
+      print(dataJson);
+    } on SocketException {
+      responseJson = {"status": 2, "message": "No Internet connection"};
+    }
+    print(dataJson.body.toString());
+    dataJson = json.decode(dataJson.body.toString());
+    return dataJson;
+  }
+
+  Future<Map<String, dynamic>> getDeliveryOrder(nomor, page) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$paginateDoApiRoute?page=$page&nomor=$nomor",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }

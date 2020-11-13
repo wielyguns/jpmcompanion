@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +8,13 @@ import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
+import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/service/mainService.dart';
+import 'package:jpmcompanion/view/homeView.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:signature/signature.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
@@ -18,6 +24,7 @@ class UpdateDoViewModel extends BaseViewModel {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
   String _titleSnap;
+  String _penerimaValidation = '';
   List<Asal> _feedData = [];
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
@@ -30,12 +37,20 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController _deskripsi = TextEditingController();
   TextEditingController _kota = TextEditingController();
   TextEditingController _nopol = TextEditingController();
+  TextEditingController _penerima = TextEditingController();
+  TextEditingController _nomor = TextEditingController();
   po.Asal _kotaData;
   final LocalStorage storage = new LocalStorage('tracking');
+  final SignatureController _signatureController = SignatureController(
+    penStrokeWidth: 5,
+    penColor: Colors.red,
+    exportBackgroundColor: Colors.blue,
+  );
 
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
+  String get penerimaValidation => _penerimaValidation;
   String get trackingDescriptionValue => _trackingDescriptionValue;
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   GlobalKey<FormState> get formKey => _formKey;
@@ -43,9 +58,12 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController get deskripsi => _deskripsi;
   TextEditingController get kota => _kota;
   TextEditingController get nopol => _nopol;
+  TextEditingController get penerima => _penerima;
+  TextEditingController get nomor => _nomor;
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
   List<DropdownMenuItem> get trackingDescriptionDropdown =>
       _trackingDescriptionDropdown;
+  SignatureController get signatureController => _signatureController;
 
   String get titleSnap => _titleSnap;
   List<Asal> get feedData => _feedData;
@@ -119,8 +137,17 @@ class UpdateDoViewModel extends BaseViewModel {
 
     for (var item in _trackingType) {
       print(_user.kodeAgen);
-      if (_user.kodeAgen != null) {
-        if (item.id == 1) {
+      if (_user.jabatan.id == 2) {
+        if (item.id == 1 || item.id == 4 || item.id == 5) {
+          _trackingTypeDropdown.add(
+            DropdownMenuItem<String>(
+              child: Text('${item.deskripsi}'),
+              value: '${item.id}',
+            ),
+          );
+        }
+      } else if (_user.jabatan.id == 6) {
+        if (item.id == 2 || item.id == 3) {
           _trackingTypeDropdown.add(
             DropdownMenuItem<String>(
               child: Text('${item.deskripsi}'),
@@ -176,10 +203,27 @@ class UpdateDoViewModel extends BaseViewModel {
 
     Map<String, dynamic> data = {
       "type": _trackingTypeValue,
-      "description": _trackingDescriptionValue,
+      "deskripsi": _trackingDescriptionValue,
       "nopol": _nopol.text,
     };
     Navigator.pushNamed(context, updateDoScannerRoute, arguments: data);
+  }
+
+  searchNopol(context) async {
+    Map<String, dynamic> data = {
+      "type": _trackingTypeValue,
+      "deskripsi": _trackingDescriptionValue,
+      "callback": 'true',
+    };
+
+    var result = await Navigator.pushNamed(
+      context,
+      updateDoScannerRoute,
+      arguments: data,
+    );
+
+    _nomor.text = result;
+    notifyListeners();
   }
 
   changeType(value) async {
@@ -212,5 +256,37 @@ class UpdateDoViewModel extends BaseViewModel {
     }
 
     notifyListeners();
+  }
+
+  delivered(context) async {
+    setBusy(true);
+    Uint8List temp = await _signatureController.toPngBytes();
+    final tempDir = await getTemporaryDirectory();
+    final file = await new File('${tempDir.path}/image.jpg').create();
+    file.writeAsBytesSync(temp);
+
+    Map<String, dynamic> data = {
+      "type": _trackingTypeValue,
+      "deskripsi": _trackingDescriptionValue,
+      "penerima": _penerima.text,
+      "signature": file.path,
+      "nomor": _nomor.text,
+    };
+
+    await MainService().processDelivered(data).then((value) {
+      if (value['status'] == 1) {
+        messageToast(value['message'], Colors.black);
+        Navigator.pushAndRemoveUntil(
+          context,
+          RouteAnimationDurationFade(
+            widget: HomeView(),
+          ),
+          (route) => false,
+        );
+      } else {
+        messageToast(value['message'], Colors.red);
+      }
+    });
+    setBusy(false);
   }
 }

@@ -71,8 +71,17 @@ class _DashboardSearchBarState extends State<DashboardSearchBar> {
                 Container(
                   width: 0.7.wp,
                   child: TextField(
-                    onTap: () {},
-                    obscureText: true,
+                    onTap: () {
+                      Map data = {
+                        "route": trackingDoRoute,
+                      };
+
+                      Navigator.of(context).pushNamed(
+                        listDoRoute,
+                        arguments: data,
+                      );
+                    },
+                    readOnly: true,
                     decoration: InputDecoration(
                       hintText: 'Cari Delivery Order...',
                       contentPadding: EdgeInsets.only(

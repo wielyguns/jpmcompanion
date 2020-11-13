@@ -50,6 +50,9 @@ dependencies:
   twitter_qr_scanner: ^1.0.4
   audioplayers: ^0.16.2
   vibration: ^1.7.2
+  signature: ^3.2.0
+  double_back_to_close_app: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

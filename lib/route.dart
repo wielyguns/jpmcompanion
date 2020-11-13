@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/routeTransition.dart';
+import 'package:jpmcompanion/view/doDetailView.dart';
 import 'package:jpmcompanion/view/homeView.dart';
+import 'package:jpmcompanion/view/listDoView.dart';
 import 'package:jpmcompanion/view/listKotaView.dart';
 import 'package:jpmcompanion/view/listNopolView.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/view/mapSelectView.dart';
 import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
 import 'package:jpmcompanion/view/shippingOrderView.dart';
+import 'package:jpmcompanion/view/trackingDoView.dart';
 import 'package:jpmcompanion/view/updateDoScannerView.dart';
 import 'package:jpmcompanion/view/updateDoView.dart';
 
@@ -63,6 +66,21 @@ class Routers {
           widget: UpdateDoScannerView(
             param: data,
           ),
+        );
+      case trackingDoRoute:
+        var data = settings.arguments;
+        return RouteAnimationDurationTween(
+          widget: TrackingDoView(),
+        );
+      case listDoRoute:
+        var data = settings.arguments;
+        return RouteAnimationDurationTween(
+          widget: ListDoView(param: data),
+        );
+      case doDetailRoute:
+        var data = settings.arguments;
+        return RouteAnimationDurationTween(
+          widget: DoDetailView(param: data),
         );
       default:
         return MaterialPageRoute(

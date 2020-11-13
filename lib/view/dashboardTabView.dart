@@ -250,7 +250,9 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         width: 0.2.wp,
                         child: MaterialButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(trackingDoRoute);
+                          },
                           shape: RoundedRectangleBorder(),
                           child: Container(
                             constraints: BoxConstraints(minHeight: 0.1.hp),

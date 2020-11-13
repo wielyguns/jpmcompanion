@@ -5,8 +5,8 @@ import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/provider/updateDoViewModel.dart';
 import 'package:jpmcompanion/widget/loadingScreen.dart';
 import 'package:jpmcompanion/widget/shippingOrderInputField.dart';
+import 'package:signature/signature.dart';
 import 'package:stacked/stacked.dart';
-import 'package:intl/intl.dart';
 
 class UpdateDoView extends StatefulWidget {
   @override
@@ -383,44 +383,237 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                 ],
                               ),
                             ),
-                          Container(
-                            margin: EdgeInsets.only(top: 0.02.hp),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(
-                                  50.0,
-                                ),
+                          if (model.trackingTypeValue == '5')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              height: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 57300 1.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'Nomor DO',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ShippingOrderInputField(
+                                    controller: model.nomor,
+                                    readOnly: true,
+                                    onTap: () {
+                                      model.searchNopol(context);
+                                    },
+                                    hintText: '6435545',
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Container(
-                              child: RaisedButton(
-                                color: purpleTheme,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                ),
-                                onPressed: () {
-                                  model.openQrCode(context);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(0.02.wp),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        child: Image(
-                                          color: Colors.white,
-                                          width: 0.08.wp,
-                                          image:
-                                              AssetImage('assets/qrcode.png'),
+                          if (model.trackingTypeValue == '5')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              height: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 51300 1.png',
+                                              ),
+                                            ),
+                                          ),
                                         ),
+                                        TextSpan(
+                                          text: 'Penerima',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ShippingOrderInputField(
+                                    errorMessage: model.penerimaValidation,
+                                    controller: model.penerima,
+                                    onTap: () {},
+                                    hintText: 'Agus mukti',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (model.trackingTypeValue == '5')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              height: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 68300 1.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'Siganture',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 1,
+                                        color: borderBox,
                                       ),
-                                    ],
+                                    ),
+                                    margin: EdgeInsets.only(top: 0.04.wp),
+                                    child: Stack(
+                                      children: [
+                                        Signature(
+                                          controller: model.signatureController,
+                                          height: 300,
+                                          backgroundColor: Colors.white,
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.clear),
+                                          color: Colors.blue,
+                                          onPressed: () {
+                                            setState(() => model
+                                                .signatureController
+                                                .clear());
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          if (model.trackingTypeValue != '5')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.02.hp),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(
+                                    50.0,
+                                  ),
+                                ),
+                              ),
+                              child: Container(
+                                child: RaisedButton(
+                                  color: purpleTheme,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  onPressed: () {
+                                    model.openQrCode(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(0.02.wp),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Image(
+                                            color: Colors.white,
+                                            width: 0.08.wp,
+                                            image: AssetImage(
+                                              'assets/qrcode.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          if (model.trackingTypeValue == '5')
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 0.02.hp,
+                                bottom: 0.2.hp,
+                              ),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(
+                                    50.0,
+                                  ),
+                                ),
+                              ),
+                              child: Container(
+                                child: RaisedButton(
+                                  color: purpleTheme,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  onPressed: () {
+                                    model.delivered(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(0.02.wp),
+                                    child: Text(
+                                      'Delivered',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 50.ssp,
+                                        fontFamily: "PlexSans",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),

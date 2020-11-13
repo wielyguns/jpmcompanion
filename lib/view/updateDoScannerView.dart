@@ -52,16 +52,19 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
           }
 
           print("QRCode: $scanData");
-          _data['nomor'] = scanData;
+          _data['nomor'] = scanData.toString().replaceAll(' ', '');
 
-          print(_data);
-          await MainService().updateTracking(_data).then((value) {
-            if (value['status'] == 1) {
-              play(value['message']);
-            } else {
-              messageToast(value['message'], Colors.red);
-            }
-          });
+          if (widget.param['callback'] == null) {
+            await MainService().updateTracking(_data).then((value) {
+              if (value['status'] == 1) {
+                play(value['message']);
+              } else {
+                messageToast(value['message'], Colors.red);
+              }
+            });
+          } else {
+            Navigator.of(context).pop(_data['nomor']);
+          }
         });
       });
     });

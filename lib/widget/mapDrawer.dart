@@ -86,69 +86,71 @@ class _MapDrawerState extends State<MapDrawer> {
                     ),
                   ),
                   Container(
-                      child: Row(
-                    children: [
-                      Bubble(
-                        elevation: 2,
-                        color: Color(hexStringToHexInt('#C5FEF3')),
-                        radius: Radius.circular(20),
-                        child: Container(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Image(
-                                    width: 50.ssp,
-                                    height: 50.ssp,
-                                    image:
-                                        AssetImage('assets/Asset 59300 1.png'),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '  Sort',
-                                  style: TextStyle(
-                                    color: Color(
-                                      hexStringToHexInt('#6B6B6B'),
+                    child: Row(
+                      children: [
+                        Bubble(
+                          elevation: 2,
+                          color: Color(hexStringToHexInt('#C5FEF3')),
+                          radius: Radius.circular(20),
+                          child: Container(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Image(
+                                      width: 50.ssp,
+                                      height: 50.ssp,
+                                      image: AssetImage(
+                                          'assets/Asset 59300 1.png'),
                                     ),
-                                    fontSize: 40.ssp,
                                   ),
-                                )
-                              ],
+                                  TextSpan(
+                                    text: '  Sort',
+                                    style: TextStyle(
+                                      color: Color(
+                                        hexStringToHexInt('#6B6B6B'),
+                                      ),
+                                      fontSize: 40.ssp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Bubble(
-                        elevation: 2,
-                        color: Color(hexStringToHexInt('#C5FEF3')),
-                        radius: Radius.circular(20),
-                        child: Container(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Image(
-                                    width: 50.ssp,
-                                    height: 50.ssp,
-                                    image: AssetImage('assets/Asset 52 1.png'),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '  Filter',
-                                  style: TextStyle(
-                                    color: Color(
-                                      hexStringToHexInt('#6B6B6B'),
+                        Bubble(
+                          elevation: 2,
+                          color: Color(hexStringToHexInt('#C5FEF3')),
+                          radius: Radius.circular(20),
+                          child: Container(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Image(
+                                      width: 50.ssp,
+                                      height: 50.ssp,
+                                      image:
+                                          AssetImage('assets/Asset 52 1.png'),
                                     ),
-                                    fontSize: 40.ssp,
                                   ),
-                                )
-                              ],
+                                  TextSpan(
+                                    text: '  Filter',
+                                    style: TextStyle(
+                                      color: Color(
+                                        hexStringToHexInt('#6B6B6B'),
+                                      ),
+                                      fontSize: 40.ssp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  )),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -196,7 +198,7 @@ class _MapDrawerState extends State<MapDrawer> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -51,7 +51,7 @@ class ListNopolViewModel extends BaseViewModel {
         _nopol.add(Nopol.fromJson(item));
       }
     }
-
+    print(_nopol);
     notifyListeners();
   }
 
