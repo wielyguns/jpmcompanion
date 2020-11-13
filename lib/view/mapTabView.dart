@@ -1,14 +1,17 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
+import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/trackingPositionModel.dart';
 import 'package:jpmcompanion/provider/mapTabViewModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
+import 'package:jpmcompanion/service/shippingOrderService.dart';
+import 'package:jpmcompanion/widget/shippingOrderList.dart';
 import 'package:jpmcompanion/widget/markerIcon.dart';
 import 'package:jpmcompanion/widget/trackingItemList.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
@@ -34,6 +37,7 @@ class _MapTabViewState extends State<MapTabView> {
   double grabbingHeight = 0;
   TrackingPosition _data;
   List<Marker> _marker = [];
+  List<ShippingOrderData> _shippingOrderData = [];
   CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(-7.328025, 112.791785),
     zoom: 15,
@@ -57,7 +61,6 @@ class _MapTabViewState extends State<MapTabView> {
   void dispose() {
     _timer.cancel();
     _controller.dispose();
-
     super.dispose();
   }
 
@@ -91,6 +94,7 @@ class _MapTabViewState extends State<MapTabView> {
           }
           setState(() {
             if (result['status'] == null) {
+              redirectToLogin(context);
               trackingResult = TrackingResult.fromJson(result['Data'][0]);
               addMarker();
             }
@@ -100,12 +104,32 @@ class _MapTabViewState extends State<MapTabView> {
     );
   }
 
+  Future getShippingOrder(nopol) async {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _shippingOrderData = [];
+    });
+
+    await ShippingOrderService().getShippingOrder(nopol).then((value) {
+      if (value['status'] == 1) {
+        for (var item in value['data']) {
+          setState(() {
+            _shippingOrderData.add(ShippingOrderData.fromJson(item));
+          });
+        }
+      }
+    });
+  }
+
   addMarker() async {
     if (trackingResult != null &&
         trackingResult.lat != null &&
         trackingResult.lon != null) {
       if (initial != trackingResult.nopol) {
         _listPoint = [];
+        await getShippingOrder(trackingResult.nopol);
       }
       if (trackingResult.lat != _pos.latitude &&
           trackingResult.lon != _pos.longitude) {
@@ -182,7 +206,7 @@ class _MapTabViewState extends State<MapTabView> {
                   },
                   zoomControlsEnabled: false,
                   zoomGesturesEnabled: true,
-                  myLocationEnabled: true,
+                  myLocationEnabled: false,
                   polylines: Set.from(_track),
                   onCameraMove: (CameraPosition position) {},
                 ),
@@ -220,6 +244,48 @@ class _MapTabViewState extends State<MapTabView> {
                 ),
               ),
               Positioned(
+                top: 0.2.hp,
+                right: 0.04.wp,
+                left: 0,
+                child: AnimatedOpacity(
+                  opacity: (showInfoWindow) ? 1 : 1,
+                  duration: Duration(milliseconds: 200),
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: SizedBox(
+                      width: 0.08.wp,
+                      height: 0.08.wp,
+                      child: RaisedButton(
+                        color: Colors.white.withOpacity(0.8),
+                        onPressed: () {
+                          if (!mounted) {
+                            return;
+                          }
+                          _controller.moveCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: _pos,
+                                tilt: 0,
+                                zoom: 15,
+                              ),
+                            ),
+                          );
+                        },
+                        padding: EdgeInsets.all(0),
+                        child: Container(
+                          padding: EdgeInsets.all(0.01.wp),
+                          child: Image(
+                            image: AssetImage(
+                              'assets/kisspng-computer-icons-location-google-maps-location-icon-5acb23f17cb2b4.1059350515232624495108.png',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
                 bottom: 0.1.hp,
                 right: 0.04.wp,
                 left: 0,
@@ -242,7 +308,7 @@ class _MapTabViewState extends State<MapTabView> {
                             snapVisibility = true;
                             _snappingSheetController.snapToPosition(
                               SnapPosition(
-                                positionPixel: 0.6.hp,
+                                positionPixel: 0.5.hp,
                                 snappingCurve: Curves.elasticOut,
                                 snappingDuration: Duration(milliseconds: 750),
                               ),
@@ -279,12 +345,111 @@ class _MapTabViewState extends State<MapTabView> {
                         child: Container(
                           height: 0.8.hp,
                           color: Colors.white,
+                          child: NotificationListener<
+                              OverscrollIndicatorNotification>(
+                            onNotification: (notification) {
+                              notification.disallowGlow();
+                              return;
+                            },
+                            child: SingleChildScrollView(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 0.02.wp,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: _shippingOrderData
+                                      .map<Widget>((ShippingOrderData e) {
+                                    return ShippingOrderList(
+                                      result: e,
+                                      onPressed: () {
+                                        model.shippingOrderList(context, e);
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         heightBehavior: SnappingSheetHeight.fit(),
                       ),
                       grabbingHeight: grabbingHeight,
                       grabbing: Container(
-                        color: Colors.green,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0, -1),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              color: borderBox,
+                            )
+                          ],
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 0.1.wp,
+                              height: 0.01.hp,
+                              decoration: BoxDecoration(
+                                color: textGrey,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 0.02.wp,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Shipping Order',
+                                    style: TextStyle(
+                                      color: Color(
+                                        hexStringToHexInt('#6B6B6B'),
+                                      ),
+                                      fontSize: 60.ssp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  RaisedButton(
+                                    elevation: 5,
+                                    onPressed: () {
+                                      model.addPurchaseOrder(
+                                        context,
+                                        trackingResult,
+                                      );
+                                    },
+                                    color: Colors.white,
+                                    child: Text(
+                                      'TAMBAH DO',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: "PlexSans",
+                                        fontSize: 35.ssp,
+                                        color: Color(
+                                          hexStringToHexInt(
+                                            '#FF5373',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       onMove: (pixelPosition) {
                         if (!mounted) {
@@ -295,7 +460,7 @@ class _MapTabViewState extends State<MapTabView> {
                           widget.onSnapOpen('close');
                         } else {
                           widget.onSnapOpen('open');
-                          grabbingHeight = 20;
+                          grabbingHeight = 0.12.hp;
                         }
                       },
                     ),

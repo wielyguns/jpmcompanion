@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/trackingPositionModel.dart';
+import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/service/mainService.dart';
+import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/widget/mapDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
@@ -28,6 +30,7 @@ class HomeViewModel extends BaseViewModel {
     FlSpot(2, 60444),
   ];
   int _index = 0;
+  User user;
   bool _isSnapOpen = false;
   TrackingPosition _trackingPosition = TrackingPosition();
   List<TrackingResult> _trackingResult = [];
@@ -43,13 +46,9 @@ class HomeViewModel extends BaseViewModel {
   bool get isSnapOpen => _isSnapOpen;
   // FUNCTION
   init(context, vsync) async {
+    await redirectToLogin(context);
     setBusy(true);
     _tabController = TabController(length: 4, vsync: vsync);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('token') == null) {
-      return Navigator.popAndPushNamed(context, loginRoute);
-    }
-
     await getAllNopolActive();
     setBusy(false);
     notifyListeners();
@@ -72,7 +71,14 @@ class HomeViewModel extends BaseViewModel {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
     prefs.remove('id');
-    Navigator.popAndPushNamed(context, loginRoute);
+    prefs.remove('user');
+    Navigator.pushAndRemoveUntil(
+      context,
+      RouteAnimationDurationFade(
+        widget: LoginView(),
+      ),
+      (route) => false,
+    );
   }
 
   changeTab(index) {
@@ -105,6 +111,23 @@ class HomeViewModel extends BaseViewModel {
             await getAllNopolActive();
             notifyListeners();
           },
+        );
+        break;
+      case 0:
+        return Drawer(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 0.05.hp),
+                child: FlatButton(
+                  onPressed: () {
+                    logout(context);
+                  },
+                  child: Text('Logout'),
+                ),
+              )
+            ],
+          ),
         );
         break;
       default:

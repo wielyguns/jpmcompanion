@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:stacked/stacked.dart';
 
+import '../const.dart';
+
 class DashboardTabViewModel extends BaseViewModel {
   // SETTER
   List<FlSpot> _pendapatanSpots = [
@@ -18,5 +20,7 @@ class DashboardTabViewModel extends BaseViewModel {
   // GETTER
   List<FlSpot> get pendapatanSpots => _pendapatanSpots;
   List<FlSpot> get deliveryOrderSpots => _deliveryOrderSpots;
-  init() {}
+  init(context) async {
+    await redirectToLogin(context);
+  }
 }

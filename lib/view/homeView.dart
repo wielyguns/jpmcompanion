@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +20,13 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
+  @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -91,36 +99,41 @@ class _HomeViewState extends State<HomeView>
                 ),
               ],
             ),
-            body: Container(
-              width: double.infinity,
-              height: 1.hp,
-              color: Colors.white,
-              child: (model.tabController != null)
-                  ? TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: model.tabController,
-                      children: [
-                        Container(
-                          child: DashboardTabView(),
-                        ),
-                        Container(
-                          child: MapTabView(
-                            result: model.activeTracking,
-                            onSnapOpen: (value) => model.hideTab(value),
+            body: DoubleBackToCloseApp(
+              snackBar: const SnackBar(
+                content: Text('Tap lagi untuk keluar'),
+              ),
+              child: Container(
+                width: double.infinity,
+                height: 1.hp,
+                color: Colors.white,
+                child: (model.tabController != null)
+                    ? TabBarView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: model.tabController,
+                        children: [
+                          Container(
+                            child: DashboardTabView(),
                           ),
-                        ),
-                        Container(
-                          child: Text('Tab 3'),
-                        ),
-                        Container(
-                          child: Text('Tab 3'),
-                        ),
-                      ],
-                    )
-                  : Container(),
+                          Container(
+                            child: MapTabView(
+                              result: model.activeTracking,
+                              onSnapOpen: (value) => model.hideTab(value),
+                            ),
+                          ),
+                          Container(
+                            child: Text('Tab 3'),
+                          ),
+                          Container(
+                            child: Text('Tab 3'),
+                          ),
+                        ],
+                      )
+                    : Container(),
+              ),
             ),
             bottomNavigationBar: CustomBottomNavigationBar(
-              height: (model.isSnapOpen) ? 0.0 : 0.08.hp,
+              height: kToolbarHeight,
               onTap: (index) {
                 model.changeTab(index);
               },

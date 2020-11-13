@@ -15,10 +15,17 @@ class DashboardTabView extends StatefulWidget {
 
 class _DashboardTabViewState extends State<DashboardTabView> {
   @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) => model.init(context),
       viewModelBuilder: () => DashboardTabViewModel(),
       builder: (context, model, child) {
         return SingleChildScrollView(
@@ -195,10 +202,13 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         ),
                       ),
                       Container(
+                        alignment: Alignment.center,
                         width: 0.2.wp,
                         child: MaterialButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(updateDoRoute);
+                          },
                           shape: RoundedRectangleBorder(),
                           child: Container(
                             constraints: BoxConstraints(
@@ -217,15 +227,18 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  'Input DO',
-                                  style: TextStyle(
-                                    color: Color(
-                                      hexStringToHexInt('#736B6D'),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Update Do',
+                                    style: TextStyle(
+                                      color: Color(
+                                        hexStringToHexInt('#736B6D'),
+                                      ),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "PlexSans",
+                                      fontSize: 35.ssp,
                                     ),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "PlexSans",
-                                    fontSize: 35.ssp,
                                   ),
                                 ),
                               ],
@@ -237,7 +250,9 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         width: 0.2.wp,
                         child: MaterialButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(trackingDoRoute);
+                          },
                           shape: RoundedRectangleBorder(),
                           child: Container(
                             constraints: BoxConstraints(minHeight: 0.1.hp),
