@@ -120,7 +120,6 @@ class _DoDetailViewState extends State<DoDetailView> {
                                         ),
                                       ),
                                       Container(
-                                        height: 0.05.hp,
                                         decoration: BoxDecoration(
                                           gradient: LinearGradient(
                                             begin: Alignment.bottomCenter,
@@ -133,6 +132,82 @@ class _DoDetailViewState extends State<DoDetailView> {
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(50),
                                           ),
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 0.04.hp),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 0.03.hp,
+                                                      child: VerticalDivider(
+                                                        color: Color(
+                                                          hexStringToHexInt(
+                                                            '#FF5373',
+                                                          ),
+                                                        ),
+                                                        thickness: 0.015.wp,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        child: Text(
+                                                          '${widget.param.nomor}',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                            fontSize: 50.ssp,
+                                                            color: Color(
+                                                              hexStringToHexInt(
+                                                                '#FF5373',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 0.01.hp,
+                                                  horizontal: 0.02.wp,
+                                                ),
+                                                child: RaisedButton(
+                                                  color: purpleTheme,
+                                                  onPressed: () {},
+                                                  child: Container(
+                                                    child: Text(
+                                                      'Lacak Do',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 50.ssp,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily: "PlexSans",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -159,37 +234,6 @@ class _DoDetailViewState extends State<DoDetailView> {
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 0.05.wp,
                                 ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Image(
-                                      width: 0.1.wp,
-                                      image: AssetImage(
-                                        'assets/Asset 61300 2.png',
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 0.05.wp),
-                                      child: Text(
-                                        'Shipping Order Detail',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 50.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                  top: 0.03.hp,
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 0.05.wp,
-                                ),
                                 color: Color(
                                   hexStringToHexInt('#F5F5F5'),
                                 ),
@@ -205,7 +249,7 @@ class _DoDetailViewState extends State<DoDetailView> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              'Shipping Order Detail',
+                                              'Nomor Delivery order',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 fontSize: 40.ssp,
@@ -310,75 +354,81 @@ class _DoDetailViewState extends State<DoDetailView> {
                                   vertical: 0.02.hp,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              'Tipe/Type',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 40.ssp,
-                                                color: textGrey,
-                                                fontFamily: "PlexSans",
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        width: 0.5.wp,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                'Tipe/Type',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontFamily: "PlexSans",
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 0.01.hp,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              'KILOGRAM',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 40.ssp,
-                                                color: textGrey,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PlexSans",
+                                            SizedBox(
+                                              height: 0.01.hp,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                'KILOGRAM',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              'Jenis/Category',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 40.ssp,
-                                                color: textGrey,
-                                                fontFamily: "PlexSans",
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        width: 0.5.wp,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                'Jenis/Category',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontFamily: "PlexSans",
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 0.01.hp,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              'REGULER',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 40.ssp,
-                                                color: textGrey,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PlexSans",
+                                            SizedBox(
+                                              height: 0.01.hp,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                'REGULER',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -389,11 +439,13 @@ class _DoDetailViewState extends State<DoDetailView> {
                                   horizontal: 0.05.wp,
                                   vertical: 0.02.hp,
                                 ),
+                                width: 1.wp,
                                 child: Row(
                                   children: [
                                     Flexible(
                                       flex: 1,
                                       child: Container(
+                                        width: 0.5.wp,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -431,6 +483,7 @@ class _DoDetailViewState extends State<DoDetailView> {
                                     Flexible(
                                       flex: 1,
                                       child: Container(
+                                        width: 0.5.wp,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -438,6 +491,140 @@ class _DoDetailViewState extends State<DoDetailView> {
                                             Container(
                                               child: Text(
                                                 'Tujuan',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 0.01.hp,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                '${widget.param.tujuan.nama}',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 0.05.wp,
+                                  vertical: 0.02.hp,
+                                ),
+                                width: 1.wp,
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                'Alamat Penerima/Recipient Address',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 0.01.hp,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                '${widget.param.alamatPenerima}',
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                  height: 1.5,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 0.05.wp,
+                                  vertical: 0.02.hp,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        width: 0.5.wp,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                'Berat',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 0.01.hp,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                '${widget.param.berat} ${widget.param.kodeSatuan}',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 40.ssp,
+                                                  color: textGrey,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        width: 0.5.wp,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                'Jenis/Category',
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   fontSize: 40.ssp,
