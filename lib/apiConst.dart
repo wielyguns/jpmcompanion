@@ -1,5 +1,6 @@
 // URL
 
+const baseApi = 'https://api.jpmandiri.com/';
 const loginApi = 'https://api.jpmandiri.com/api/v1/sign-in';
 const lastPositionApi =
     'https://vtsapi.easygo-gps.co.id/api/report/lastposition';
@@ -14,6 +15,7 @@ const getTrackingTypeApi = 'https://api.jpmandiri.com/api/v1/get-tracking-type';
 const getUserApi = 'https://api.jpmandiri.com/api/v1/check-auth';
 const updateTrackingApi = 'https://api.jpmandiri.com/api/v1/update-tracking';
 const paginateDoApiRoute = 'https://api.jpmandiri.com/api/v1/paginate-do';
+const getTrackingApiRoute = 'https://api.jpmandiri.com/api/v1/get-tracking';
 
 // TOKEN
 const easygoToken = '17AE4926BB874810B0518C49C0DF29D5';

@@ -917,9 +917,9 @@ class Tracking {
   String expiredAt;
   String createdAt;
   String updatedAt;
-  Null penerima;
-  Null signature;
-  Null completedAt;
+  dynamic penerima;
+  dynamic signature;
+  dynamic completedAt;
 
   Tracking(
       {this.id,

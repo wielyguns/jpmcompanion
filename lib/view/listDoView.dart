@@ -411,10 +411,20 @@ class _ListDoViewState extends State<ListDoView> {
                                             child: ListDo(
                                               result: e.value,
                                               onPressed: () {
-                                                Navigator.of(context).pushNamed(
-                                                  doDetailRoute,
-                                                  arguments: e.value,
-                                                );
+                                                if (widget.param['route'] ==
+                                                    doDetailRoute) {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                    doDetailRoute,
+                                                    arguments: e.value,
+                                                  );
+                                                } else {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                    trackingDoRoute,
+                                                    arguments: e.value,
+                                                  );
+                                                }
                                               },
                                             ),
                                           ),
@@ -433,10 +443,18 @@ class _ListDoViewState extends State<ListDoView> {
                                     return ListDo(
                                       result: e.value,
                                       onPressed: () {
-                                        Navigator.of(context).pushNamed(
-                                          doDetailRoute,
-                                          arguments: e.value,
-                                        );
+                                        if (widget.param['route'] ==
+                                            doDetailRoute) {
+                                          Navigator.of(context).pushNamed(
+                                            doDetailRoute,
+                                            arguments: e.value,
+                                          );
+                                        } else {
+                                          Navigator.of(context).pushNamed(
+                                            trackingDoRoute,
+                                            arguments: e.value,
+                                          );
+                                        }
                                       },
                                     );
                                   }

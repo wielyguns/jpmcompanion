@@ -251,7 +251,14 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         child: MaterialButton(
                           padding: EdgeInsets.all(0),
                           onPressed: () {
-                            Navigator.of(context).pushNamed(trackingDoRoute);
+                            Map data = {
+                              "route": trackingDoRoute,
+                            };
+
+                            Navigator.of(context).pushNamed(
+                              listDoRoute,
+                              arguments: data,
+                            );
                           },
                           shape: RoundedRectangleBorder(),
                           child: Container(

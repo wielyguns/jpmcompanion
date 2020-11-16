@@ -70,7 +70,9 @@ class Routers {
       case trackingDoRoute:
         var data = settings.arguments;
         return RouteAnimationDurationTween(
-          widget: TrackingDoView(),
+          widget: TrackingDoView(
+            param: data,
+          ),
         );
       case listDoRoute:
         var data = settings.arguments;

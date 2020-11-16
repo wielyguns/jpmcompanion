@@ -162,7 +162,13 @@ class _DoDetailViewState extends State<DoDetailView> {
                                               ),
                                               child: RaisedButton(
                                                 color: purpleTheme,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                    trackingDoRoute,
+                                                    arguments: widget.param,
+                                                  );
+                                                },
                                                 child: Container(
                                                   child: Text(
                                                     'Lacak Do',

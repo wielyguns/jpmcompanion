@@ -52,7 +52,7 @@ dependencies:
   vibration: ^1.7.2
   signature: ^3.2.0
   double_back_to_close_app: ^1.2.0
-
+  timeline_tile: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

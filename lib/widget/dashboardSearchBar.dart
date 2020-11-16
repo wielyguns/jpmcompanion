@@ -73,7 +73,7 @@ class _DashboardSearchBarState extends State<DashboardSearchBar> {
                   child: TextField(
                     onTap: () {
                       Map data = {
-                        "route": trackingDoRoute,
+                        "route": doDetailRoute,
                       };
 
                       Navigator.of(context).pushNamed(
