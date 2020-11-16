@@ -12,6 +12,8 @@ import 'package:stacked/stacked.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extend;
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class TrackingDoView extends StatefulWidget {
   final DeliveryOrder param;
@@ -24,6 +26,7 @@ class TrackingDoView extends StatefulWidget {
 class _TrackingDoViewState extends State<TrackingDoView> {
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('id');
     ScreenUtil.init(context);
 
     return ViewModelBuilder.reactive(
@@ -682,7 +685,7 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                                       ),
                                                       Container(
                                                         child: Text(
-                                                          'Senin 5 oct 2020 12:03',
+                                                          '${DateFormat.yMMMMEEEEd('ID').format(DateTime.parse(data.createdAt))} ${DateFormat('HH:mm').format(DateTime.parse(data.createdAt))}',
                                                           style: TextStyle(
                                                             color: Color(
                                                               hexStringToHexInt(
@@ -710,7 +713,8 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                               Image(
                                                 width: 0.5.wp,
                                                 image: AssetImage(
-                                                    'assets/Asset 1123300 1.png'),
+                                                  'assets/Asset 1123300 1.png',
+                                                ),
                                               ),
                                               SizedBox(
                                                 height: 0.02.hp,
@@ -740,7 +744,8 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                                         style: TextStyle(
                                                           color: Color(
                                                             hexStringToHexInt(
-                                                                '#B8B8B8'),
+                                                              '#B8B8B8',
+                                                            ),
                                                           ),
                                                           fontSize: 40.ssp,
                                                         ),
