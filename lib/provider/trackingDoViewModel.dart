@@ -6,7 +6,6 @@ import 'package:jpmcompanion/model/deliveryOrderModel.dart';
 import 'package:jpmcompanion/model/trackingDoModel.dart' as track;
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:stacked/stacked.dart';
-import 'package:intl/intl.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class TrackingDoViewModel extends BaseViewModel {

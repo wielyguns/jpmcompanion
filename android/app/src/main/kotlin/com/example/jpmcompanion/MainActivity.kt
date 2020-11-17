@@ -1,4 +1,4 @@
-package com.example.jpmcompanion
+package com.jpmandiri.jpmcompanion
 
 import io.flutter.embedding.android.FlutterActivity
 

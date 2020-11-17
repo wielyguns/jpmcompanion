@@ -437,7 +437,7 @@ class _ShippingOrderViewState extends State<ShippingOrderView> {
                                       children: [
                                         Flexible(
                                           flex: 1,
-                                        child: Container(
+                                          child: Container(
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,

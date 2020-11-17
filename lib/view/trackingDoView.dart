@@ -487,282 +487,283 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                             ],
                           ),
                         ),
-                      Expanded(
-                        child: Container(
-                          width: 1.wp,
-                          child: NotificationListener<
-                              OverscrollIndicatorNotification>(
-                            onNotification: (notification) {
-                              notification.disallowGlow();
-                              return;
-                            },
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  if (model.tracking != null &&
-                                      model.tracking.signature != null)
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        right: 0.05.wp,
-                                        left: 0.05.wp,
-                                        top: 0.02.hp,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            child: Image(
-                                              width: 0.1.wp,
-                                              image: AssetImage(
-                                                'assets/Asset 61300 2.png',
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:
-                                                EdgeInsets.only(left: 0.05.wp),
-                                            child: Text(
-                                              'Bukti Pengiriman',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 50.ssp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(
-                                                  hexStringToHexInt('#505050'),
-                                                ),
-                                                fontFamily: "PlexSans",
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  if (model.tracking != null &&
-                                      model.tracking.signature != null)
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        right: 0.05.wp,
-                                        left: 0.05.wp,
-                                        top: 0.02.hp,
-                                      ),
-                                      alignment: Alignment.centerLeft,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: 0.01.hp,
-                                            ),
-                                            child: Text(
-                                              'Tanda tangan penerima',
-                                              style: TextStyle(
-                                                color: Color(
-                                                  hexStringToHexInt(
-                                                    '#9B9B9B',
-                                                  ),
-                                                ),
-                                                fontSize: 40.ssp,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PlexSans",
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: 0.02.hp,
-                                            ),
-                                            child: Image.network(
-                                              '$baseApi/${model.tracking.signature}',
-                                              fit: BoxFit.fill,
-                                              height: 0.1.hp,
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: 0.02.hp,
-                                            ),
-                                            child: Text(
-                                              'Nama Penerima',
-                                              style: TextStyle(
-                                                color: Color(
-                                                  hexStringToHexInt(
-                                                    '#9B9B9B',
-                                                  ),
-                                                ),
-                                                fontSize: 40.ssp,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PlexSans",
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: 0.02.hp,
-                                            ),
-                                            child: Text(
-                                              '${model.tracking.penerima}',
-                                              style: TextStyle(
-                                                color: textGrey,
-                                                fontSize: 40.ssp,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PlexSans",
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  Container(
-                                    color: Color(hexStringToHexInt('#f8f9fa')),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 0.05.wp,
-                                      vertical: 0.02.hp,
-                                    ),
-                                    child: (model.tracking != null)
-                                        ? Column(
-                                            children: model.tracking.trackingD
-                                                .asMap()
-                                                .entries
-                                                .map<Widget>((e) {
-                                              TrackingD data = e.value;
-                                              return TimelineTile(
-                                                axis: TimelineAxis.vertical,
-                                                alignment: TimelineAlign.start,
-                                                isFirst:
-                                                    (e.key == 0) ? true : false,
-                                                isLast: (e.key ==
-                                                        model.tracking.trackingD
-                                                                .length -
-                                                            1)
-                                                    ? true
-                                                    : false,
-                                                indicatorStyle: IndicatorStyle(
-                                                  width: 30,
-                                                  height: 30,
-                                                  color: purpleTheme,
-                                                  iconStyle: IconStyle(
-                                                    color: Colors.white,
-                                                    iconData: Icons.check,
-                                                    fontSize: 50.ssp,
-                                                  ),
-                                                ),
-                                                beforeLineStyle: LineStyle(
-                                                  color: purpleTheme,
-                                                  thickness: 6,
-                                                ),
-                                                afterLineStyle: LineStyle(
-                                                  color: purpleTheme,
-                                                  thickness: 6,
-                                                ),
-                                                endChild: Container(
-                                                  margin: EdgeInsets.only(
-                                                    left: 0.05.wp,
-                                                  ),
-                                                  alignment: Alignment.topLeft,
-                                                  constraints: BoxConstraints(
-                                                    minHeight: 0.1.hp,
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        child: Text(
-                                                          '${data.deskripsi}',
-                                                          style: TextStyle(
-                                                            color: textGrey,
-                                                            fontSize: 40.ssp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                "PlexSans",
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        child: Text(
-                                                          '${DateFormat.yMMMMEEEEd('ID').format(DateTime.parse(data.createdAt))} ${DateFormat('HH:mm').format(DateTime.parse(data.createdAt))}',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                              hexStringToHexInt(
-                                                                '#9B9B9B',
-                                                              ),
-                                                            ),
-                                                            fontSize: 40.ssp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                "PlexSans",
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            }).toList(),
-                                          )
-                                        : Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image(
-                                                width: 0.5.wp,
+                      if (model.tracking != null)
+                        Expanded(
+                          child: Container(
+                            color: Color(hexStringToHexInt('#f8f9fa')),
+                            width: 1.wp,
+                            child: NotificationListener<
+                                OverscrollIndicatorNotification>(
+                              onNotification: (notification) {
+                                notification.disallowGlow();
+                                return;
+                              },
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    if (model.tracking != null &&
+                                        model.tracking.signature != null)
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          right: 0.05.wp,
+                                          left: 0.05.wp,
+                                          top: 0.02.hp,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              child: Image(
+                                                width: 0.1.wp,
                                                 image: AssetImage(
-                                                  'assets/Asset 1123300 1.png',
+                                                  'assets/Asset 61300 2.png',
                                                 ),
                                               ),
-                                              SizedBox(
-                                                height: 0.02.hp,
-                                              ),
-                                              Container(
-                                                width: 1.wp,
-                                                child: RichText(
-                                                  textAlign: TextAlign.center,
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text:
-                                                            'Data Tidak Tersedia\n',
-                                                        style: TextStyle(
-                                                          color: Color(
-                                                            hexStringToHexInt(
-                                                                '#737373'),
-                                                          ),
-                                                          fontSize: 60.ssp,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            'Data yang anda cari tidak ditemukan atau salah',
-                                                        style: TextStyle(
-                                                          color: Color(
-                                                            hexStringToHexInt(
-                                                              '#B8B8B8',
-                                                            ),
-                                                          ),
-                                                          fontSize: 40.ssp,
-                                                        ),
-                                                      ),
-                                                    ],
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 0.05.wp),
+                                              child: Text(
+                                                'Bukti Pengiriman',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 50.ssp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(
+                                                    hexStringToHexInt(
+                                                        '#505050'),
                                                   ),
+                                                  fontFamily: "PlexSans",
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                  ),
-                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    if (model.tracking != null &&
+                                        model.tracking.signature != null)
+                                      Container(
+                                        color: Colors.white,
+                                        margin: EdgeInsets.only(
+                                          right: 0.05.wp,
+                                          left: 0.05.wp,
+                                          top: 0.02.hp,
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              color: Colors.white,
+                                              margin: EdgeInsets.only(
+                                                bottom: 0.01.hp,
+                                              ),
+                                              child: Text(
+                                                'Tanda tangan penerima',
+                                                style: TextStyle(
+                                                  color: Color(
+                                                    hexStringToHexInt(
+                                                      '#9B9B9B',
+                                                    ),
+                                                  ),
+                                                  fontSize: 40.ssp,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              color: Colors.white,
+                                              margin: EdgeInsets.only(
+                                                bottom: 0.02.hp,
+                                              ),
+                                              child: Image.network(
+                                                '$baseApi/${model.tracking.signature}',
+                                                fit: BoxFit.fill,
+                                                height: 0.1.hp,
+                                              ),
+                                            ),
+                                            Container(
+                                              color: Colors.white,
+                                              margin: EdgeInsets.only(
+                                                bottom: 0.02.hp,
+                                              ),
+                                              child: Text(
+                                                'Nama Penerima',
+                                                style: TextStyle(
+                                                  color: Color(
+                                                    hexStringToHexInt(
+                                                      '#9B9B9B',
+                                                    ),
+                                                  ),
+                                                  fontSize: 40.ssp,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                '${model.tracking.penerima}',
+                                                style: TextStyle(
+                                                  color: textGrey,
+                                                  fontSize: 40.ssp,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PlexSans",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 0.05.wp,
+                                        vertical: 0.02.hp,
+                                      ),
+                                      child: Column(
+                                        children: model.tracking.trackingD
+                                            .asMap()
+                                            .entries
+                                            .map<Widget>((e) {
+                                          TrackingD data = e.value;
+                                          return TimelineTile(
+                                            axis: TimelineAxis.vertical,
+                                            alignment: TimelineAlign.start,
+                                            isFirst:
+                                                (e.key == 0) ? true : false,
+                                            isLast: (e.key ==
+                                                    model.tracking.trackingD
+                                                            .length -
+                                                        1)
+                                                ? true
+                                                : false,
+                                            indicatorStyle: IndicatorStyle(
+                                              width: 30,
+                                              height: 30,
+                                              color: purpleTheme,
+                                              iconStyle: IconStyle(
+                                                color: Colors.white,
+                                                iconData: Icons.check,
+                                                fontSize: 50.ssp,
+                                              ),
+                                            ),
+                                            beforeLineStyle: LineStyle(
+                                              color: purpleTheme,
+                                              thickness: 6,
+                                            ),
+                                            afterLineStyle: LineStyle(
+                                              color: purpleTheme,
+                                              thickness: 6,
+                                            ),
+                                            endChild: Container(
+                                              margin: EdgeInsets.only(
+                                                left: 0.05.wp,
+                                              ),
+                                              alignment: Alignment.topLeft,
+                                              constraints: BoxConstraints(
+                                                minHeight: 0.1.hp,
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    child: Text(
+                                                      '${data.deskripsi}',
+                                                      style: TextStyle(
+                                                        color: textGrey,
+                                                        fontSize: 40.ssp,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily: "PlexSans",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Text(
+                                                      '${DateFormat.yMMMMEEEEd('ID').format(DateTime.parse(data.createdAt))} ${DateFormat('HH:mm').format(DateTime.parse(data.createdAt))}',
+                                                      style: TextStyle(
+                                                        color: Color(
+                                                          hexStringToHexInt(
+                                                            '#9B9B9B',
+                                                          ),
+                                                        ),
+                                                        fontSize: 40.ssp,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily: "PlexSans",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                      if (model.tracking == null && !model.isBusy)
+                        Expanded(
+                          child: Container(
+                            color: Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image(
+                                  width: 0.5.wp,
+                                  image: AssetImage(
+                                    'assets/Asset 1123300 1.png',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 0.02.hp,
+                                ),
+                                Container(
+                                  width: 1.wp,
+                                  color: Colors.white,
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Data Tidak Tersedia\n',
+                                          style: TextStyle(
+                                            color: Color(
+                                              hexStringToHexInt('#737373'),
+                                            ),
+                                            fontSize: 60.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              'Data yang anda cari tidak ditemukan atau salah',
+                                          style: TextStyle(
+                                            color: Color(
+                                              hexStringToHexInt(
+                                                '#B8B8B8',
+                                              ),
+                                            ),
+                                            fontSize: 40.ssp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),

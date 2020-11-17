@@ -1,4 +1,5 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,11 +21,48 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String token = '';
+  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+  }
+
   @override
-  void dispose() {
-    // ignore: todo
-    // TODO: implement dispose
-    super.dispose();
+  void initState() {
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        // _showItemDialog(message);
+      },
+      onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        // _navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // _navigateToItemDetail(message);
+      },
+    );
+
+    _firebaseMessaging.getToken().then(
+          (token) => setState(
+            () {
+              this.token = token;
+              print(token);
+            },
+          ),
+        );
+    super.initState();
   }
 
   @override
@@ -122,10 +160,16 @@ class _HomeViewState extends State<HomeView>
                             ),
                           ),
                           Container(
-                            child: Text('Tab 3'),
+                            child: Image(
+                              width: 0.3.wp,
+                              image: AssetImage('assets/Asset 2@4x.png'),
+                            ),
                           ),
                           Container(
-                            child: Text('Tab 3'),
+                            child: Image(
+                              width: 0.3.wp,
+                              image: AssetImage('assets/Asset 2@4x.png'),
+                            ),
                           ),
                         ],
                       )

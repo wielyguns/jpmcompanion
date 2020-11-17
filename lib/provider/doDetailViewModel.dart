@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
-import 'package:jpmcompanion/model/precisionLocation.dart';
-import 'package:jpmcompanion/routeTransition.dart';
-import 'package:jpmcompanion/service/mainService.dart';
-import 'package:jpmcompanion/service/shippingOrderService.dart';
-import 'package:jpmcompanion/view/homeView.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 

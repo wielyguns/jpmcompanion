@@ -168,7 +168,9 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         width: 0.2.wp,
                         child: MaterialButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(purchaseOrderRoute);
+                          },
                           shape: RoundedRectangleBorder(),
                           child: Container(
                             constraints: BoxConstraints(minHeight: 0.1.hp),
@@ -186,7 +188,7 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                                   ),
                                 ),
                                 Text(
-                                  'Input DO',
+                                  'Input SO',
                                   style: TextStyle(
                                     color: Color(
                                       hexStringToHexInt('#736B6D'),
@@ -296,7 +298,9 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         width: 0.2.wp,
                         child: MaterialButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {},
+                          onPressed: () {
+                            messageToast('On Develop', Colors.black);
+                          },
                           shape: RoundedRectangleBorder(),
                           child: Container(
                             constraints: BoxConstraints(minHeight: 0.1.hp),
