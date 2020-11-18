@@ -112,6 +112,7 @@ class UpdateDoViewModel extends BaseViewModel {
 
   getTrackingType() async {
     await storage.clear();
+
     if (storage.getItem('trackingType') == null) {
       await MainService().getTrackingType().then((value) {
         if (value['status'] == 1) {

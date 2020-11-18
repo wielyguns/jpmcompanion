@@ -9,6 +9,7 @@ import 'package:jpmcompanion/view/mapTabView.dart';
 import 'package:jpmcompanion/widget/customBottomNavigationBar.dart';
 
 import 'package:stacked/stacked.dart';
+import 'package:vibration/vibration.dart';
 
 import '../const.dart';
 
@@ -25,6 +26,7 @@ class _HomeViewState extends State<HomeView>
   String token = '';
   static Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) async {
+    Vibration();
     if (message.containsKey('data')) {
       // Handle data message
       final dynamic data = message['data'];
@@ -41,6 +43,7 @@ class _HomeViewState extends State<HomeView>
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        Vibration();
         // _showItemDialog(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,

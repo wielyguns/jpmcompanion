@@ -56,9 +56,14 @@ dependencies:
   firebase_messaging: ^7.0.3
   firebase_core: ^0.5.2
 dev_dependencies:
+  flutter_launcher_icons: "^0.7.3"
+  
   flutter_test:
     sdk: flutter
-
+flutter_icons:
+    android: "launcher_icon" 
+    ios: true
+    image_path: "assets/photo6172418761349507674.jpg"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
