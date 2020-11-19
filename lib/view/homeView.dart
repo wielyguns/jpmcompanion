@@ -7,7 +7,6 @@ import 'package:jpmcompanion/provider/homeViewModel.dart';
 import 'package:jpmcompanion/view/dashboardTabView.dart';
 import 'package:jpmcompanion/view/mapTabView.dart';
 import 'package:jpmcompanion/widget/customBottomNavigationBar.dart';
-
 import 'package:stacked/stacked.dart';
 import 'package:vibration/vibration.dart';
 
@@ -40,6 +39,7 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
+    _firebaseMessaging.subscribeToTopic('001');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");

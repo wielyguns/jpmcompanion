@@ -15,7 +15,7 @@
     
   <application
         android:name=".Application"
-        android:label="jpmcompanion"
+        android:label="JPM Companion"
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyBOHJqLeh-bQtu-yASR6j9TZnoonF0tGkI"/>

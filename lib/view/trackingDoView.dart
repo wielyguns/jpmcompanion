@@ -504,7 +504,8 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                     if (model.tracking != null &&
                                         model.tracking.signature != null)
                                       Container(
-                                        margin: EdgeInsets.only(
+                                        color: Colors.white,
+                                        padding: EdgeInsets.only(
                                           right: 0.05.wp,
                                           left: 0.05.wp,
                                           top: 0.02.hp,
@@ -543,10 +544,11 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                         model.tracking.signature != null)
                                       Container(
                                         color: Colors.white,
-                                        margin: EdgeInsets.only(
+                                        padding: EdgeInsets.only(
                                           right: 0.05.wp,
                                           left: 0.05.wp,
                                           top: 0.02.hp,
+                                          bottom: 0.01.hp,
                                         ),
                                         alignment: Alignment.centerLeft,
                                         child: Column(

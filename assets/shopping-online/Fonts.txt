@@ -1,9 +1,0 @@
-Fonts used in this design:
-
-Font: Bitter
-Author: Sol Matas
-Url: http://www.fontsquirrel.com/fonts/bitter
-
-Font: Open Sans
-Author: Ascender Fonts
-Url: http://www.fontsquirrel.com/fonts/open-sans
