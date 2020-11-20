@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
 import 'package:jpmcompanion/model/trackingDoModel.dart' as track;
 import 'package:jpmcompanion/service/mainService.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -97,6 +99,22 @@ class TrackingDoViewModel extends BaseViewModel {
           ],
         ),
       ),
+    );
+  }
+
+  previewImage(context, url) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Container(
+          child: PhotoView(
+            imageProvider: NetworkImage(url),
+            maxScale: 0.5,
+            minScale: 0.1,
+            enableRotation: true,
+          ),
+        );
+      },
     );
   }
 

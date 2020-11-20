@@ -9,24 +9,27 @@ class Tracking {
   String updatedAt;
   String penerima;
   String signature;
+  String foto;
   String completedAt;
   List<TrackingD> trackingD;
   TrackingType trackingType;
 
-  Tracking(
-      {this.id,
-      this.nomor,
-      this.status,
-      this.createdBy,
-      this.updatedBy,
-      this.expiredAt,
-      this.createdAt,
-      this.updatedAt,
-      this.penerima,
-      this.signature,
-      this.completedAt,
-      this.trackingD,
-      this.trackingType});
+  Tracking({
+    this.id,
+    this.nomor,
+    this.status,
+    this.createdBy,
+    this.updatedBy,
+    this.expiredAt,
+    this.createdAt,
+    this.updatedAt,
+    this.penerima,
+    this.signature,
+    this.completedAt,
+    this.trackingD,
+    this.trackingType,
+    this.foto,
+  });
 
   Tracking.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,6 +42,7 @@ class Tracking {
     updatedAt = json['updated_at'];
     penerima = json['penerima'];
     signature = json['signature'];
+    foto = json['foto'];
     completedAt = json['completed_at'];
     if (json['tracking_d'] != null) {
       trackingD = new List<TrackingD>();
@@ -63,6 +67,7 @@ class Tracking {
     data['updated_at'] = this.updatedAt;
     data['penerima'] = this.penerima;
     data['signature'] = this.signature;
+    data['foto'] = this.foto;
     data['completed_at'] = this.completedAt;
     if (this.trackingD != null) {
       data['tracking_d'] = this.trackingD.map((v) => v.toJson()).toList();

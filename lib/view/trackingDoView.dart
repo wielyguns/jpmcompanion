@@ -501,8 +501,7 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    if (model.tracking != null &&
-                                        model.tracking.signature != null)
+                                    if (model.tracking.completedAt != null)
                                       Container(
                                         color: Colors.white,
                                         padding: EdgeInsets.only(
@@ -540,8 +539,7 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                           ],
                                         ),
                                       ),
-                                    if (model.tracking != null &&
-                                        model.tracking.signature != null)
+                                    if (model.tracking.completedAt != null)
                                       Container(
                                         color: Colors.white,
                                         padding: EdgeInsets.only(
@@ -551,70 +549,176 @@ class _TrackingDoViewState extends State<TrackingDoView> {
                                           bottom: 0.01.hp,
                                         ),
                                         alignment: Alignment.centerLeft,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        child: Row(
                                           children: [
-                                            Container(
-                                              color: Colors.white,
-                                              margin: EdgeInsets.only(
-                                                bottom: 0.01.hp,
-                                              ),
-                                              child: Text(
-                                                'Tanda tangan penerima',
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    hexStringToHexInt(
-                                                      '#9B9B9B',
-                                                    ),
+                                            if (model.tracking.signature !=
+                                                null)
+                                              Flexible(
+                                                flex: 1,
+                                                child: Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        color: Colors.white,
+                                                        margin: EdgeInsets.only(
+                                                          bottom: 0.01.hp,
+                                                        ),
+                                                        child: Text(
+                                                          'Tanda tangan penerima',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                              hexStringToHexInt(
+                                                                '#9B9B9B',
+                                                              ),
+                                                            ),
+                                                            fontSize: 40.ssp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        color: Colors.white,
+                                                        margin: EdgeInsets.only(
+                                                          bottom: 0.02.hp,
+                                                        ),
+                                                        child: Image.network(
+                                                          '$baseApi/${model.tracking.signature}',
+                                                          fit: BoxFit.fill,
+                                                          height: 0.1.hp,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        color: Colors.white,
+                                                        margin: EdgeInsets.only(
+                                                          bottom: 0.02.hp,
+                                                        ),
+                                                        child: Text(
+                                                          'Nama Penerima',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                              hexStringToHexInt(
+                                                                '#9B9B9B',
+                                                              ),
+                                                            ),
+                                                            fontSize: 40.ssp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        child: Text(
+                                                          '${model.tracking.penerima}',
+                                                          style: TextStyle(
+                                                            color: textGrey,
+                                                            fontSize: 40.ssp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  fontSize: 40.ssp,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "PlexSans",
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              color: Colors.white,
-                                              margin: EdgeInsets.only(
-                                                bottom: 0.02.hp,
-                                              ),
-                                              child: Image.network(
-                                                '$baseApi/${model.tracking.signature}',
-                                                fit: BoxFit.fill,
-                                                height: 0.1.hp,
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.white,
-                                              margin: EdgeInsets.only(
-                                                bottom: 0.02.hp,
-                                              ),
-                                              child: Text(
-                                                'Nama Penerima',
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    hexStringToHexInt(
-                                                      '#9B9B9B',
-                                                    ),
+                                            if (model.tracking.foto != null)
+                                              Flexible(
+                                                flex: 1,
+                                                child: Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        color: Colors.white,
+                                                        margin: EdgeInsets.only(
+                                                          bottom: 0.01.hp,
+                                                        ),
+                                                        child: Text(
+                                                          'Foto penerima',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                              hexStringToHexInt(
+                                                                '#9B9B9B',
+                                                              ),
+                                                            ),
+                                                            fontSize: 40.ssp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          model.previewImage(
+                                                            context,
+                                                            '$baseApi/${model.tracking.foto}',
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          color: Colors.white,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            bottom: 0.02.hp,
+                                                          ),
+                                                          child: Image.network(
+                                                            '$baseApi/${model.tracking.foto}',
+                                                            fit: BoxFit.fill,
+                                                            height: 0.1.hp,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        color: Colors.white,
+                                                        margin: EdgeInsets.only(
+                                                          bottom: 0.02.hp,
+                                                        ),
+                                                        child: Text(
+                                                          'Nama Penerima',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                              hexStringToHexInt(
+                                                                '#9B9B9B',
+                                                              ),
+                                                            ),
+                                                            fontSize: 40.ssp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        child: Text(
+                                                          '${model.tracking.penerima}',
+                                                          style: TextStyle(
+                                                            color: textGrey,
+                                                            fontSize: 40.ssp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "PlexSans",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  fontSize: 40.ssp,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "PlexSans",
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                '${model.tracking.penerima}',
-                                                style: TextStyle(
-                                                  color: textGrey,
-                                                  fontSize: 40.ssp,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "PlexSans",
-                                                ),
-                                              ),
-                                            ),
                                           ],
                                         ),
                                       ),

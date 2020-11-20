@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
@@ -28,8 +29,19 @@ class UpdateDoViewModel extends BaseViewModel {
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
   String _trackingDescriptionValue;
+  String _jenisBuktiPembayaranValue = 'foto';
   User _user = User();
   List<DropdownMenuItem> _trackingDescriptionDropdown = [];
+  List<DropdownMenuItem> _jenisBuktiPembayaran = [
+    DropdownMenuItem<String>(
+      child: Text('Foto'),
+      value: 'foto',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('Tanda tangan'),
+      value: 'tanda_tangan',
+    ),
+  ];
   List<TrackingType> _trackingType = [];
   List<TrackingDescription> _trackingDescription = [];
   TextEditingController _tanggal = TextEditingController();
@@ -45,7 +57,8 @@ class UpdateDoViewModel extends BaseViewModel {
     penColor: Colors.black,
     exportBackgroundColor: Colors.white,
   );
-
+  File _image;
+  final picker = ImagePicker();
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
@@ -60,12 +73,15 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController get penerima => _penerima;
   TextEditingController get nomor => _nomor;
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
+  List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
   List<DropdownMenuItem> get trackingDescriptionDropdown =>
       _trackingDescriptionDropdown;
   SignatureController get signatureController => _signatureController;
 
   String get titleSnap => _titleSnap;
+  String get jenisBuktiPembayaranValue => _jenisBuktiPembayaranValue;
   List<Asal> get feedData => _feedData;
+  File get image => _image;
   // FUNCTION
   init(context) async {
     redirectToLogin(context);
@@ -81,6 +97,22 @@ class UpdateDoViewModel extends BaseViewModel {
 
   selectedData(context, item) {
     Navigator.of(context).pop(item);
+  }
+
+  getImage() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.camera,
+      maxWidth: double.infinity,
+      maxHeight: double.infinity,
+      imageQuality: 10,
+    );
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+    } else {
+      print('No image selected.');
+    }
+    notifyListeners();
   }
 
   getTrackingDescription() async {
@@ -261,18 +293,31 @@ class UpdateDoViewModel extends BaseViewModel {
   delivered(context) async {
     setBusy(true);
     Uint8List temp = await _signatureController.toPngBytes();
-    final tempDir = await getTemporaryDirectory();
-    final file = await new File('${tempDir.path}/image.jpg').create();
-    file.writeAsBytesSync(temp);
+    var signature;
+    var foto;
+    if (temp != null) {
+      final tempDir = await getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/signature.jpg').create();
+      file.writeAsBytesSync(temp);
+      signature = file.path;
+    }
+
+    if (_image != null) {
+      final tempDir = await getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/foto.jpg').create();
+      file.writeAsBytesSync(_image.readAsBytesSync());
+      foto = file.path;
+    }
 
     Map<String, dynamic> data = {
       "type": _trackingTypeValue,
       "deskripsi": _trackingDescriptionValue,
       "penerima": _penerima.text,
-      "signature": file.path,
+      "signature": signature,
+      "foto": foto,
       "nomor": _nomor.text,
     };
-
+    // print(file.path);
     await MainService().processDelivered(data).then((value) {
       if (value['status'] == 1) {
         messageToast(value['message'], Colors.black);
@@ -288,5 +333,10 @@ class UpdateDoViewModel extends BaseViewModel {
       }
     });
     setBusy(false);
+  }
+
+  changeJenisBuktiPembayaran(value) async {
+    _jenisBuktiPembayaranValue = value;
+    notifyListeners();
   }
 }

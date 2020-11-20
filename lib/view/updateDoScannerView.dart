@@ -24,6 +24,7 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
   final debounce = Debouncer(milliseconds: 200);
   AudioPlayer audioPlayer = AudioPlayer();
   bool isScanning = false;
+  bool preventBackAgain = true;
   Map<String, dynamic> _data;
   QRViewController controller;
 
@@ -47,10 +48,6 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
       setState(() {
         isScanning = true;
         debounce.run(() async {
-          if (await Vibration.hasVibrator()) {
-            Vibration.vibrate();
-          }
-
           print("QRCode: $scanData");
           _data['nomor'] = scanData.toString().replaceAll(' ', '');
 
@@ -63,7 +60,11 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
               }
             });
           } else {
-            Navigator.of(context).pop(_data['nomor']);
+            if (preventBackAgain == true) {
+              Vibration.vibrate();
+              Navigator.of(context).pop(_data['nomor']);
+              preventBackAgain = false;
+            }
           }
         });
       });

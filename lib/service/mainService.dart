@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/apiConst.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
@@ -235,9 +236,9 @@ class MainService extends Model {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String apiKey = (prefs.getString('token') ?? "");
     apiKey = "Bearer " + apiKey;
+    print(apiKey);
     var responseJson;
     var dataJson;
-    print(data);
     try {
       var uri = Uri.parse('$updateTrackingApi');
       var request = new http.MultipartRequest("POST", uri);
@@ -263,18 +264,38 @@ class MainService extends Model {
         );
         request.files.add(multipartFile);
       }
+
+      if (data['foto'] != null) {
+        var file = File(data['foto']);
+
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "foto",
+          stream,
+          length,
+          filename: file.toString(),
+        );
+        request.files.add(multipartFile);
+      }
+
       request.fields['nomor'] = data['nomor'];
       request.fields['penerima'] = data['penerima'];
       request.fields['type'] = data['type'];
       request.fields['deskripsi'] = data['deskripsi'];
       responseJson = await request.send();
       dataJson = await http.Response.fromStream(responseJson);
-
-      print(dataJson);
     } on SocketException {
       responseJson = {"status": 2, "message": "No Internet connection"};
     }
-    print(dataJson.body.toString());
+    debugPrint(dataJson.body.toString());
     dataJson = json.decode(dataJson.body.toString());
     return dataJson;
   }
@@ -290,7 +311,7 @@ class MainService extends Model {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
       );
-      responseJson = await await responseCheck(response);
+      responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }
