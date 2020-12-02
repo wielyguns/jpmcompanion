@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/route.dart';
+import 'package:camera/camera.dart';
 
 import 'const.dart';
 
-void main() {
+List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   runApp(MyApp());
 }
 

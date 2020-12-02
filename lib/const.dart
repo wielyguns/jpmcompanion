@@ -22,6 +22,8 @@ const updateDoScannerRoute = '/update-do-scanner-route';
 const trackingDoRoute = '/tracking-do-route';
 const listDoRoute = '/list-do-route';
 const doDetailRoute = '/do-detail-route';
+const createDoRoute = '/create-do-route';
+const camera = '/camera';
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));

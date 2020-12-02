@@ -292,6 +292,7 @@ class MainService extends Model {
       request.fields['deskripsi'] = data['deskripsi'];
       responseJson = await request.send();
       dataJson = await http.Response.fromStream(responseJson);
+      debugPrint('$dataJson');
     } on SocketException {
       responseJson = {"status": 2, "message": "No Internet connection"};
     }

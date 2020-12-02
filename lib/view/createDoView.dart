@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/provider/updateDoViewModel.dart';
+import 'package:jpmcompanion/provider/createDoViewModel.dart';
 import 'package:jpmcompanion/widget/loadingScreen.dart';
 import 'package:jpmcompanion/widget/shippingOrderInputField.dart';
 import 'package:signature/signature.dart';
 import 'package:stacked/stacked.dart';
 
-class UpdateDoView extends StatefulWidget {
+class CreateDoView extends StatefulWidget {
   @override
-  _UpdateDoViewState createState() => _UpdateDoViewState();
+  _CreateDoViewState createState() => _CreateDoViewState();
 }
 
-class _UpdateDoViewState extends State<UpdateDoView> {
+class _CreateDoViewState extends State<CreateDoView> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      viewModelBuilder: () => UpdateDoViewModel(),
+      viewModelBuilder: () => CreateDoViewModel(),
       onModelReady: (model) => model.init(context),
       builder: (context, model, child) => LoadingScreen(
         showLoadingApi: model.isBusy,
@@ -42,7 +42,7 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                 },
               ),
               title: Text(
-                'Update Status DO',
+                'Delivery Order',
                 style: TextStyle(
                   fontFamily: "PlexSans",
                   fontWeight: FontWeight.bold,
@@ -510,7 +510,7 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                     margin: EdgeInsets.only(top: 0.04.wp),
                                     child: GestureDetector(
                                       onTap: () {
-                                        model.getImage(context);
+                                        model.getImage();
                                       },
                                       child: Container(
                                         width: 1.wp,

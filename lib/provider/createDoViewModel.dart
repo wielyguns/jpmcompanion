@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:camera/new/src/camera_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
@@ -20,7 +18,7 @@ import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
 
-class UpdateDoViewModel extends BaseViewModel {
+class CreateDoViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -58,9 +56,7 @@ class UpdateDoViewModel extends BaseViewModel {
     penColor: Colors.black,
     exportBackgroundColor: Colors.white,
   );
-  final picker = ImagePicker();
   File _image;
-  CameraController _cameraController;
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
@@ -90,7 +86,6 @@ class UpdateDoViewModel extends BaseViewModel {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getString('user');
     _user = User.fromJson(jsonDecode(temp));
-
     setBusy(true);
     await getTrackingDescription();
     await getTrackingType();
@@ -102,19 +97,19 @@ class UpdateDoViewModel extends BaseViewModel {
     Navigator.of(context).pop(item);
   }
 
-  getImage(context) async {
-    final pickedFile = await picker.getImage(
-      source: ImageSource.camera,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
-      imageQuality: 10,
-    );
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-    } else {
-      print('No image selected.');
-    }
-    // Navigator.of(context).pushNamed(camera);
+  getImage() async {
+    // final pickedFile = await picker.getImage(
+    //   source: ImageSource.camera,
+    //   maxWidth: double.infinity,
+    //   maxHeight: double.infinity,
+    //   imageQuality: 10,
+    // );
+
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    // } else {
+    //   print('No image selected.');
+    // }
     notifyListeners();
   }
 
@@ -324,6 +319,13 @@ class UpdateDoViewModel extends BaseViewModel {
     await MainService().processDelivered(data).then((value) {
       if (value['status'] == 1) {
         messageToast(value['message'], Colors.black);
+        Navigator.pushAndRemoveUntil(
+          context,
+          RouteAnimationDurationFade(
+            widget: HomeView(),
+          ),
+          (route) => false,
+        );
       } else {
         messageToast(value['message'], Colors.red);
       }

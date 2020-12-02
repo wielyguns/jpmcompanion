@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/routeTransition.dart';
+import 'package:jpmcompanion/view/createDoView.dart';
 import 'package:jpmcompanion/view/doDetailView.dart';
 import 'package:jpmcompanion/view/homeView.dart';
 import 'package:jpmcompanion/view/listDoView.dart';
@@ -14,6 +15,7 @@ import 'package:jpmcompanion/view/shippingOrderView.dart';
 import 'package:jpmcompanion/view/trackingDoView.dart';
 import 'package:jpmcompanion/view/updateDoScannerView.dart';
 import 'package:jpmcompanion/view/updateDoView.dart';
+import 'package:jpmcompanion/widget/camera.dart';
 
 import 'const.dart';
 
@@ -83,6 +85,14 @@ class Routers {
         var data = settings.arguments;
         return RouteAnimationDurationTween(
           widget: DoDetailView(param: data),
+        );
+      case createDoRoute:
+        return RouteAnimationDurationTween(
+          widget: CreateDoView(),
+        );
+      case camera:
+        return RouteAnimationDurationTween(
+          widget: CameraApp(),
         );
       default:
         return MaterialPageRoute(
