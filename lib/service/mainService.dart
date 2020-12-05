@@ -80,7 +80,80 @@ class MainService extends Model {
         },
         body: data,
       );
-      responseJson = await await responseCheck(response);
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getCustomer(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.post("$getCustomerApi", headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      }, body: {
+        "param": value,
+      });
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getSubCity(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.post("$getKecamatanApi", headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      }, body: {
+        "tujuan_id": '$value',
+      });
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> searchTarif(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    if (param.jenisUnit == null) {
+      param.jenisUnit = [];
+    }
+
+    var body = jsonEncode(param.toJson());
+    try {
+      final response = await http.post(
+        "$searchTarifApi?jenis_do=BARU",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getJenisKiriman() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+    try {
+      final response = await http.get("$getJenisKirimanApi", headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      });
+      responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }
@@ -98,7 +171,7 @@ class MainService extends Model {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
       );
-      responseJson = await await responseCheck(response);
+      responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }

@@ -49,10 +49,12 @@ class HomeViewModel extends BaseViewModel {
   bool get isSnapOpen => _isSnapOpen;
   // FUNCTION
   init(context, vsync) async {
+    await redirectToLogin(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getString('user');
-    _user = User.fromJson(jsonDecode(temp));
-    await redirectToLogin(context);
+    if (temp != null) {
+      _user = User.fromJson(jsonDecode(temp));
+    }
     setBusy(true);
     _tabController = TabController(length: 4, vsync: vsync);
     await getAllNopolActive();

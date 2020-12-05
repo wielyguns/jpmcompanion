@@ -1,21 +1,24 @@
 // URL
 
 const baseApi = 'https://api.jpmandiri.com/';
-const loginApi = 'https://api.jpmandiri.com/api/v1/sign-in';
+const loginApi = '${baseApi}api/v1/sign-in';
 const lastPositionApi =
     'https://vtsapi.easygo-gps.co.id/api/report/lastposition';
-const getAsalApi = 'https://api.jpmandiri.com/api/v1/get-kota';
-const getNopolApi = 'https://api.jpmandiri.com/api/v1/get-nopol';
+const getAsalApi = '${baseApi}api/v1/get-kota';
+const getNopolApi = '${baseApi}api/v1/get-nopol';
 const getLocationDetailApi =
     'https://maps.googleapis.com/maps/api/place/details/json';
-const shippingOrderApi = 'https://api.jpmandiri.com/api/v1/shipping-order';
-const getTrackingDescriptionApi =
-    'https://api.jpmandiri.com/api/v1/get-tracking-description';
-const getTrackingTypeApi = 'https://api.jpmandiri.com/api/v1/get-tracking-type';
-const getUserApi = 'https://api.jpmandiri.com/api/v1/check-auth';
-const updateTrackingApi = 'https://api.jpmandiri.com/api/v1/update-tracking';
-const paginateDoApiRoute = 'https://api.jpmandiri.com/api/v1/paginate-do';
-const getTrackingApiRoute = 'https://api.jpmandiri.com/api/v1/get-tracking';
+const shippingOrderApi = '${baseApi}api/v1/shipping-order';
+const getTrackingDescriptionApi = '${baseApi}api/v1/get-tracking-description';
+const getTrackingTypeApi = '${baseApi}api/v1/get-tracking-type';
+const getUserApi = '${baseApi}api/v1/check-auth';
+const updateTrackingApi = '${baseApi}api/v1/update-tracking';
+const paginateDoApiRoute = '${baseApi}api/v1/paginate-do';
+const getTrackingApiRoute = '${baseApi}api/v1/get-tracking';
+const getCustomerApi = '${baseApi}api/v1/get-customer';
+const getJenisKirimanApi = '${baseApi}api/v1/jenis-kiriman';
+const searchTarifApi = '${baseApi}api/v2/search-tarif';
+const getKecamatanApi = '${baseApi}api/v2/get-kecamatan';
 
 // TOKEN
 const easygoToken = '17AE4926BB874810B0518C49C0DF29D5';

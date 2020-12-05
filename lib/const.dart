@@ -14,6 +14,7 @@ const loginRoute = '/login-route';
 const dashboardRoute = '/';
 const purchaseOrderRoute = '/purchase-order-route';
 const listKotaRoute = '/list-kota-route';
+const listCustomerRoute = '/list-customer-route';
 const listNopolRoute = '/list-nopol-route';
 const mapSelectRoute = '/map-select-route';
 const shippingOrderDetailRoute = '/shipping-order-detail-route';

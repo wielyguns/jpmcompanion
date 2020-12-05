@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image/image.dart' as imagePreset;
 import 'package:jpmcompanion/main.dart' as main;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -72,7 +71,7 @@ class _CameraAppState extends State<CameraApp> {
                               }
                               // Ensure that the camera is initialized.
                               // await _initializeControllerFuture;
-                              await _controller.initialize();
+                              // await _controller.initialize(1000);
 
                               // Construct the path where the image should be saved using the path
                               // package.

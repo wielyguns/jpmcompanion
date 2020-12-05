@@ -66,7 +66,7 @@ class TrackingDoViewModel extends BaseViewModel {
       color: purpleTheme,
       iconStyle: IconStyle(
         color: Colors.white,
-        iconData: Icons.check,
+        iconData: Icons.circle,
         fontSize: 50.ssp,
       ),
     );

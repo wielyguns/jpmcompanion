@@ -964,3 +964,161 @@ class Tracking {
     return data;
   }
 }
+
+class SearchTarifParam {
+  dynamic asalId;
+  dynamic tujuanId;
+  dynamic idKecamatanTujuan;
+  dynamic berat;
+  dynamic dokumen;
+  dynamic jenisTarif;
+  dynamic typeKiriman;
+  List<DeliveryOrderSepeda> jenisUnit;
+
+  SearchTarifParam(
+      {this.asalId,
+      this.tujuanId,
+      this.idKecamatanTujuan,
+      this.berat,
+      this.dokumen,
+      this.jenisTarif,
+      this.typeKiriman,
+      this.jenisUnit});
+
+  SearchTarifParam.fromJson(Map<String, dynamic> json) {
+    asalId = json['asal_id'];
+    tujuanId = json['tujuan_id'];
+    idKecamatanTujuan = json['id_kecamatan_tujuan'];
+    berat = json['berat'];
+    dokumen = json['dokumen'];
+    jenisTarif = json['jenis_tarif'];
+    typeKiriman = json['type_kiriman'];
+    if (json['jenis_unit'] != null) {
+      jenisUnit = new List<DeliveryOrderSepeda>();
+      json['jenis_unit'].forEach((v) {
+        jenisUnit.add(new DeliveryOrderSepeda.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['asal_id'] = this.asalId;
+    data['tujuan_id'] = this.tujuanId;
+    data['id_kecamatan_tujuan'] = this.idKecamatanTujuan;
+    data['berat'] = this.berat;
+    data['dokumen'] = this.dokumen;
+    data['jenis_tarif'] = this.jenisTarif;
+    data['type_kiriman'] = this.typeKiriman;
+    if (this.jenisUnit != null) {
+      data['jenis_unit'] = this.jenisUnit.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class DeliveryOrderSepeda {
+  dynamic jenis;
+  dynamic berat;
+  dynamic validate;
+
+  DeliveryOrderSepeda({this.jenis, this.berat, this.validate});
+
+  DeliveryOrderSepeda.fromJson(Map<String, dynamic> json) {
+    jenis = json['jenis'];
+    berat = json['berat'];
+    validate = json['validate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['jenis'] = this.jenis;
+    data['berat'] = this.berat;
+    data['validate'] = this.validate;
+    return data;
+  }
+}
+
+class SearchTarifResponse {
+  int status;
+  int tarif;
+  String tarifPenerus;
+  Diskon diskon;
+  int berat;
+
+  SearchTarifResponse(
+      {this.status, this.tarif, this.tarifPenerus, this.diskon, this.berat});
+
+  SearchTarifResponse.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    tarif = json['tarif'];
+    tarifPenerus = json['tarif_penerus'];
+    diskon =
+        json['diskon'] != null ? new Diskon.fromJson(json['diskon']) : null;
+    berat = json['berat'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['tarif'] = this.tarif;
+    data['tarif_penerus'] = this.tarifPenerus;
+    if (this.diskon != null) {
+      data['diskon'] = this.diskon.toJson();
+    }
+    data['berat'] = this.berat;
+    return data;
+  }
+}
+
+class Diskon {
+  dynamic id;
+  dynamic beratLebihDari10Sampai50;
+  dynamic beratLebihDari50Sampai100;
+  dynamic beratLebihDari100;
+  dynamic kodeCabang;
+  dynamic jenis;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic createdBy;
+  dynamic updatedBy;
+  Diskon(
+      {this.id,
+      this.beratLebihDari10Sampai50,
+      this.beratLebihDari50Sampai100,
+      this.beratLebihDari100,
+      this.kodeCabang,
+      this.jenis,
+      this.createdAt,
+      this.updatedAt,
+      this.createdBy,
+      this.updatedBy});
+
+  Diskon.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    beratLebihDari10Sampai50 = json['berat_lebih_dari_10_sampai_50'];
+    beratLebihDari50Sampai100 = json['berat_lebih_dari_50_sampai_100'];
+    beratLebihDari100 = json['berat_lebih_dari_100'];
+    kodeCabang = json['kode_cabang'];
+    jenis = json['jenis'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['berat_lebih_dari_10_sampai_50'] = this.beratLebihDari10Sampai50;
+    data['berat_lebih_dari_50_sampai_100'] = this.beratLebihDari50Sampai100;
+    data['berat_lebih_dari_100'] = this.beratLebihDari100;
+    data['kode_cabang'] = this.kodeCabang;
+    data['jenis'] = this.jenis;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    return data;
+  }
+}

@@ -86,10 +86,12 @@ class UpdateDoViewModel extends BaseViewModel {
   File get image => _image;
   // FUNCTION
   init(context) async {
-    redirectToLogin(context);
+    await redirectToLogin(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getString('user');
-    _user = User.fromJson(jsonDecode(temp));
+    if (temp != null) {
+      _user = User.fromJson(jsonDecode(temp));
+    }
 
     setBusy(true);
     await getTrackingDescription();
@@ -103,18 +105,21 @@ class UpdateDoViewModel extends BaseViewModel {
   }
 
   getImage(context) async {
-    final pickedFile = await picker.getImage(
-      source: ImageSource.camera,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
-      imageQuality: 10,
-    );
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-    } else {
-      print('No image selected.');
+    // final pickedFile = await picker.getImage(
+    //   source: ImageSource.camera,
+    //   maxWidth: double.infinity,
+    //   maxHeight: double.infinity,
+    //   imageQuality: 10,
+    // );
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    // } else {
+    //   print('No image selected.');
+    // }
+    var result = await Navigator.of(context).pushNamed(camera);
+    if (result != null) {
+      _image = result;
     }
-    // Navigator.of(context).pushNamed(camera);
     notifyListeners();
   }
 
