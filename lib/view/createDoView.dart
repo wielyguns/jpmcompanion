@@ -352,7 +352,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                       icon: 'assets/Asset 47300 2.png',
                                       hintText: '5454645',
                                       controller: model.nomor,
-                                      errorMessage: model.nomorError,
+                                      errorMessage: 'ignore',
                                       withAlternativeButton: true,
                                       onTap: () {},
                                       onTapAlternativeButton: () {
@@ -1032,6 +1032,12 @@ class _CreateDoViewState extends State<CreateDoView> {
                                       controller: model.tarifPenerus,
                                       errorMessage: model.tarifPenerusError,
                                       keyboard: TextInputType.number,
+                                      onChanged: (value) {
+                                        model.updateTarif(
+                                          'tarifPenerus',
+                                          value,
+                                        );
+                                      },
                                       onTap: () {},
                                     ),
                                     DeliveryOrderInputField(
@@ -1040,6 +1046,12 @@ class _CreateDoViewState extends State<CreateDoView> {
                                       hintText: 'Rp. 50.000',
                                       controller: model.tarifTambahan,
                                       keyboard: TextInputType.number,
+                                      onChanged: (value) {
+                                        model.updateTarif(
+                                          'tarifTambahan',
+                                          value,
+                                        );
+                                      },
                                       onTap: () {},
                                     ),
                                     Container(
@@ -1054,6 +1066,9 @@ class _CreateDoViewState extends State<CreateDoView> {
                                               hintText: '23',
                                               controller: model.diskonPersen,
                                               keyboard: TextInputType.number,
+                                              onChanged: (value) {
+                                                model.kalkulasiDiskon('persen');
+                                              },
                                               onTap: () {},
                                             ),
                                           ),
@@ -1068,6 +1083,11 @@ class _CreateDoViewState extends State<CreateDoView> {
                                               hintText: '1',
                                               keyboard: TextInputType.number,
                                               controller: model.diskonRp,
+                                              onChanged: (value) {
+                                                model.kalkulasiDiskon(
+                                                  'nominal',
+                                                );
+                                              },
                                               onTap: () {},
                                             ),
                                           ),
@@ -1124,7 +1144,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                             ),
                                           ),
                                           Text(
-                                            'Rp. ${model.tarifDasar.text}',
+                                            'Rp. ${model.tarifDasarText}',
                                             style: TextStyle(
                                               fontFamily: "PlexSans",
                                               color: textGrey,
@@ -1151,7 +1171,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                             ),
                                           ),
                                           Text(
-                                            'Rp. ${model.tarifPenerus.text}',
+                                            'Rp. ${model.tarifPenerusText}',
                                             style: TextStyle(
                                               fontFamily: "PlexSans",
                                               color: textGrey,
@@ -1178,7 +1198,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                             ),
                                           ),
                                           Text(
-                                            'Rp. ${model.tarifTambahan.text}',
+                                            'Rp. ${model.tarifTambahanText}',
                                             style: TextStyle(
                                               fontFamily: "PlexSans",
                                               color: textGrey,
@@ -1221,7 +1241,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                                 ),
                                               ),
                                               child: Text(
-                                                'Rp. ${model.diskonRp.text}',
+                                                'Rp. ${model.diskonText}',
                                                 style: TextStyle(
                                                   fontFamily: "PlexSans",
                                                   color: textGrey,
@@ -1250,7 +1270,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                             ),
                                           ),
                                           Text(
-                                            'Rp. 10.000',
+                                            'Rp .${oCcy.format(int.parse(model.netto))}',
                                             style: TextStyle(
                                               fontFamily: "PlexSans",
                                               color: textBlack,
@@ -1323,7 +1343,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                                 hexStringToHexInt('#C5FEF3'),
                                               ),
                                               onPressed: () {
-                                                model.changePage('next');
+                                                model.simpan();
                                               },
                                               child: Container(
                                                 child: Row(
@@ -1336,7 +1356,7 @@ class _CreateDoViewState extends State<CreateDoView> {
                                                         right: 0.02.wp,
                                                       ),
                                                       child: Text(
-                                                        'Selanjutnya',
+                                                        'Proses',
                                                         style: TextStyle(
                                                           fontFamily:
                                                               "PlexSans",

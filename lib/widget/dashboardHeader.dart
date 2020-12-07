@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jpmcompanion/main.dart' as main;
 
 import '../const.dart';
 
@@ -28,7 +29,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
               ),
             ),
             TextSpan(
-              text: ' Azriel41\n\n',
+              text: ' ${main.me.nama}\n\n',
               style: TextStyle(
                 color: Color(
                   hexStringToHexInt('#6F6F6F'),

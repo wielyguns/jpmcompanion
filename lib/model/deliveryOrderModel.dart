@@ -1040,11 +1040,11 @@ class DeliveryOrderSepeda {
 }
 
 class SearchTarifResponse {
-  int status;
-  int tarif;
-  String tarifPenerus;
+  dynamic status;
+  dynamic tarif;
+  dynamic tarifPenerus;
   Diskon diskon;
-  int berat;
+  dynamic berat;
 
   SearchTarifResponse(
       {this.status, this.tarif, this.tarifPenerus, this.diskon, this.berat});
@@ -1119,6 +1119,122 @@ class Diskon {
     data['updated_at'] = this.updatedAt;
     data['created_by'] = this.createdBy;
     data['updated_by'] = this.updatedBy;
+    return data;
+  }
+}
+
+class DeliveryOrderParam {
+  String nomor;
+  String asal;
+  String tujuan;
+  String tanggal;
+  String customer;
+  String namaPengirim;
+  String teleponCustomer;
+  String alamatCustomer;
+  String kecamatan;
+  String penerima;
+  String teleponPenerima;
+  String alamatPenerima;
+  String namaBarang;
+  String typeKiriman;
+  String jenisKiriman;
+  String berat;
+  String koli;
+  String jumlah;
+  String tarifDasar;
+  String tarifPenerus;
+  String tarifTambahan;
+  String diskon;
+  String diskonValue;
+  List<DeliveryOrderSepeda> jenisUnit;
+
+  DeliveryOrderParam(
+      {this.nomor,
+      this.asal,
+      this.tujuan,
+      this.tanggal,
+      this.customer,
+      this.namaPengirim,
+      this.teleponCustomer,
+      this.alamatCustomer,
+      this.kecamatan,
+      this.penerima,
+      this.teleponPenerima,
+      this.alamatPenerima,
+      this.namaBarang,
+      this.typeKiriman,
+      this.jenisKiriman,
+      this.berat,
+      this.koli,
+      this.jumlah,
+      this.tarifDasar,
+      this.tarifPenerus,
+      this.tarifTambahan,
+      this.jenisUnit,
+      this.diskon,
+      this.diskonValue});
+
+  DeliveryOrderParam.fromJson(Map<String, dynamic> json) {
+    nomor = json['nomor'];
+    asal = json['asal'];
+    tujuan = json['tujuan'];
+    tanggal = json['tanggal'];
+    customer = json['customer'];
+    namaPengirim = json['nama_pengirim'];
+    teleponCustomer = json['telepon_customer'];
+    alamatCustomer = json['alamat_customer'];
+    kecamatan = json['kecamatan'];
+    penerima = json['penerima'];
+    teleponPenerima = json['telepon_penerima'];
+    alamatPenerima = json['alamat_penerima'];
+    namaBarang = json['nama_barang'];
+    typeKiriman = json['type_kiriman'];
+    jenisKiriman = json['jenis_kiriman'];
+    berat = json['berat'];
+    koli = json['koli'];
+    jumlah = json['jumlah'];
+    tarifDasar = json['tarif_dasar'];
+    tarifPenerus = json['tarif_penerus'];
+    tarifTambahan = json['tarif_tambahan'];
+    if (json['jenis_unit'] != null) {
+      jenisUnit = new List<DeliveryOrderSepeda>();
+      json['jenis_unit'].forEach((v) {
+        jenisUnit.add(new DeliveryOrderSepeda.fromJson(v));
+      });
+    }
+    diskon = json['diskon'];
+    diskonValue = json['diskon_value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['nomor'] = this.nomor;
+    data['asal'] = this.asal;
+    data['tujuan'] = this.tujuan;
+    data['tanggal'] = this.tanggal;
+    data['customer'] = this.customer;
+    data['nama_pengirim'] = this.namaPengirim;
+    data['telepon_customer'] = this.teleponCustomer;
+    data['alamat_customer'] = this.alamatCustomer;
+    data['kecamatan'] = this.kecamatan;
+    data['penerima'] = this.penerima;
+    data['telepon_penerima'] = this.teleponPenerima;
+    data['alamat_penerima'] = this.alamatPenerima;
+    data['nama_barang'] = this.namaBarang;
+    data['type_kiriman'] = this.typeKiriman;
+    data['jenis_kiriman'] = this.jenisKiriman;
+    data['berat'] = this.berat;
+    data['koli'] = this.koli;
+    data['jumlah'] = this.jumlah;
+    data['tarif_dasar'] = this.tarifDasar;
+    data['tarif_penerus'] = this.tarifPenerus;
+    data['tarif_tambahan'] = this.tarifTambahan;
+    if (this.jenisUnit != null) {
+      data['jenis_unit'] = this.jenisUnit.map((v) => v.toJson()).toList();
+    }
+    data['diskon'] = this.diskon;
+    data['diskon_value'] = this.diskonValue;
     return data;
   }
 }

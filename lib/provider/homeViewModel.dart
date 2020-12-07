@@ -47,6 +47,7 @@ class HomeViewModel extends BaseViewModel {
   List<FlSpot> get deliveryOrderSpots => _deliveryOrderSpots;
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   bool get isSnapOpen => _isSnapOpen;
+  User get user => _user;
   // FUNCTION
   init(context, vsync) async {
     await redirectToLogin(context);
@@ -207,7 +208,7 @@ class HomeViewModel extends BaseViewModel {
                     height: 0.07.hp,
                     child: FlatButton(
                       onPressed: () {
-                        return print('tes');
+                        Navigator.of(context).pushNamed(updateDoRoute);
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,
@@ -239,7 +240,14 @@ class HomeViewModel extends BaseViewModel {
                     height: 0.07.hp,
                     child: FlatButton(
                       onPressed: () {
-                        return print('tes');
+                        Map data = {
+                          "route": trackingDoRoute,
+                        };
+
+                        Navigator.of(context).pushNamed(
+                          listDoRoute,
+                          arguments: data,
+                        );
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,

@@ -130,7 +130,12 @@ class _DeliveryOrderInputFieldState extends State<DeliveryOrderInputField> {
                                       });
                                     }
 
-                                    if (validation != '') {
+                                    if (widget.errorMessage == 'ignore') {
+                                      validation = 'ignore';
+                                    }
+
+                                    if (validation != '' &&
+                                        validation != 'ignore') {
                                       return '';
                                     }
                                   }
@@ -212,7 +217,7 @@ class _DeliveryOrderInputFieldState extends State<DeliveryOrderInputField> {
                           ],
                         ),
                       ),
-                      (validation != '')
+                      (validation != '' && validation != 'ignore')
                           ? Text(
                               '$validation',
                               style: TextStyle(

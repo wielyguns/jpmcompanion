@@ -139,6 +139,7 @@ class MainService extends Model {
         },
         body: body,
       );
+
       responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
@@ -384,6 +385,31 @@ class MainService extends Model {
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> saveDo(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    if (param.jenisUnit == null) {
+      param.jenisUnit = [];
+    }
+
+    var body = jsonEncode(param.toJson());
+    try {
+      final response = await http.post(
+        "$saveDoApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+          'Content-Type': 'application/json',
+        },
+        body: body,
       );
       responseJson = await responseCheck(response);
     } on SocketException {

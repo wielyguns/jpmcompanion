@@ -19,7 +19,7 @@ const getCustomerApi = '${baseApi}api/v1/get-customer';
 const getJenisKirimanApi = '${baseApi}api/v1/jenis-kiriman';
 const searchTarifApi = '${baseApi}api/v2/search-tarif';
 const getKecamatanApi = '${baseApi}api/v2/get-kecamatan';
-
+const saveDoApi = '${baseApi}api/v2/save-do';
 // TOKEN
 const easygoToken = '17AE4926BB874810B0518C49C0DF29D5';
 const googleApi = 'AIzaSyAdfB-1tzijt8NQRVY6SLNft9_JwxWxu1s';

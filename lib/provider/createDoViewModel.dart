@@ -122,12 +122,18 @@ class CreateDoViewModel extends BaseViewModel {
     thousandSeparator: ',',
     precision: 0,
   );
-  String _diskonRpError = '';
+
   TextEditingController _diskonPersen = TextEditingController();
   String _diskonPersenError = '';
+  String _diskonRpError = '';
   List<DeliveryOrderSepeda> _sepeda = [];
   int _page = 0;
   int _jumlahSepeda = 0;
+  String _netto = '0';
+  String _tarifDasarText = '0';
+  String _tarifTambahanText = '0';
+  String _tarifPenerusText = '0';
+  String _diskonText = '0';
   SearchTarifResponse _searchTarifResponse;
 
   // SETTER
@@ -190,6 +196,11 @@ class CreateDoViewModel extends BaseViewModel {
   String get titleSnap => _titleSnap;
   int get page => _page;
   PageController get pageController => _pageController;
+  String get netto => _netto;
+  String get tarifDasarText => _tarifDasarText;
+  String get tarifTambahanText => _tarifTambahanText;
+  String get tarifPenerusText => _tarifPenerusText;
+  String get diskonText => _diskonText;
   // FUNCTION
   init(context) async {
     setBusy(true);
@@ -376,12 +387,16 @@ class CreateDoViewModel extends BaseViewModel {
         _asal.text = _asalData.nama;
       } else {
         _kecamatan = [];
+        _kecamatanValue = null;
         _tujuanData = result;
         _tujuan.text = _tujuanData.nama;
         await MainService().getSubCity(_tujuanData.id).then((value) {
           print(value);
           if (value['status'] == 1) {
             for (var item in value['data']) {
+              if (_kecamatanValue == null) {
+                _kecamatanValue = '${item['id']}';
+              }
               _kecamatan.add(
                 DropdownMenuItem<String>(
                   child: Text('${item['nama']}'),
@@ -462,12 +477,23 @@ class CreateDoViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  kalkulasiHarga() async {
-    _tarifDasar.text = '0';
-    _tarifPenerus.text = '0';
-    _diskonRp.text = '0';
-    _diskonPersen.text = '0';
+  updateTarif(param, value) {
+    if (value == '') {
+      value = '0';
+    }
 
+    if (param == 'tarifTambahan') {
+      _tarifTambahan.updateValue(double.parse(value.replaceAll(',', '')));
+      _tarifTambahanText = oCcy.format(double.parse(value.replaceAll(',', '')));
+    } else if (param == 'tarifPenerus') {
+      _tarifPenerus.updateValue(double.parse(value.replaceAll(',', '')));
+      _tarifPenerusText = oCcy.format(double.parse(value.replaceAll(',', '')));
+    }
+    notifyListeners();
+    kalkulasiDiskon('persen');
+  }
+
+  kalkulasiHarga() async {
     SearchTarifParam param = SearchTarifParam(
       asalId: (_asalData != null) ? _asalData.id.toString() : null,
       tujuanId: (_tujuanData != null) ? _tujuanData.id.toString() : null,
@@ -484,7 +510,152 @@ class CreateDoViewModel extends BaseViewModel {
         _searchTarifResponse = SearchTarifResponse.fromJson(value);
         _tarifDasar.text = _searchTarifResponse.tarif.toString();
         _tarifPenerus.text = _searchTarifResponse.tarifPenerus.toString();
+
+        if (_tarifDasar.text == '') {
+          _tarifDasar.text = '0';
+        }
+
+        if (_diskonRp.text == '') {
+          _diskonRp.text = '0';
+        }
+        if (_tarifPenerus.text == '') {
+          _tarifPenerus.text = '0';
+        }
+        if (_tarifTambahan.text == '') {
+          _tarifTambahan.text = '0';
+        }
+
+        _tarifDasarText =
+            oCcy.format(int.parse(_tarifDasar.text.replaceAll(',', '')));
+        _tarifPenerusText =
+            oCcy.format(int.parse(_tarifPenerus.text.replaceAll(',', '')));
+
+        var totalTemp = int.parse(_tarifDasar.text.replaceAll(',', '')) +
+            int.parse(_tarifTambahan.text.replaceAll(',', '')) +
+            int.parse(_tarifPenerus.text.replaceAll(',', ''));
+        _netto = '${totalTemp - int.parse(_diskonText.replaceAll('.', ''))}';
       }
+    });
+    notifyListeners();
+  }
+
+  setTarif() {
+    var totalTemp = int.parse(_tarifDasar.text.replaceAll(',', '')) +
+        int.parse(_tarifTambahan.text.replaceAll(',', '')) +
+        int.parse(_tarifPenerus.text.replaceAll(',', ''));
+    _netto = '${totalTemp - int.parse(_diskonText.replaceAll('.', ''))}';
+    notifyListeners();
+  }
+
+  kalkulasiDiskon(param) async {
+    if (_tarifDasar.text == '') {
+      _tarifDasar.text = '0';
+    }
+    if (_tarifPenerus.text == '') {
+      _tarifPenerus.text = '0';
+    }
+    if (_tarifTambahan.text == '') {
+      _tarifTambahan.text = '0';
+    }
+
+    var maxDiskon;
+
+    if (int.parse(_berat.text) > 10 && int.parse(_berat.text) >= 50) {
+      maxDiskon = _searchTarifResponse.diskon.beratLebihDari10Sampai50;
+    } else if (int.parse(_berat.text) > 50 && int.parse(_berat.text) >= 100) {
+      maxDiskon = _searchTarifResponse.diskon.beratLebihDari50Sampai100;
+    } else if (int.parse(_berat.text) > 100) {
+      maxDiskon = _searchTarifResponse.diskon.beratLebihDari100;
+    } else {
+      maxDiskon = 0;
+    }
+    print(maxDiskon);
+    var totalTemp = int.parse(_tarifDasar.text.replaceAll(',', '')) +
+        int.parse(_tarifTambahan.text.replaceAll(',', ''));
+    if (param == 'persen') {
+      if (_diskonPersen.text == '') {
+        _diskonPersen.text = '0';
+      }
+
+      int diskon = int.parse(_diskonPersen.text.replaceAll(',', ''));
+      if ((diskon > maxDiskon) || (maxDiskon == 0)) {
+        if (diskon > maxDiskon) {
+          messageToast('Max diskon adalah $maxDiskon %', Colors.red);
+        }
+        diskon = maxDiskon;
+        var diskonTemp = diskon / 100 * totalTemp;
+        _diskonRp.text = '${int.parse(diskonTemp.toStringAsFixed(0))}';
+        _diskonText =
+            '${oCcy.format(int.parse(diskonTemp.toStringAsFixed(0)))}';
+      } else {
+        var diskonTemp = diskon / 100 * totalTemp;
+        _diskonRp.text = '${int.parse(diskonTemp.toStringAsFixed(0))}';
+        _diskonText =
+            '${oCcy.format(int.parse(diskonTemp.toStringAsFixed(0)))}';
+      }
+    } else {
+      if (_diskonRp.text == '') {
+        _diskonRp.updateValue(0.0);
+        _diskonText = '0';
+      }
+
+      int diskon = int.parse(_diskonRp.text.replaceAll(',', ''));
+
+      int diskonTemp = int.parse((diskon / totalTemp * 100).toStringAsFixed(0));
+
+      if (diskonTemp > maxDiskon || maxDiskon == 0) {
+        diskonTemp = maxDiskon;
+        diskon = int.parse((maxDiskon / 100 * totalTemp).toStringAsFixed(0));
+        if (diskon > maxDiskon) {
+          messageToast('Max diskon adalah $maxDiskon %', Colors.red);
+        }
+      }
+      _diskonPersen.text = '${int.parse(diskonTemp.toStringAsFixed(0))}';
+
+      _diskonText = oCcy.format(int.parse(diskon.toStringAsFixed(0)));
+    }
+    setTarif();
+    notifyListeners();
+  }
+
+  simpan() async {
+    DeliveryOrderParam data = DeliveryOrderParam(
+      nomor: _nomor.text,
+      asal: _asalData.id.toString(),
+      tujuan: _tujuanData.id.toString(),
+      tanggal: _tanggal.text.toString(),
+      customer: _customerData.kode.toString(),
+      namaPengirim: _pengirim.text,
+      teleponCustomer: _telpPengirim.text,
+      alamatCustomer: _alamatPengirim.text,
+      kecamatan: _kecamatanValue.toString(),
+      penerima: _penerima.text,
+      teleponPenerima: _telpPenerima.text,
+      alamatPenerima: _alamatPenerima.text,
+      namaBarang: _namaItem.text,
+      typeKiriman: _typeKirimanValue,
+      jenisKiriman: _jenisKirimanValue,
+      berat: (_berat.text != '') ? _berat.text : '0',
+      koli: (_koli.text != '') ? _koli.text : '0',
+      jumlah: (_jumlah.text != '') ? _jumlah.text : '0',
+      tarifDasar: _tarifDasar.text.toString(),
+      tarifPenerus: _tarifPenerus.text.toString(),
+      tarifTambahan: _tarifTambahan.text.toString(),
+      jenisUnit: _sepeda,
+      diskonValue: _diskonText,
+      diskon: '0',
+    );
+    setBusy(true);
+    print(jsonEncode(data.toJson()));
+    await MainService().saveDo(data).then((value) {
+      if (value['status'] == 1) {
+        messageToast(value['message'], textBlack);
+        jumpToPage(0);
+        _nomor.text = '';
+      } else {
+        messageToast(value['message'], Colors.red);
+      }
+      setBusy(false);
     });
     notifyListeners();
   }
