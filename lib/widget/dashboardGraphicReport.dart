@@ -7,9 +7,11 @@ import '../const.dart';
 
 class DashboardGraphicReport extends StatefulWidget {
   final title;
+  final spotsName;
   final spots;
 
-  const DashboardGraphicReport({Key key, this.title, this.spots})
+  const DashboardGraphicReport(
+      {Key key, this.title, this.spots, this.spotsName})
       : super(key: key);
   @override
   _DashboardGraphicReportState createState() => _DashboardGraphicReportState();
@@ -69,46 +71,31 @@ class _DashboardGraphicReportState extends State<DashboardGraphicReport> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(children: [
-                      WidgetSpan(
-                        child: Icon(
-                          FontAwesomeIcons.solidCircle,
-                          color: purpleLightTheme,
-                          size: 45.ssp,
+                children: widget.spotsName.asMap().entries.map<Widget>(
+                  (e) {
+                    return RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(children: [
+                        WidgetSpan(
+                          child: Icon(
+                            FontAwesomeIcons.solidCircle,
+                            color: (e.key % 2 == 0)
+                                ? purpleLightTheme
+                                : purpleChart,
+                            size: 45.ssp,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: '\nSept',
-                        style: TextStyle(
-                          color: textGrey,
-                          fontFamily: 'PlexSans',
-                        ),
-                      )
-                    ]),
-                  ),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(children: [
-                      WidgetSpan(
-                        child: Icon(
-                          FontAwesomeIcons.solidCircle,
-                          color: purpleChart,
-                          size: 45.ssp,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '\nOkt',
-                        style: TextStyle(
-                          color: textGrey,
-                          fontFamily: 'PlexSans',
-                        ),
-                      )
-                    ]),
-                  ),
-                ],
+                        TextSpan(
+                          text: '\n${e.value}',
+                          style: TextStyle(
+                            color: textGrey,
+                            fontFamily: 'PlexSans',
+                          ),
+                        )
+                      ]),
+                    );
+                  },
+                ).toList(),
               ),
             )
           ],

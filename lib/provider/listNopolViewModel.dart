@@ -27,31 +27,18 @@ class ListNopolViewModel extends BaseViewModel {
 
   getNopol(context) async {
     _nopol = [];
-    storage.clear();
-    if (storage.getItem('nopol') == null) {
-      await MainService().getNopol().then(
-        (value) async {
-          if (value['status'] == 1) {
-            storage.setItem('nopol', GetNopol.fromJson(value));
-            var result = storage.getItem('nopol');
-
-            for (var item in result['data']) {
-              print(item);
-              _nopol.add(Nopol.fromJson(item));
-            }
-          } else if (value['status'] == 0) {
-            redirectToLogin(context);
+    await MainService().getNopol().then(
+      (value) async {
+        if (value['status'] == 1) {
+          for (var item in value['data']) {
+            _nopol.add(Nopol.fromJson(item));
           }
-        },
-      );
-    } else {
-      var result = storage.getItem('nopol');
-      print(result);
-      for (var item in result['data']) {
-        _nopol.add(Nopol.fromJson(item));
-      }
-    }
-    print(_nopol);
+        } else if (value['status'] == 0) {
+          redirectToLogin(context);
+        }
+      },
+    );
+
     notifyListeners();
   }
 

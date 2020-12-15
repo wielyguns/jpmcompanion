@@ -288,7 +288,6 @@ class MainService extends Model {
   Future<Map<String, dynamic>> updateTracking(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var responseJson;
-    print(data);
     try {
       final response = await http.post(
         "$updateTrackingApi",
@@ -393,6 +392,24 @@ class MainService extends Model {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> detailDeliveryOrder(nomor) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$deliveryOrderApi/$nomor",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
   Future<Map<String, dynamic>> saveDo(param) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var responseJson;
@@ -434,6 +451,24 @@ class MainService extends Model {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }
 
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getDataDashboard() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.get(
+        "$getDataDashboardApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
     return responseJson;
   }
 }

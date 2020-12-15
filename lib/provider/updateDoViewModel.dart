@@ -176,8 +176,7 @@ class UpdateDoViewModel extends BaseViewModel {
     }
 
     for (var item in _trackingType) {
-      print(_user.kodeAgen);
-      if (_user.jabatan.id == 2) {
+      if (_user.jabatan.id == 2 || _user.jabatan.id == 3) {
         if (item.id == 1 || item.id == 4 || item.id == 5) {
           _trackingTypeDropdown.add(
             DropdownMenuItem<String>(

@@ -12,6 +12,7 @@ import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/widget/mapDrawer.dart';
+import 'package:jpmcompanion/widget/shortcutWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import '../const.dart';
@@ -32,6 +33,7 @@ class HomeViewModel extends BaseViewModel {
     FlSpot(1, 120000.0),
     FlSpot(2, 60444),
   ];
+
   int _index = 0;
   User _user;
   bool _isSnapOpen = false;
@@ -39,6 +41,7 @@ class HomeViewModel extends BaseViewModel {
   List<TrackingResult> _trackingResult = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TrackingResult _activeTracking = TrackingResult();
+  List<Map> _shortcut = [];
   // GETTER
   TextEditingController get search => _search;
   TabController get tabController => _tabController;
@@ -48,6 +51,7 @@ class HomeViewModel extends BaseViewModel {
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   bool get isSnapOpen => _isSnapOpen;
   User get user => _user;
+  List<Map> get shortcut => _shortcut;
   // FUNCTION
   init(context, vsync) async {
     await redirectToLogin(context);
@@ -56,10 +60,85 @@ class HomeViewModel extends BaseViewModel {
     if (temp != null) {
       _user = User.fromJson(jsonDecode(temp));
     }
+
+    for (HakAkses item in _user.hakAkses) {
+      switch (item.masterMenu.url) {
+        case createDoRoute:
+          if (item.view == 'true') {
+            createDoAccess = true;
+          }
+          break;
+        case trackingDoRoute:
+          if (item.view == 'true') {
+            trackingDoAccess = true;
+          }
+          break;
+        case updateDoRoute:
+          if (item.view == 'true') {
+            updateDoAccess = true;
+          }
+          break;
+        case purchaseOrderRoute:
+          if (item.view == 'true') {
+            purchaseOrderAccess = true;
+          }
+          break;
+        default:
+      }
+    }
+
     setBusy(true);
     _tabController = TabController(length: 4, vsync: vsync);
     await getAllNopolActive();
+    await generateShortcut(context);
     setBusy(false);
+    notifyListeners();
+  }
+
+  generateShortcut(context) async {
+    _shortcut = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('shortcut1') != null) {
+      var temp = prefs.getString('shortcut1');
+      var data = jsonDecode(temp);
+      data['isSet'] = true;
+      _shortcut.add(data);
+    } else {
+      Map data = {"isSet": false};
+      _shortcut.add(data);
+    }
+
+    if (prefs.getString('shortcut2') != null) {
+      var temp = prefs.getString('shortcut2');
+      var data = jsonDecode(temp);
+      data['isSet'] = true;
+      _shortcut.add(data);
+    } else {
+      Map data = {"isSet": false};
+      _shortcut.add(data);
+    }
+
+    if (prefs.getString('shortcut3') != null) {
+      var temp = prefs.getString('shortcut3');
+      var data = jsonDecode(temp);
+      data['isSet'] = true;
+      _shortcut.add(data);
+    } else {
+      Map data = {"isSet": false};
+      _shortcut.add(data);
+    }
+
+    if (prefs.getString('shortcut4') != null) {
+      var temp = prefs.getString('shortcut4');
+      var data = jsonDecode(temp);
+      data['isSet'] = true;
+      _shortcut.add(data);
+    } else {
+      Map data = {"isSet": false};
+      _shortcut.add(data);
+    }
+
+    print(_shortcut);
     notifyListeners();
   }
 
@@ -138,103 +217,140 @@ class HomeViewModel extends BaseViewModel {
                       accountName: Text(_user.nama),
                       accountEmail: Text(_user.email),
                     ),
-                  Container(
-                    width: 1.wp,
-                    height: 0.07.hp,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(createDoRoute);
-                      },
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Image(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/Asset 47300 2.png'),
-                              width: 0.1.wp,
-                              height: 0.1.wp,
-                            ),
-                            SizedBox(
-                              width: 0.05.wp,
-                            ),
-                            Text(
-                              'Delivery Order',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 45.ssp,
-                                color: textGrey,
+                  if (createDoAccess)
+                    Container(
+                      width: 1.wp,
+                      height: 0.07.hp,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(createDoRoute);
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/Asset 47300 2.png'),
+                                width: 0.1.wp,
+                                height: 0.1.wp,
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 0.05.wp,
+                              ),
+                              Text(
+                                'Delivery Order',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 45.ssp,
+                                  color: textGrey,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 1.wp,
-                    height: 0.07.hp,
-                    child: FlatButton(
-                      onPressed: () {
-                        return print('tes');
-                      },
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Image(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/Asset 57300 1.png'),
-                              width: 0.1.wp,
-                            ),
-                            SizedBox(
-                              width: 0.05.wp,
-                            ),
-                            Text(
-                              'Update DO V1',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 45.ssp,
-                                color: textGrey,
+                  if (purchaseOrderAccess)
+                    Container(
+                      width: 1.wp,
+                      height: 0.07.hp,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(purchaseOrderRoute);
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/Asset 48300 1.png'),
+                                width: 0.1.wp,
+                                height: 0.1.wp,
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 0.05.wp,
+                              ),
+                              Text(
+                                'Shipping Order',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 45.ssp,
+                                  color: textGrey,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 1.wp,
-                    height: 0.07.hp,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(updateDoRoute);
-                      },
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Image(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/Asset 8@4x.png'),
-                              width: 0.1.wp,
-                            ),
-                            SizedBox(
-                              width: 0.05.wp,
-                            ),
-                            Text(
-                              'Update DO V2',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 45.ssp,
-                                color: textGrey,
+                  if (updateDoAccess)
+                    Container(
+                      width: 1.wp,
+                      height: 0.07.hp,
+                      child: FlatButton(
+                        onPressed: () {
+                          return print('tes');
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/Asset 57300 1.png'),
+                                width: 0.1.wp,
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 0.05.wp,
+                              ),
+                              Text(
+                                'Update DO V1',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 45.ssp,
+                                  color: textGrey,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  if (updateDoAccess)
+                    Container(
+                      width: 1.wp,
+                      height: 0.07.hp,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(updateDoRoute);
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/Asset 8@4x.png'),
+                                width: 0.1.wp,
+                              ),
+                              SizedBox(
+                                width: 0.05.wp,
+                              ),
+                              Text(
+                                'Update DO V2',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 45.ssp,
+                                  color: textGrey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   Container(
                     width: 1.wp,
                     height: 0.07.hp,
@@ -284,7 +400,7 @@ class HomeViewModel extends BaseViewModel {
                             height: 0.07.hp,
                             child: FlatButton(
                               onPressed: () {
-                                return print('tes');
+                                return logout(context);
                               },
                               child: Container(
                                 alignment: Alignment.centerLeft,

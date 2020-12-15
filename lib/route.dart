@@ -13,6 +13,7 @@ import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/view/mapSelectView.dart';
 import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
 import 'package:jpmcompanion/view/shippingOrderView.dart';
+import 'package:jpmcompanion/view/shortcutMenuView.dart';
 import 'package:jpmcompanion/view/trackingDoView.dart';
 import 'package:jpmcompanion/view/updateDoScannerView.dart';
 import 'package:jpmcompanion/view/updateDoView.dart';
@@ -98,6 +99,13 @@ class Routers {
       case camera:
         return RouteAnimationDurationTween(
           widget: CameraApp(),
+        );
+      case shortcutMenuRoute:
+        var data = settings.arguments;
+        return RouteAnimationDurationUp(
+          widget: ShortcutMenuView(
+            urutan: data,
+          ),
         );
       default:
         return MaterialPageRoute(

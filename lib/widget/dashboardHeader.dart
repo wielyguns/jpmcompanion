@@ -1,15 +1,41 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jpmcompanion/main.dart' as main;
+import 'package:jpmcompanion/model/RequestModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const.dart';
 
 class DashboardHeader extends StatefulWidget {
+  final kirimanHariIni;
+
+  const DashboardHeader({Key key, this.kirimanHariIni}) : super(key: key);
   @override
   _DashboardHeaderState createState() => _DashboardHeaderState();
 }
 
 class _DashboardHeaderState extends State<DashboardHeader> {
+  User me;
+  @override
+  void initState() {
+    initMe();
+    super.initState();
+  }
+
+  Future initMe() async {
+    if (!mounted) {
+      return;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var temp = prefs.getString('user');
+    if (temp != null) {
+      setState(() {
+        me = User.fromJson(jsonDecode(temp));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -28,18 +54,19 @@ class _DashboardHeaderState extends State<DashboardHeader> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            TextSpan(
-              text: ' ${main.me.nama}\n\n',
-              style: TextStyle(
-                color: Color(
-                  hexStringToHexInt('#6F6F6F'),
+            if (me != null)
+              TextSpan(
+                text: ' ${me.nama}\n\n',
+                style: TextStyle(
+                  color: Color(
+                    hexStringToHexInt('#6F6F6F'),
+                  ),
+                  fontSize: 60.ssp,
+                  fontWeight: FontWeight.normal,
                 ),
-                fontSize: 60.ssp,
-                fontWeight: FontWeight.normal,
               ),
-            ),
             TextSpan(
-              text: 'Terdapat 5',
+              text: 'Terdapat ${widget.kirimanHariIni} Kiriman',
               style: TextStyle(
                 color: Color(
                   hexStringToHexInt('#6F6F6F'),
@@ -59,7 +86,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
               ),
             ),
             TextSpan(
-              text: ' belum terkirim',
+              text: ' hari ini',
               style: TextStyle(
                 color: Color(
                   hexStringToHexInt('#6F6F6F'),

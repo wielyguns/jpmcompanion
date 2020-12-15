@@ -7,8 +7,16 @@ import 'package:jpmcompanion/widget/dashboardGraphicReport.dart';
 import 'package:jpmcompanion/widget/dashboardHeader.dart';
 import 'package:jpmcompanion/widget/dashboardSearchBar.dart';
 import 'package:stacked/stacked.dart';
+import 'package:jpmcompanion/widget/shortcutWidget.dart';
 
 class DashboardTabView extends StatefulWidget {
+  final List<Map> shortcut;
+  final Function generateShortcut;
+  const DashboardTabView({
+    Key key,
+    this.shortcut,
+    this.generateShortcut,
+  }) : super(key: key);
   @override
   _DashboardTabViewState createState() => _DashboardTabViewState();
 }
@@ -35,7 +43,11 @@ class _DashboardTabViewState extends State<DashboardTabView> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DashboardHeader(),
+                DashboardHeader(
+                  kirimanHariIni: model.dataDashboard != null
+                      ? model.dataDashboard.kirimanHariIni
+                      : '',
+                ),
                 DashboardSearchBar(),
                 Container(
                   margin: EdgeInsets.only(top: 0.04.hp, bottom: 0.02.hp),
@@ -61,10 +73,12 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                         DashboardGraphicReport(
                           title: 'Pendapatan',
                           spots: model.pendapatanSpots,
+                          spotsName: model.spotsName,
                         ),
                         DashboardGraphicReport(
                           title: 'Delivery Order',
                           spots: model.deliveryOrderSpots,
+                          spotsName: model.spotsName,
                         ),
                       ],
                     ),
@@ -94,54 +108,58 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: AlwaysScrollableScrollPhysics(),
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 0.02.hp),
-                        child: Row(
-                          children: [
-                            DashboardCard(
-                              total: 27,
-                              title: 'Barang\nManifest',
-                              color: Color(
-                                hexStringToHexInt('#F57466'),
+                      child: (model.dataDashboard != null)
+                          ? Container(
+                              margin: EdgeInsets.only(bottom: 0.02.hp),
+                              child: Row(
+                                children: [
+                                  DashboardCard(
+                                    total:
+                                        model.dataDashboard.manifestedBulanIni,
+                                    title: 'Barang\nManifest',
+                                    color: Color(
+                                      hexStringToHexInt('#F57466'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                      left: 0.04.wp,
+                                    ),
+                                  ),
+                                  DashboardCard(
+                                    total: model.dataDashboard.transitBulanIni,
+                                    title: 'Barang Dalam\nTransit',
+                                    color: Color(
+                                      hexStringToHexInt('#6AD0B8'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                    ),
+                                  ),
+                                  DashboardCard(
+                                    total:
+                                        model.dataDashboard.deliveredBulanIni,
+                                    title: 'Barang Sampai\nTujuan',
+                                    color: Color(
+                                      hexStringToHexInt('#8684F3'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                    ),
+                                  ),
+                                  DashboardCard(
+                                    total: model.dataDashboard.pendingBulanIni,
+                                    title: 'Barang\nPending',
+                                    color: Color(
+                                      hexStringToHexInt('#BFA5F8'),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 0.04.wp,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              margin: EdgeInsets.only(
-                                right: 0.04.wp,
-                                left: 0.04.wp,
-                              ),
-                            ),
-                            DashboardCard(
-                              total: 8478,
-                              title: 'Barang Sedang\nDikirim',
-                              color: Color(
-                                hexStringToHexInt('#6AD0B8'),
-                              ),
-                              margin: EdgeInsets.only(
-                                right: 0.04.wp,
-                              ),
-                            ),
-                            DashboardCard(
-                              total: 9802,
-                              title: 'Barang Sampai\nTujuan',
-                              color: Color(
-                                hexStringToHexInt('#8684F3'),
-                              ),
-                              margin: EdgeInsets.only(
-                                right: 0.04.wp,
-                              ),
-                            ),
-                            DashboardCard(
-                              total: 15,
-                              title: 'Barang\nPending',
-                              color: Color(
-                                hexStringToHexInt('#BFA5F8'),
-                              ),
-                              margin: EdgeInsets.only(
-                                right: 0.04.wp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            )
+                          : Container(),
                     ),
                   ),
                 ),
@@ -149,7 +167,7 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                   margin: EdgeInsets.only(top: 0.02.hp, bottom: 0.02.hp),
                   padding: EdgeInsets.symmetric(horizontal: 0.04.wp),
                   child: Text(
-                    'Main Menu',
+                    'Shortcut',
                     style: TextStyle(
                       color: Color(
                         hexStringToHexInt('#5F5F5F'),
@@ -163,177 +181,36 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                   margin: EdgeInsets.symmetric(horizontal: 0.04.wp),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 0.2.wp,
-                        child: MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(purchaseOrderRoute);
-                          },
-                          shape: RoundedRectangleBorder(),
-                          child: Container(
-                            constraints: BoxConstraints(minHeight: 0.1.hp),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage(
-                                      'assets/Asset 47300 2.png',
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Input SO',
-                                  style: TextStyle(
-                                    color: Color(
-                                      hexStringToHexInt('#736B6D'),
-                                    ),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "PlexSans",
-                                    fontSize: 35.ssp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 0.2.wp,
-                        child: MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(updateDoRoute);
-                          },
-                          shape: RoundedRectangleBorder(),
-                          child: Container(
-                            constraints: BoxConstraints(
-                              minHeight: 0.1.hp,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage(
-                                      'assets/Asset 48300 1.png',
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Update Do',
-                                    style: TextStyle(
-                                      color: Color(
-                                        hexStringToHexInt('#736B6D'),
-                                      ),
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "PlexSans",
-                                      fontSize: 35.ssp,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 0.2.wp,
-                        child: MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            Map data = {
-                              "route": trackingDoRoute,
-                            };
-
+                    children: widget.shortcut.asMap().entries.map((e) {
+                      return FlatButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () async {
+                          if (e.value['isSet']) {
                             Navigator.of(context).pushNamed(
-                              listDoRoute,
-                              arguments: data,
+                              e.value['route'],
+                              arguments: e.value['param'],
                             );
-                          },
-                          shape: RoundedRectangleBorder(),
-                          child: Container(
-                            constraints: BoxConstraints(minHeight: 0.1.hp),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.12.wp,
-                                    image: AssetImage(
-                                      'assets/Asset 50 1.png',
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Tracking DO',
-                                  style: TextStyle(
-                                    color: Color(
-                                      hexStringToHexInt('#736B6D'),
-                                    ),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "PlexSans",
-                                    fontSize: 35.ssp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          } else {
+                            await Navigator.of(context).pushNamed(
+                              shortcutMenuRoute,
+                              arguments: e.key + 1,
+                            );
+                            widget.generateShortcut();
+                          }
+                        },
+                        onLongPress: () async {
+                          await Navigator.of(context).pushNamed(
+                            shortcutMenuRoute,
+                            arguments: e.key + 1,
+                          );
+                          widget.generateShortcut();
+                        },
+                        child: ShortcutWidget(
+                          data: e.value,
+                          isSet: e.value['isSet'],
                         ),
-                      ),
-                      Container(
-                        width: 0.2.wp,
-                        child: MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            messageToast('On Develop', Colors.black);
-                          },
-                          shape: RoundedRectangleBorder(),
-                          child: Container(
-                            constraints: BoxConstraints(minHeight: 0.1.hp),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(0.01.wp),
-                                  child: Image(
-                                    width: 0.1.wp,
-                                    image: AssetImage(
-                                      'assets/Asset 52 1.png',
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Master',
-                                  style: TextStyle(
-                                    color: Color(
-                                      hexStringToHexInt('#736B6D'),
-                                    ),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "PlexSans",
-                                    fontSize: 35.ssp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                      );
+                    }).toList(),
                   ),
                 ),
                 SizedBox(

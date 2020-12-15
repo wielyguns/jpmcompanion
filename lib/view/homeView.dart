@@ -39,6 +39,10 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
+    if (!mounted) {
+      return;
+    }
+
     _firebaseMessaging.subscribeToTopic('001');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -154,14 +158,26 @@ class _HomeViewState extends State<HomeView>
                         controller: model.tabController,
                         children: [
                           Container(
-                            child: DashboardTabView(),
-                          ),
-                          Container(
-                            child: MapTabView(
-                              result: model.activeTracking,
-                              onSnapOpen: (value) => model.hideTab(value),
+                            child: DashboardTabView(
+                              shortcut: model.shortcut,
+                              generateShortcut: () {
+                                model.generateShortcut(context);
+                              },
                             ),
                           ),
+                          (model.user != null && model.user.jabatan.id == 1)
+                              ? Container(
+                                  child: MapTabView(
+                                    result: model.activeTracking,
+                                    onSnapOpen: (value) => model.hideTab(value),
+                                  ),
+                                )
+                              : Container(
+                                  child: Image(
+                                    width: 0.3.wp,
+                                    image: AssetImage('assets/Asset 2@4x.png'),
+                                  ),
+                                ),
                           Container(
                             child: Image(
                               width: 0.3.wp,

@@ -525,6 +525,8 @@ class _ShippingOrderViewState extends State<ShippingOrderView> {
                                                   ),
                                                 ),
                                                 ShippingOrderInputField(
+                                                  keyboard:
+                                                      TextInputType.number,
                                                   controller: model.jumlahUnit,
                                                   onTap: () {},
                                                   hintText: '1000',

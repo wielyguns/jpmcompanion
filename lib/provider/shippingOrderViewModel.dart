@@ -133,7 +133,7 @@ class ShippingOrderViewModel extends BaseViewModel {
 
     await ShippingOrderService().prosesShippingOrder(data).then(
       (value) async {
-        redirectToLogin(context);
+        await redirectToLogin(context);
         if (value['status'] == 1) {
           messageToast(value['message'], Colors.black);
           Navigator.pushAndRemoveUntil(

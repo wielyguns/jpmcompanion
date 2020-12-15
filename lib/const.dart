@@ -24,7 +24,24 @@ const trackingDoRoute = '/tracking-do-route';
 const listDoRoute = '/list-do-route';
 const doDetailRoute = '/do-detail-route';
 const createDoRoute = '/create-do-route';
+const shortcutMenuRoute = '/shortcut-menu-route';
 const camera = '/camera';
+
+// HAK AKSES
+
+var dashboardAccess = true;
+var purchaseOrderAccess = false;
+var listKotaAccess = false;
+var listCustomerAccess = false;
+var listNopolAccess = false;
+var mapSelectAccess = false;
+var shippingOrderDetailAccess = false;
+var updateDoAccess = false;
+var updateDoScannerAccess = false;
+var trackingDoAccess = false;
+var listDoAccess = false;
+var doDetailAccess = false;
+var createDoAccess = false;
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));

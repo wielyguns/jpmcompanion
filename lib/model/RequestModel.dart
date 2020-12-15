@@ -106,20 +106,19 @@ class User {
   String nama;
   String username;
   String email;
-  dynamic emailVerifiedAt;
-  dynamic deletedAt;
+  String emailVerifiedAt;
+  String deletedAt;
   String createdAt;
   String updatedAt;
-  dynamic idAgen;
+  String idAgen;
   int jabatanId;
   String image;
   String status;
   String kodeCabang;
-  dynamic kodeAgen;
+  String kodeAgen;
   String background;
-  String urlImage;
-  String urlBackground;
   Jabatan jabatan;
+  List<HakAkses> hakAkses;
 
   User(
       {this.id,
@@ -137,9 +136,8 @@ class User {
       this.kodeCabang,
       this.kodeAgen,
       this.background,
-      this.urlImage,
-      this.urlBackground,
-      this.jabatan});
+      this.jabatan,
+      this.hakAkses});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -157,10 +155,14 @@ class User {
     kodeCabang = json['kode_cabang'];
     kodeAgen = json['kode_agen'];
     background = json['background'];
-    urlImage = json['urlImage'];
-    urlBackground = json['urlBackground'];
     jabatan =
         json['jabatan'] != null ? new Jabatan.fromJson(json['jabatan']) : null;
+    if (json['hak_akses'] != null) {
+      hakAkses = new List<HakAkses>();
+      json['hak_akses'].forEach((v) {
+        hakAkses.add(new HakAkses.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -180,10 +182,11 @@ class User {
     data['kode_cabang'] = this.kodeCabang;
     data['kode_agen'] = this.kodeAgen;
     data['background'] = this.background;
-    data['urlImage'] = this.urlImage;
-    data['urlBackground'] = this.urlBackground;
     if (this.jabatan != null) {
       data['jabatan'] = this.jabatan.toJson();
+    }
+    if (this.hakAkses != null) {
+      data['hak_akses'] = this.hakAkses.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -194,7 +197,7 @@ class Jabatan {
   String nama;
   String keterangan;
   String status;
-  dynamic deletedAt;
+  String deletedAt;
   String createdAt;
   String updatedAt;
 
@@ -222,6 +225,136 @@ class Jabatan {
     data['id'] = this.id;
     data['nama'] = this.nama;
     data['keterangan'] = this.keterangan;
+    data['status'] = this.status;
+    data['deleted_at'] = this.deletedAt;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class HakAkses {
+  int id;
+  int jabatanId;
+  String namaJabatan;
+  int menuId;
+  String namaMenu;
+  String view;
+  String create;
+  String edit;
+  String delete;
+  String global;
+  String validation;
+  String deletedAt;
+  String createdAt;
+  String updatedAt;
+  MasterMenu masterMenu;
+
+  HakAkses(
+      {this.id,
+      this.jabatanId,
+      this.namaJabatan,
+      this.menuId,
+      this.namaMenu,
+      this.view,
+      this.create,
+      this.edit,
+      this.delete,
+      this.global,
+      this.validation,
+      this.deletedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.masterMenu});
+
+  HakAkses.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    jabatanId = json['jabatan_id'];
+    namaJabatan = json['nama_jabatan'];
+    menuId = json['menu_id'];
+    namaMenu = json['nama_menu'];
+    view = json['view'];
+    create = json['create'];
+    edit = json['edit'];
+    delete = json['delete'];
+    global = json['global'];
+    validation = json['validation'];
+    deletedAt = json['deleted_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    masterMenu = json['master_menu'] != null
+        ? new MasterMenu.fromJson(json['master_menu'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['jabatan_id'] = this.jabatanId;
+    data['nama_jabatan'] = this.namaJabatan;
+    data['menu_id'] = this.menuId;
+    data['nama_menu'] = this.namaMenu;
+    data['view'] = this.view;
+    data['create'] = this.create;
+    data['edit'] = this.edit;
+    data['delete'] = this.delete;
+    data['global'] = this.global;
+    data['validation'] = this.validation;
+    data['deleted_at'] = this.deletedAt;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.masterMenu != null) {
+      data['master_menu'] = this.masterMenu.toJson();
+    }
+    return data;
+  }
+}
+
+class MasterMenu {
+  int id;
+  String nama;
+  String keterangan;
+  int groupId;
+  String url;
+  String jenis;
+  String status;
+  String deletedAt;
+  String createdAt;
+  String updatedAt;
+
+  MasterMenu(
+      {this.id,
+      this.nama,
+      this.keterangan,
+      this.groupId,
+      this.url,
+      this.jenis,
+      this.status,
+      this.deletedAt,
+      this.createdAt,
+      this.updatedAt});
+
+  MasterMenu.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nama = json['nama'];
+    keterangan = json['keterangan'];
+    groupId = json['group_id'];
+    url = json['url'];
+    jenis = json['jenis'];
+    status = json['status'];
+    deletedAt = json['deleted_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['nama'] = this.nama;
+    data['keterangan'] = this.keterangan;
+    data['group_id'] = this.groupId;
+    data['url'] = this.url;
+    data['jenis'] = this.jenis;
     data['status'] = this.status;
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
