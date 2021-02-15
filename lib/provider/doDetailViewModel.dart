@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
 import 'package:stacked/stacked.dart';
@@ -11,7 +10,6 @@ class DoDetailViewModel extends BaseViewModel {
   final GlobalKey<FormState> _formKey = GlobalKey();
   List<DropdownMenuItem> _asalDropdownMenuItem = [];
   String _titleSnap;
-  Position _position;
   TextEditingController _deliveryOrder = TextEditingController();
   String _deliveryOrderErrorMessage = '';
 

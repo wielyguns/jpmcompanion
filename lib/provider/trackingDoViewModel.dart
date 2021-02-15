@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
 import 'package:jpmcompanion/model/trackingDoModel.dart' as track;
@@ -16,7 +14,6 @@ class TrackingDoViewModel extends BaseViewModel {
   final GlobalKey<FormState> _formKey = GlobalKey();
   List<DropdownMenuItem> _asalDropdownMenuItem = [];
   String _titleSnap;
-  Position _position;
   track.Tracking _tracking;
   String _deliveryOrderErrorMessage = '';
   DeliveryOrder _deliveryOrder;

@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/homeModel.dart';
-import 'package:jpmcompanion/service/mainService.dart';
 import 'package:jpmcompanion/variableConst.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
@@ -48,7 +47,6 @@ class ShortcutMenuViewModel extends BaseViewModel {
   getMenuShortcut(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for (var tempMenu in menuShortcut) {
-      print(tempMenu);
       for (HakAkses item in _user.hakAkses) {
         if (tempMenu['route'] == item.masterMenu.url) {
           switch (item.masterMenu.url) {
@@ -73,6 +71,11 @@ class ShortcutMenuViewModel extends BaseViewModel {
               }
               break;
             case listDoRoute:
+              if (item.view == 'true') {
+                _menu.add(tempMenu);
+              }
+              break;
+            case pickupCourierRoute:
               if (item.view == 'true') {
                 _menu.add(tempMenu);
               }

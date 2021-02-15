@@ -11,6 +11,7 @@ import 'package:jpmcompanion/view/listKotaView.dart';
 import 'package:jpmcompanion/view/listNopolView.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/view/mapSelectView.dart';
+import 'package:jpmcompanion/view/pickUpCourierView.dart';
 import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
 import 'package:jpmcompanion/view/shippingOrderView.dart';
 import 'package:jpmcompanion/view/shortcutMenuView.dart';
@@ -106,6 +107,10 @@ class Routers {
           widget: ShortcutMenuView(
             urutan: data,
           ),
+        );
+      case pickupCourierRoute:
+        return RouteAnimationDurationUp(
+          widget: PickUpCourierView(),
         );
       default:
         return MaterialPageRoute(

@@ -17,7 +17,7 @@ import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
 
-class UpdateDoViewModel extends BaseViewModel {
+class PickUpCourierViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -57,6 +57,8 @@ class UpdateDoViewModel extends BaseViewModel {
   );
   final picker = ImagePicker();
   File _image;
+  TabController _tabController;
+
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
@@ -75,19 +77,22 @@ class UpdateDoViewModel extends BaseViewModel {
   List<DropdownMenuItem> get trackingDescriptionDropdown =>
       _trackingDescriptionDropdown;
   SignatureController get signatureController => _signatureController;
+  TabController get tabController => _tabController;
 
   String get titleSnap => _titleSnap;
   String get jenisBuktiPembayaranValue => _jenisBuktiPembayaranValue;
   List<Asal> get feedData => _feedData;
   File get image => _image;
   // FUNCTION
-  init(context) async {
+  init(context, vsync) async {
     await redirectToLogin(context);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getString('user');
     if (temp != null) {
       _user = User.fromJson(jsonDecode(temp));
     }
+    _tabController = TabController(length: 3, vsync: vsync);
 
     setBusy(true);
     await getTrackingDescription();

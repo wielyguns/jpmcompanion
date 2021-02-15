@@ -2,7 +2,7 @@ class DataDashboard {
   dynamic kirimanHariIni;
   dynamic kirimanKemarin;
   dynamic jumlahBulanLalu;
-  String totalBulanLalu;
+  dynamic totalBulanLalu;
   dynamic jumlahBulanIni;
   dynamic totalBulanIni;
   dynamic manifestedBulanIni;

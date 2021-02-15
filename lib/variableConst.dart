@@ -35,6 +35,14 @@ List<Map> menuShortcut = [
       "route": doDetailRoute,
     },
   },
+  {
+    "route": "/pick-up-courier-route",
+    "icon": "assets/Asset 55300 1.png",
+    "title": "Pick Up",
+    "param": {
+      "route": pickupCourierRoute,
+    },
+  },
 ];
 
 Map deleteMenu = {

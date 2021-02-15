@@ -25,7 +25,9 @@ const listDoRoute = '/list-do-route';
 const doDetailRoute = '/do-detail-route';
 const createDoRoute = '/create-do-route';
 const shortcutMenuRoute = '/shortcut-menu-route';
+const pickupCourierRoute = '/pick-up-courier-route';
 const camera = '/camera';
+const map = '/map';
 
 // HAK AKSES
 
@@ -42,6 +44,8 @@ var trackingDoAccess = false;
 var listDoAccess = false;
 var doDetailAccess = false;
 var createDoAccess = false;
+var mapAccess = false;
+var pickupCourierAccess = false;
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/provider/listDoViewModel.dart';
 import 'package:jpmcompanion/widget/listDo.dart';
-import 'package:jpmcompanion/widget/nopolList.dart';
 import 'package:stacked/stacked.dart';
 
 class ListDoView extends StatefulWidget {

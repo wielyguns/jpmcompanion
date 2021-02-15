@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +11,6 @@ import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/widget/mapDrawer.dart';
-import 'package:jpmcompanion/widget/shortcutWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import '../const.dart';
@@ -59,31 +57,41 @@ class HomeViewModel extends BaseViewModel {
     var temp = prefs.getString('user');
     if (temp != null) {
       _user = User.fromJson(jsonDecode(temp));
-    }
-
-    for (HakAkses item in _user.hakAkses) {
-      switch (item.masterMenu.url) {
-        case createDoRoute:
-          if (item.view == 'true') {
-            createDoAccess = true;
-          }
-          break;
-        case trackingDoRoute:
-          if (item.view == 'true') {
-            trackingDoAccess = true;
-          }
-          break;
-        case updateDoRoute:
-          if (item.view == 'true') {
-            updateDoAccess = true;
-          }
-          break;
-        case purchaseOrderRoute:
-          if (item.view == 'true') {
-            purchaseOrderAccess = true;
-          }
-          break;
-        default:
+      for (HakAkses item in _user.hakAkses) {
+        print(item.masterMenu.url);
+        switch (item.masterMenu.url) {
+          case createDoRoute:
+            if (item.view == 'true') {
+              createDoAccess = true;
+            }
+            break;
+          case trackingDoRoute:
+            if (item.view == 'true') {
+              trackingDoAccess = true;
+            }
+            break;
+          case updateDoRoute:
+            if (item.view == 'true') {
+              updateDoAccess = true;
+            }
+            break;
+          case purchaseOrderRoute:
+            if (item.view == 'true') {
+              purchaseOrderAccess = true;
+            }
+            break;
+          case map:
+            if (item.view == 'true') {
+              mapAccess = true;
+            }
+            break;
+          case pickupCourierRoute:
+            if (item.view == 'true') {
+              pickupCourierAccess = true;
+            }
+            break;
+          default:
+        }
       }
     }
 
@@ -145,11 +153,13 @@ class HomeViewModel extends BaseViewModel {
   getAllNopolActive() async {
     _trackingResult = [];
     var result = await MainService().getNopolActive(_trackingPosition);
-
-    for (var item in result['Data']) {
-      if (result['ResponseCode'] == 1) {
-        item = jsonEncode(item);
-        _trackingResult.add(TrackingResult.fromJson(jsonDecode(item)));
+    print(result);
+    if (result['status'] != 502) {
+      for (var item in result['Data']) {
+        if (result['ResponseCode'] == 1) {
+          item = jsonEncode(item);
+          _trackingResult.add(TrackingResult.fromJson(jsonDecode(item)));
+        }
       }
     }
     notifyListeners();
@@ -160,6 +170,10 @@ class HomeViewModel extends BaseViewModel {
     prefs.remove('token');
     prefs.remove('id');
     prefs.remove('user');
+    prefs.remove('shortcut1');
+    prefs.remove('shortcut2');
+    prefs.remove('shortcut3');
+    prefs.remove('shortcut4');
     Navigator.pushAndRemoveUntil(
       context,
       RouteAnimationDurationFade(
@@ -207,7 +221,7 @@ class HomeViewModel extends BaseViewModel {
             child: Container(
               child: Column(
                 children: [
-                  if (_user != null)
+                  if (_user != null && _user.image != null)
                     UserAccountsDrawerHeader(
                       margin: EdgeInsets.only(bottom: 0.02.hp),
                       currentAccountPicture: CircleAvatar(
@@ -340,6 +354,39 @@ class HomeViewModel extends BaseViewModel {
                               ),
                               Text(
                                 'Update DO V2',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 45.ssp,
+                                  color: textGrey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (pickupCourierAccess)
+                    Container(
+                      width: 1.wp,
+                      height: 0.07.hp,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(pickupCourierRoute);
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/Asset 55300 1.png'),
+                                width: 0.1.wp,
+                              ),
+                              SizedBox(
+                                width: 0.05.wp,
+                              ),
+                              Text(
+                                'Pick Up',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 45.ssp,
