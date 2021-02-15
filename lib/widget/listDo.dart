@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
 
@@ -20,26 +19,6 @@ class ListDo extends StatefulWidget {
 }
 
 class _ShippingOrderListState extends State<ListDo> {
-  timeCount(CurrentRemainingTime time) {
-    var hours = '00';
-    var min = '00';
-    var sec = '00';
-
-    if (time.hours != null) {
-      hours =
-          '${(time.hours < 10) ? 0 : ''}${(time.hours != null) ? time.hours : 0}';
-    }
-
-    if (time.min != null) {
-      min = '${(time.min < 10) ? 0 : ''}${(time.min != null) ? time.min : 0}';
-    }
-
-    if (time.sec != null) {
-      sec = '${(time.sec < 10) ? 0 : ''}${(time.sec != null) ? time.sec : 0}';
-    }
-    return '$hours:$min:$sec';
-  }
-
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);

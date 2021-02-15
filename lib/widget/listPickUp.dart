@@ -28,13 +28,10 @@ class _ListPickUpState extends State<ListPickUp> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(0.02.wp),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 2),
-            color: borderBox,
-            spreadRadius: 1,
-          ),
-        ],
+        border: Border.all(
+          width: 1,
+          color: Colors.grey,
+        ),
       ),
       child: FlatButton(
         onPressed: () {
@@ -65,29 +62,32 @@ class _ListPickUpState extends State<ListPickUp> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  '${widget.result.kode}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontFamily: "PlexSans",
-                                    fontSize: 50.ssp,
-                                    color: Color(
-                                      hexStringToHexInt(
-                                        '#FF5373',
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Pick Up Order : ${widget.result.kode}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 50.ssp,
+                            color: Color(
+                              hexStringToHexInt(
+                                '#FF5373',
                               ),
                             ),
-                            Container(
-                              child: Text('${widget.result.tanggal}'),
-                            ),
-                          ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(top: 0.02.hp),
+                        child: Text(
+                          'Nama Pengirim',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                       Container(
@@ -101,7 +101,7 @@ class _ListPickUpState extends State<ListPickUp> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontFamily: "PlexSans",
-                                          fontSize: 50.ssp,
+                                          fontSize: 35.ssp,
                                           color: Colors.grey,
                                         ),
                                       ),
@@ -114,7 +114,7 @@ class _ListPickUpState extends State<ListPickUp> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontFamily: "PlexSans",
-                                          fontSize: 50.ssp,
+                                          fontSize: 35.ssp,
                                           color: Colors.grey,
                                         ),
                                       ),
@@ -127,136 +127,75 @@ class _ListPickUpState extends State<ListPickUp> {
                         alignment: Alignment.topLeft,
                         margin: EdgeInsets.only(top: 0.02.hp),
                         child: Text(
-                          'Waktu Sampai Status Failure',
+                          'Waktu Order',
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontFamily: "PlexSans",
                             fontSize: 35.ssp,
-                            color: Colors.red,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                          top: 0.01.hp,
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${widget.result.createdAt}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.grey,
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Asal\n',
-                                      style: TextStyle(
-                                        fontSize: 35.ssp,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PlexSans",
-                                        color: Color(
-                                          hexStringToHexInt(
-                                            '#736B6D',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          '${(widget.result.asal != null) ? widget.result.asal.nama : 'Tidak ada asal'}',
-                                      style: TextStyle(
-                                        fontSize: 25.ssp,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PlexSans",
-                                        color: Color(
-                                          hexStringToHexInt(
-                                            '#736B6D',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: Container(
-                                child: RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'Tujuan\n',
-                                        style: TextStyle(
-                                          fontSize: 35.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            '${(widget.result.tujuan != null) ? widget.result.tujuan.nama : 'Tidak ada asal'}',
-                                        style: TextStyle(
-                                          fontSize: 25.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: Container(
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'Harga\n',
-                                        style: TextStyle(
-                                          fontSize: 35.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            '${oCcy.format(int.parse(widget.result.totalNet))}',
-                                        style: TextStyle(
-                                          fontSize: 25.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(top: 0.02.hp),
+                        child: Text(
+                          'Alamat Pickup',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${widget.result.alamatPengirim}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(top: 0.02.hp),
+                        child: Text(
+                          'Telpon',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${widget.result.telponPengirim}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ],

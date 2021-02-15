@@ -26,6 +26,7 @@ class PickUpCourierViewModel extends BaseViewModel {
   String _penerimaValidation = '';
   List<PickUp> _onProgressPickUp = [];
   List<PickUp> _completedPickUp = [];
+  PickUp _onProcessPickUp;
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
   String _trackingDescriptionValue;
@@ -60,7 +61,7 @@ class PickUpCourierViewModel extends BaseViewModel {
   final picker = ImagePicker();
   File _image;
   TabController _tabController;
-
+  bool _onProcessLoading = false;
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
@@ -85,6 +86,9 @@ class PickUpCourierViewModel extends BaseViewModel {
   String get jenisBuktiPembayaranValue => _jenisBuktiPembayaranValue;
   List<PickUp> get onProgressPickUp => _onProgressPickUp;
   List<PickUp> get completedPickUp => _completedPickUp;
+  PickUp get onProcessPickUp => _onProcessPickUp;
+  bool get onProcessLoading => _onProcessLoading;
+
   File get image => _image;
   // FUNCTION
   init(context, vsync) async {
@@ -96,7 +100,9 @@ class PickUpCourierViewModel extends BaseViewModel {
       _user = User.fromJson(jsonDecode(temp));
     }
     _tabController = TabController(length: 3, vsync: vsync);
-
+    _tabController.addListener(() {
+      notifyListeners();
+    });
     setBusy(true);
     await getTrackingDescription();
     await getTrackingType();
@@ -352,5 +358,8 @@ class PickUpCourierViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  processing(item) {}
+  processing(item) async {
+    _onProcessPickUp = item;
+    _tabController.animateTo(1);
+  }
 }
