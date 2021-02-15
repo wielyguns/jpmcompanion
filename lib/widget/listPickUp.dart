@@ -1,45 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jpmcompanion/model/deliveryOrderModel.dart';
-
+import 'package:jpmcompanion/model/PickUpModel.dart';
 import '../const.dart';
 
-class ListDo extends StatefulWidget {
+class ListPickUp extends StatefulWidget {
   final Function() onPressed;
-  final DeliveryOrder result;
+  final PickUp result;
 
-  const ListDo({
+  const ListPickUp({
     Key key,
     this.onPressed,
     this.result,
   }) : super(key: key);
   @override
-  _ShippingOrderListState createState() => _ShippingOrderListState();
+  _ListPickUpState createState() => _ListPickUpState();
 }
 
-class _ShippingOrderListState extends State<ListDo> {
-  timeCount(CurrentRemainingTime time) {
-    var hours = '00';
-    var min = '00';
-    var sec = '00';
-
-    if (time.hours != null) {
-      hours =
-          '${(time.hours < 10) ? 0 : ''}${(time.hours != null) ? time.hours : 0}';
-    }
-
-    if (time.min != null) {
-      min = '${(time.min < 10) ? 0 : ''}${(time.min != null) ? time.min : 0}';
-    }
-
-    if (time.sec != null) {
-      sec = '${(time.sec < 10) ? 0 : ''}${(time.sec != null) ? time.sec : 0}';
-    }
-    return '$hours:$min:$sec';
-  }
-
+class _ListPickUpState extends State<ListPickUp> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -64,7 +42,7 @@ class _ShippingOrderListState extends State<ListDo> {
         },
         onLongPress: () {
           Clipboard.setData(
-            ClipboardData(text: '${widget.result.nomor}'),
+            ClipboardData(text: '${widget.result.kode}'),
           );
           messageToast('Kode disalin', textBlack);
         },
@@ -75,30 +53,6 @@ class _ShippingOrderListState extends State<ListDo> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (widget.result.pendapatan == 'KARGO')
-                Container(
-                  constraints: BoxConstraints(
-                    minHeight: 0.14.wp,
-                  ),
-                  child: Image(
-                    width: 0.14.wp,
-                    image: AssetImage(
-                      'assets/Asset 55300 1.png',
-                    ),
-                  ),
-                ),
-              if (widget.result.pendapatan == 'PAKET')
-                Container(
-                  constraints: BoxConstraints(
-                    minHeight: 0.14.wp,
-                  ),
-                  child: Image(
-                    width: 0.14.wp,
-                    image: AssetImage(
-                      'assets/Asset 57300 1.png',
-                    ),
-                  ),
-                ),
               Expanded(
                 child: Container(
                   constraints: BoxConstraints(
@@ -113,21 +67,10 @@ class _ShippingOrderListState extends State<ListDo> {
                       Container(
                         child: Row(
                           children: [
-                            Container(
-                              height: 0.03.hp,
-                              child: VerticalDivider(
-                                color: Color(
-                                  hexStringToHexInt(
-                                    '#FF5373',
-                                  ),
-                                ),
-                                thickness: 0.015.wp,
-                              ),
-                            ),
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  '${widget.result.nomor}',
+                                  '${widget.result.kode}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontFamily: "PlexSans",
@@ -145,6 +88,52 @@ class _ShippingOrderListState extends State<ListDo> {
                               child: Text('${widget.result.tanggal}'),
                             ),
                           ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            (widget.result.customer == null)
+                                ? Expanded(
+                                    child: Container(
+                                      child: Text(
+                                        '${widget.result.namaPengirim}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontFamily: "PlexSans",
+                                          fontSize: 50.ssp,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: Container(
+                                      child: Text(
+                                        '${widget.result.customer.nama}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontFamily: "PlexSans",
+                                          fontSize: 50.ssp,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(top: 0.02.hp),
+                        child: Text(
+                          'Waktu Sampai Status Failure',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "PlexSans",
+                            fontSize: 35.ssp,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                       Container(

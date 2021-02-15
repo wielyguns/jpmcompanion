@@ -471,4 +471,22 @@ class MainService extends Model {
     }
     return responseJson;
   }
+
+  Future<Map<String, dynamic>> getPickUp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$getPickUpApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
 }

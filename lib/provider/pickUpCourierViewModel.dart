@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/model/PickUpModel.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
@@ -23,7 +24,8 @@ class PickUpCourierViewModel extends BaseViewModel {
   final GlobalKey<FormState> _formKey = GlobalKey();
   String _titleSnap;
   String _penerimaValidation = '';
-  List<Asal> _feedData = [];
+  List<PickUp> _onProgressPickUp = [];
+  List<PickUp> _completedPickUp = [];
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
   String _trackingDescriptionValue;
@@ -81,7 +83,8 @@ class PickUpCourierViewModel extends BaseViewModel {
 
   String get titleSnap => _titleSnap;
   String get jenisBuktiPembayaranValue => _jenisBuktiPembayaranValue;
-  List<Asal> get feedData => _feedData;
+  List<PickUp> get onProgressPickUp => _onProgressPickUp;
+  List<PickUp> get completedPickUp => _completedPickUp;
   File get image => _image;
   // FUNCTION
   init(context, vsync) async {
@@ -97,7 +100,26 @@ class PickUpCourierViewModel extends BaseViewModel {
     setBusy(true);
     await getTrackingDescription();
     await getTrackingType();
+    await getPickUpData();
     setBusy(false);
+    notifyListeners();
+  }
+
+  getPickUpData() async {
+    await MainService().getPickUp().then(
+      (value) {
+        print(value);
+        if (value['status'] == 1) {
+          for (var item in value['data']) {
+            if (item['status'] == 'On Progress') {
+              _onProgressPickUp.add(PickUp.fromJson(item));
+            } else if (item.status == 'Completed') {
+              _completedPickUp.add(PickUp.fromJson(item));
+            }
+          }
+        }
+      },
+    );
     notifyListeners();
   }
 
@@ -106,17 +128,6 @@ class PickUpCourierViewModel extends BaseViewModel {
   }
 
   getImage(context) async {
-    // final pickedFile = await picker.getImage(
-    //   source: ImageSource.camera,
-    //   maxWidth: double.infinity,
-    //   maxHeight: double.infinity,
-    //   imageQuality: 10,
-    // );
-    // if (pickedFile != null) {
-    //   _image = File(pickedFile.path);
-    // } else {
-    //   print('No image selected.');
-    // }
     var result = await Navigator.of(context).pushNamed(camera);
     if (result != null) {
       _image = result;
@@ -340,4 +351,6 @@ class PickUpCourierViewModel extends BaseViewModel {
     _jenisBuktiPembayaranValue = value;
     notifyListeners();
   }
+
+  processing(item) {}
 }

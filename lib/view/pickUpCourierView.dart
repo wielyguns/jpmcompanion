@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/provider/pickUpCourierViewModel.dart';
+import 'package:jpmcompanion/widget/listPickUp.dart';
 import 'package:jpmcompanion/widget/loadingScreen.dart';
 import 'package:jpmcompanion/widget/shippingOrderInputField.dart';
 import 'package:signature/signature.dart';
@@ -126,146 +127,173 @@ class _PickUpCourierViewState extends State<PickUpCourierView>
                   notification.disallowGlow();
                   return;
                 },
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: model.formKey,
-                    child: Container(
-                      height: 1.hp,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 0.05.wp,
-                            ),
-                            color: Color(
-                              hexStringToHexInt('#F5F5F5'),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                    vertical: 0.01.hp,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          'Nama',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 40.ssp,
-                                            color: textGrey,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PlexSans",
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          '${(model.user != null) ? model.user.nama : '-'}',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 40.ssp,
-                                            color: textGrey,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PlexSans",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                    vertical: 0.01.hp,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          'Nopol Kendaraan',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 40.ssp,
-                                            color: textGrey,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PlexSans",
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          '${(model.user.courier != null) ? model.user.courier.kendaraan.nopol : '-'}',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 40.ssp,
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PlexSans",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(top: 0.02.hp),
-                              alignment: Alignment.topCenter,
-                              child: TabBar(
-                                controller: model.tabController,
-                                tabs: [
-                                  new Tab(
-                                    icon: new Icon(
-                                      Icons.circle,
-                                      color: Colors.grey,
-                                    ),
+                child: Container(
+                  height: 1.hp,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 0.05.wp,
+                        ),
+                        color: Color(
+                          hexStringToHexInt('#F5F5F5'),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                vertical: 0.01.hp,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
                                     child: Text(
-                                      'Waiting list',
+                                      'Nama',
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        color: Colors.grey,
+                                        fontSize: 40.ssp,
+                                        color: textGrey,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "PlexSans",
                                       ),
                                     ),
                                   ),
-                                  new Tab(
-                                    icon: new Icon(
-                                      Icons.queue_music,
-                                      color: Colors.grey,
-                                    ),
+                                  Container(
                                     child: Text(
-                                      'On Progress',
+                                      '${(model.user != null) ? model.user.nama : '-'}',
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  new Tab(
-                                    icon: new Icon(
-                                      Icons.shopping_cart,
-                                      color: Colors.grey,
-                                    ),
-                                    child: Text(
-                                      'Completed',
-                                      style: TextStyle(
-                                        color: Colors.grey,
+                                        fontSize: 40.ssp,
+                                        color: textGrey,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "PlexSans",
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          )
-                        ],
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                vertical: 0.01.hp,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      'Nopol Kendaraan',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 40.ssp,
+                                        color: textGrey,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "PlexSans",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      '${(model.user.courier != null) ? model.user.courier.kendaraan.nopol : '-'}',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 40.ssp,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "PlexSans",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                      if (model.tabController != null)
+                        Container(
+                          margin: EdgeInsets.only(top: 0.02.hp),
+                          alignment: Alignment.topCenter,
+                          child: TabBar(
+                            controller: model.tabController,
+                            tabs: [
+                              new Tab(
+                                icon: new Icon(
+                                  Icons.circle,
+                                  color: Colors.grey,
+                                ),
+                                child: Text(
+                                  'Waiting list',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              new Tab(
+                                icon: new Icon(
+                                  Icons.queue_music,
+                                  color: Colors.grey,
+                                ),
+                                child: Text(
+                                  'On Progress',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              new Tab(
+                                icon: new Icon(
+                                  Icons.shopping_cart,
+                                  color: Colors.grey,
+                                ),
+                                child: Text(
+                                  'Completed',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (model.tabController != null)
+                        Expanded(
+                          child: Container(
+                            child: TabBarView(
+                              controller: model.tabController,
+                              children: [
+                                Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 0.02.wp),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: model.onProgressPickUp
+                                          .map<Widget>((e) {
+                                        return ListPickUp(
+                                          result: e,
+                                          onPressed: () {
+                                            model.processing(e);
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Text('tes2'),
+                                ),
+                                Container(
+                                  child: Text('tes3'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                    ],
                   ),
                 ),
               ),

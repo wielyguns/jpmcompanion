@@ -60,6 +60,7 @@ dependencies:
   path: ^1.7.0
   image_picker: ^0.6.7+14
   flutter_masked_text: ^0.8.0
+  flutter_countdown_timer: ^3.0.0
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
   

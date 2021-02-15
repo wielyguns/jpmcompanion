@@ -269,7 +269,8 @@ class _ListDoViewState extends State<ListDoView> {
                                           width: 50.ssp,
                                           height: 50.ssp,
                                           image: AssetImage(
-                                              'assets/Asset 59300 1.png'),
+                                            'assets/Asset 59300 1.png',
+                                          ),
                                         ),
                                       ),
                                       TextSpan(
@@ -299,7 +300,8 @@ class _ListDoViewState extends State<ListDoView> {
                                           width: 50.ssp,
                                           height: 50.ssp,
                                           image: AssetImage(
-                                              'assets/Asset 52 1.png'),
+                                            'assets/Asset 52 1.png',
+                                          ),
                                         ),
                                       ),
                                       TextSpan(
