@@ -45,7 +45,6 @@ class _HomeViewState extends State<HomeView>
       return;
     }
 
-    _firebaseMessaging.subscribeToTopic('001');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -78,7 +77,7 @@ class _HomeViewState extends State<HomeView>
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      onModelReady: (model) => model.init(context, this),
+      onModelReady: (model) => model.init(context, this, _firebaseMessaging),
       viewModelBuilder: () => HomeViewModel(),
       builder: (context, model, child) => GestureDetector(
         onTap: () {

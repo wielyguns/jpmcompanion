@@ -7,11 +7,13 @@ import '../const.dart';
 class ListPickUp extends StatefulWidget {
   final Function() onPressed;
   final PickUp result;
+  final String status;
 
   const ListPickUp({
     Key key,
     this.onPressed,
     this.result,
+    this.status = 'On Progress',
   }) : super(key: key);
   @override
   _ListPickUpState createState() => _ListPickUpState();
@@ -22,17 +24,7 @@ class _ListPickUpState extends State<ListPickUp> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 0.01.hp,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(0.02.wp),
-        border: Border.all(
-          width: 1,
-          color: Colors.grey,
-        ),
-      ),
+      margin: EdgeInsets.symmetric(vertical: 0.01.hp),
       child: FlatButton(
         onPressed: () {
           widget.onPressed();
@@ -44,165 +36,205 @@ class _ListPickUpState extends State<ListPickUp> {
           messageToast('Kode disalin', textBlack);
         },
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 0.02.hp,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  constraints: BoxConstraints(
-                    minHeight: 0.14.wp,
+          width: 1.wp,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 0.02.hp,
+              horizontal: 0.02.wp,
+            ),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 2,
+                  offset: Offset(
+                    0,
+                    2,
                   ),
-                  margin: EdgeInsets.only(
-                    left: 0.04.wp,
+                  color: Color(
+                    hexStringToHexInt(
+                      '#dfebff',
+                    ),
                   ),
-                  child: Column(
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Pick Up Order : ${widget.result.kode}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 50.ssp,
-                            color: Color(
-                              hexStringToHexInt(
-                                '#FF5373',
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image(
+                              width: 25,
+                              height: 25,
+                              image: AssetImage(
+                                'assets/Asset 68300 1.png',
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 0.02.hp),
-                        child: Text(
-                          'Nama Pengirim',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            (widget.result.customer == null)
-                                ? Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        '${widget.result.namaPengirim}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontFamily: "PlexSans",
-                                          fontSize: 35.ssp,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        '${widget.result.customer.nama}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontFamily: "PlexSans",
-                                          fontSize: 35.ssp,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                            SizedBox(width: 5),
+                            Text(
+                              '${widget.result.kode}',
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
                           ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 0.02.hp),
-                        child: Text(
-                          'Waktu Order',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
+                      if (widget.status == 'On Progress')
+                        Container(
+                          padding: EdgeInsets.all(
+                            0.02.wp,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.orange[200],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            'PENDING',
+                            style: TextStyle(
+                              color: Colors.orange[800],
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '${widget.result.createdAt}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
+                      if (widget.status == 'Completed')
+                        Container(
+                          padding: EdgeInsets.all(
+                            0.02.wp,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green[200],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            'COMPLETED',
+                            style: TextStyle(
+                              color: Colors.green[600],
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 0.02.hp),
-                        child: Text(
-                          'Alamat Pickup',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '${widget.result.alamatPengirim}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 0.02.hp),
-                        child: Text(
-                          'Telpon',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '${widget.result.telponPengirim}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "PlexSans",
-                            fontSize: 35.ssp,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
-              )
-            ],
+                Divider(
+                  color: Colors.blue[50],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(
+                        width: 20,
+                        height: 20,
+                        image: AssetImage(
+                          'assets/Asset 50300 1.png',
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'FROM',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${widget.result.customer != null ? widget.result.customer.nama : widget.result.namaPengirim}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                child: Text(
+                                  '${widget.result.alamatPengirim}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(
+                        width: 20,
+                        height: 20,
+                        image: AssetImage(
+                          'assets/Asset 87300.png',
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ITEM',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${widget.result.keterangan}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                child: Text(
+                                  '${widget.result.berat} Kg | ${widget.result.koli} Koli',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

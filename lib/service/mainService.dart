@@ -333,7 +333,7 @@ class MainService extends Model {
           "signature",
           stream,
           length,
-          filename: file.toString(),
+          filename: file.path.split('/').last,
         );
         request.files.add(multipartFile);
       }
@@ -354,7 +354,7 @@ class MainService extends Model {
           "foto",
           stream,
           length,
-          filename: file.toString(),
+          filename: file.path.split('/').last,
         );
         request.files.add(multipartFile);
       }
@@ -481,6 +481,90 @@ class MainService extends Model {
         "$getPickUpApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+      print(responseJson);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> submitReceivedPickUp(data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String apiKey = (prefs.getString('token') ?? "");
+    apiKey = "Bearer " + apiKey;
+    var responseJson;
+    var dataJson;
+    try {
+      var uri = Uri.parse('$submitReceivedPickUpApi');
+      var request = new http.MultipartRequest("POST", uri);
+      request.headers['Authorization'] = apiKey;
+
+      if (data['image'] != null) {
+        var file = File(data['image']);
+
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "image",
+          stream,
+          length,
+          filename: file.path.split('/').last,
+        );
+        request.files.add(multipartFile);
+      }
+
+      request.fields['id'] = data['id'];
+      responseJson = await request.send();
+      dataJson = await http.Response.fromStream(responseJson);
+    } on SocketException {
+      responseJson = {"status": 2, "message": "No Internet connection"};
+    }
+    dataJson = json.decode(dataJson.body.toString());
+    debugPrint('$dataJson');
+    return dataJson;
+  }
+
+  Future<Map<String, dynamic>> submitCancelPickUp(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$submitCancelPickUpApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> saveTokenFireBase(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$saveTokenFireBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: {
+          "token": param.toString(),
         },
       );
       responseJson = await responseCheck(response);

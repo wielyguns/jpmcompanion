@@ -51,7 +51,7 @@ class HomeViewModel extends BaseViewModel {
   User get user => _user;
   List<Map> get shortcut => _shortcut;
   // FUNCTION
-  init(context, vsync) async {
+  init(context, vsync, firebase) async {
     await redirectToLogin(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getString('user');
@@ -97,10 +97,17 @@ class HomeViewModel extends BaseViewModel {
 
     setBusy(true);
     _tabController = TabController(length: 4, vsync: vsync);
+    firebase.subscribeToTopic('cabang${_user.kodeCabang}');
+    firebase.subscribeToTopic('courier${_user.courier.id}');
     await getAllNopolActive();
     await generateShortcut(context);
+    // await saveTokenFirebase(vsync);
     setBusy(false);
     notifyListeners();
+  }
+
+  saveTokenFirebase(args) async {
+    await MainService().saveTokenFireBase(args.token);
   }
 
   generateShortcut(context) async {

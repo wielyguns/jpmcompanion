@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/model/PickUpModel.dart';
 import 'package:jpmcompanion/route.dart';
 import 'package:camera/camera.dart';
 
 import 'const.dart';
 
 List<CameraDescription> cameras;
+PickUp onProcessPickUp;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -5,18 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/main.dart' as main;
 import 'package:jpmcompanion/model/PickUpModel.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
-import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PickUpCourierViewModel extends BaseViewModel {
   // GETTER
@@ -26,7 +28,6 @@ class PickUpCourierViewModel extends BaseViewModel {
   String _penerimaValidation = '';
   List<PickUp> _onProgressPickUp = [];
   List<PickUp> _completedPickUp = [];
-  PickUp _onProcessPickUp;
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
   String _trackingDescriptionValue;
@@ -45,12 +46,7 @@ class PickUpCourierViewModel extends BaseViewModel {
   ];
   List<TrackingType> _trackingType = [];
   List<TrackingDescription> _trackingDescription = [];
-  TextEditingController _tanggal = TextEditingController();
-  TextEditingController _deskripsi = TextEditingController();
-  TextEditingController _kota = TextEditingController();
-  TextEditingController _nopol = TextEditingController();
-  TextEditingController _penerima = TextEditingController();
-  TextEditingController _nomor = TextEditingController();
+  TextEditingController _alasanCancel = TextEditingController();
   po.Asal _kotaData;
   final LocalStorage storage = new LocalStorage('tracking');
   final SignatureController _signatureController = SignatureController(
@@ -62,6 +58,8 @@ class PickUpCourierViewModel extends BaseViewModel {
   File _image;
   TabController _tabController;
   bool _onProcessLoading = false;
+  bool _darken = false;
+  SnappingSheetController _snappingSheetController = SnappingSheetController();
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
@@ -69,12 +67,8 @@ class PickUpCourierViewModel extends BaseViewModel {
   String get trackingDescriptionValue => _trackingDescriptionValue;
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   GlobalKey<FormState> get formKey => _formKey;
-  TextEditingController get tanggal => _tanggal;
-  TextEditingController get deskripsi => _deskripsi;
-  TextEditingController get kota => _kota;
-  TextEditingController get nopol => _nopol;
-  TextEditingController get penerima => _penerima;
-  TextEditingController get nomor => _nomor;
+  TextEditingController get alasanCancel => _alasanCancel;
+
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
   List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
   List<DropdownMenuItem> get trackingDescriptionDropdown =>
@@ -86,8 +80,10 @@ class PickUpCourierViewModel extends BaseViewModel {
   String get jenisBuktiPembayaranValue => _jenisBuktiPembayaranValue;
   List<PickUp> get onProgressPickUp => _onProgressPickUp;
   List<PickUp> get completedPickUp => _completedPickUp;
-  PickUp get onProcessPickUp => _onProcessPickUp;
   bool get onProcessLoading => _onProcessLoading;
+  bool get darken => _darken;
+  SnappingSheetController get snappingSheetController =>
+      _snappingSheetController;
 
   File get image => _image;
   // FUNCTION
@@ -101,6 +97,7 @@ class PickUpCourierViewModel extends BaseViewModel {
     }
     _tabController = TabController(length: 3, vsync: vsync);
     _tabController.addListener(() {
+      _darken = false;
       notifyListeners();
     });
     setBusy(true);
@@ -112,14 +109,16 @@ class PickUpCourierViewModel extends BaseViewModel {
   }
 
   getPickUpData() async {
+    _onProgressPickUp = [];
+    _completedPickUp = [];
     await MainService().getPickUp().then(
       (value) {
-        print(value);
+        print('INI STATIS ${value['status']}');
         if (value['status'] == 1) {
           for (var item in value['data']) {
             if (item['status'] == 'On Progress') {
               _onProgressPickUp.add(PickUp.fromJson(item));
-            } else if (item.status == 'Completed') {
+            } else if (item['status'] == 'Completed') {
               _completedPickUp.add(PickUp.fromJson(item));
             }
           }
@@ -225,108 +224,141 @@ class PickUpCourierViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  changeDate(context) async {
-    var result = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().subtract(
-        Duration(days: -30),
+  changeJenisBuktiPembayaran(value) async {
+    _jenisBuktiPembayaranValue = value;
+    notifyListeners();
+  }
+
+  processing(item) async {
+    main.onProcessPickUp = item;
+    _tabController.animateTo(1);
+  }
+
+  refreshWaitingList() async {
+    await getPickUpData();
+  }
+
+  collapseSnapping() {
+    _darken = false;
+    _snappingSheetController.snapToPosition(
+      SnapPosition(
+        positionPixel: 0,
+        positionFactor: 0.5,
+        snappingCurve: Curves.ease,
+        snappingDuration: Duration(milliseconds: 200),
       ),
     );
-    if (result != null) {
-      _tanggal.text = DateFormat('d/M/y').format(result);
-    }
-  }
-
-  getOrigin(context) async {
-    var result = await Navigator.of(context).pushNamed(listKotaRoute);
-    if (result != null) {
-      _kotaData = result;
-      _kota.text = _kotaData.nama;
-      print(_kotaData.nama);
-    }
     notifyListeners();
   }
 
-  openQrCode(context) async {
-    if (_trackingTypeValue == '' ||
-        _trackingDescriptionValue == '' ||
-        _trackingTypeValue == null ||
-        _trackingDescriptionValue == null) {
-      messageToast('Semua data harus diisi', Colors.red);
-      return;
-    }
-
-    Map<String, dynamic> data = {
-      "type": _trackingTypeValue,
-      "deskripsi": _trackingDescriptionValue,
-      "nopol": _nopol.text,
-    };
-    Navigator.pushNamed(context, updateDoScannerRoute, arguments: data);
-  }
-
-  searchNopol(context) async {
-    Map<String, dynamic> data = {
-      "type": _trackingTypeValue,
-      "deskripsi": _trackingDescriptionValue,
-      "callback": 'true',
-    };
-
-    var result = await Navigator.pushNamed(
-      context,
-      updateDoScannerRoute,
-      arguments: data,
-    );
-
-    _nomor.text = result;
+  cancelPickUp(context) async {
+    _darken = true;
     notifyListeners();
+    await Future.delayed(Duration(milliseconds: 200)).then((value) {
+      _snappingSheetController.snapToPosition(
+        SnapPosition(
+          positionPixel: 0.5.hp,
+          positionFactor: 0.5,
+          snappingCurve: Curves.ease,
+          snappingDuration: Duration(milliseconds: 200),
+        ),
+      );
+    });
   }
 
-  changeType(value) async {
-    _trackingTypeValue = value;
-    _trackingDescriptionValue = null;
-    _trackingDescriptionDropdown = [];
-    for (var item in _trackingDescription) {
-      if ('${item.trackingTypeId}' == '$value') {
-        _trackingDescriptionDropdown.add(
-          DropdownMenuItem<String>(
-            child: Text('${item.deskripsi}'),
-            value: '${item.id}',
+  toWaitingListTab() {
+    _tabController.animateTo(0);
+  }
+
+  permissionDialog(context) {
+    return showDialog(
+      context: context,
+      child: new AlertDialog(
+        title: new Text(
+          "Anda yakin ingin menyelesaikan orderan ini?",
+          style: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
           ),
-        );
-      }
-    }
-    notifyListeners();
+        ),
+        actions: [
+          RaisedButton(
+            focusElevation: 0,
+            hoverElevation: 0,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.blue[50],
+            padding: EdgeInsets.zero,
+            color: Colors.transparent,
+            elevation: 0,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 0.015.hp,
+                horizontal: 0.04.wp,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  width: 1,
+                  color: Color(
+                    hexStringToHexInt('#126afc'),
+                  ),
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                'TIDAK',
+                style: TextStyle(
+                  color: Color(
+                    hexStringToHexInt('#126afc'),
+                  ),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          RaisedButton(
+            focusElevation: 0,
+            hoverElevation: 0,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.blue[50],
+            padding: EdgeInsets.zero,
+            color: Colors.transparent,
+            elevation: 0,
+            onPressed: () async {
+              Navigator.pop(context);
+              await submitReceivedPickup(context);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 0.015.hp,
+                horizontal: 0.04.wp,
+              ),
+              decoration: BoxDecoration(
+                color: Color(
+                  hexStringToHexInt('#126afc'),
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                'YA',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  changeDescription(value) async {
-    _trackingDescriptionValue = value;
-    notifyListeners();
-  }
-
-  getNopol(context) async {
-    var result = await Navigator.of(context).pushNamed(listNopolRoute);
-    if (result != null) {
-      po.Nopol temp = po.Nopol.fromJson(result);
-      _nopol.text = temp.nopol;
-    }
-
-    notifyListeners();
-  }
-
-  delivered(context) async {
-    setBusy(true);
-    Uint8List temp = await _signatureController.toPngBytes();
-    var signature;
+  submitReceivedPickup(context) async {
     var foto;
-    if (temp != null) {
-      final tempDir = await getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/signature.jpg').create();
-      file.writeAsBytesSync(temp);
-      signature = file.path;
-    }
-
+    setBusy(true);
     if (_image != null) {
       final tempDir = await getTemporaryDirectory();
       final file = await new File('${tempDir.path}/foto.jpg').create();
@@ -334,32 +366,43 @@ class PickUpCourierViewModel extends BaseViewModel {
       foto = file.path;
     }
 
-    Map<String, dynamic> data = {
-      "type": _trackingTypeValue,
-      "deskripsi": _trackingDescriptionValue,
-      "penerima": _penerima.text,
-      "signature": signature,
-      "foto": foto,
-      "nomor": _nomor.text,
+    _image = null;
+
+    Map data = {
+      "id": main.onProcessPickUp.id.toString(),
+      "image": foto,
     };
-    // print(file.path);
-    await MainService().processDelivered(data).then((value) {
+
+    await MainService().submitReceivedPickUp(data).then((value) async {
       if (value['status'] == 1) {
-        messageToast(value['message'], Colors.black);
+        main.onProcessPickUp = null;
+        await refreshWaitingList();
+        messageToast(value['message'], Colors.black54);
       } else {
-        messageToast(value['message'], Colors.red);
+        messageToast(value['message'], Colors.black54);
       }
     });
     setBusy(false);
-  }
-
-  changeJenisBuktiPembayaran(value) async {
-    _jenisBuktiPembayaranValue = value;
     notifyListeners();
   }
 
-  processing(item) async {
-    _onProcessPickUp = item;
-    _tabController.animateTo(1);
+  submitCancelPickUp(context) async {
+    setBusy(true);
+    Map data = {
+      "id": main.onProcessPickUp.id.toString(),
+      'alasan_cancel': _alasanCancel.text,
+    };
+
+    await MainService().submitCancelPickUp(data).then((value) async {
+      if (value['status'] == 1) {
+        main.onProcessPickUp = null;
+        await refreshWaitingList();
+        messageToast(value['message'], Colors.black54);
+      } else {
+        messageToast(value['message'], Colors.black54);
+      }
+    });
+    setBusy(false);
+    notifyListeners();
   }
 }

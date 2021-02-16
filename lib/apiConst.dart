@@ -23,6 +23,9 @@ const saveDoApi = '${baseApi}api/v2/save-do';
 const getDataDashboardApi = '${baseApi}api/v2/get-data';
 const deliveryOrderApi = '${baseApi}api/v2/delivery-order';
 const getPickUpApi = '${baseApi}api/v2/get-pickup';
+const submitReceivedPickUpApi = '${baseApi}api/v2/submit-received-pickup';
+const submitCancelPickUpApi = '${baseApi}api/v2/submit-cancel-pickup';
+const saveTokenFireBaseApi = '${baseApi}api/v2/save-token-firebase';
 
 // TOKEN
 const easygoToken = '17AE4926BB874810B0518C49C0DF29D5';
