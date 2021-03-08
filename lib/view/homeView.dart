@@ -58,6 +58,7 @@ class _HomeViewState extends State<HomeView>
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
+        Navigator.of(context).pushNamed(message['data']['route']);
         // _navigateToItemDetail(message);
       },
     );

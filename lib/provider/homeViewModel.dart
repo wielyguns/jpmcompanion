@@ -98,10 +98,10 @@ class HomeViewModel extends BaseViewModel {
     setBusy(true);
     _tabController = TabController(length: 4, vsync: vsync);
     firebase.subscribeToTopic('cabang${_user.kodeCabang}');
-    firebase.subscribeToTopic('courier${_user.courier.id}');
+    firebase.subscribeToTopic('courier');
     await getAllNopolActive();
     await generateShortcut(context);
-    // await saveTokenFirebase(vsync);
+    await saveTokenFirebase(vsync);
     setBusy(false);
     notifyListeners();
   }
