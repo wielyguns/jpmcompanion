@@ -465,7 +465,7 @@ class MainService extends Model {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
       );
-      responseJson = await responseCheck(response);
+      print(response.body.toString());
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }

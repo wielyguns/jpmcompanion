@@ -126,7 +126,7 @@ class _ListDoViewState extends State<ListDoView> {
                                   model.runFilter(value);
                                 },
                                 decoration: InputDecoration(
-                                  hintText: 'Filter Nopol...',
+                                  hintText: 'Filter DO...',
                                   contentPadding: EdgeInsets.only(
                                     left: 0.05.wp,
                                     right: 0.12.wp,
