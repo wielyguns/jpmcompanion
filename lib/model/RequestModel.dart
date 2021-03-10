@@ -106,6 +106,7 @@ class User {
   String nama;
   String username;
   String email;
+  String telpon;
   String emailVerifiedAt;
   String deletedAt;
   String createdAt;
@@ -126,6 +127,7 @@ class User {
       this.nama,
       this.username,
       this.email,
+      this.telpon,
       this.emailVerifiedAt,
       this.deletedAt,
       this.createdAt,
@@ -145,6 +147,7 @@ class User {
     nama = json['nama'];
     username = json['username'];
     email = json['email'];
+    telpon = json['telpon'];
     emailVerifiedAt = json['email_verified_at'];
     deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
@@ -174,6 +177,7 @@ class User {
     data['nama'] = this.nama;
     data['username'] = this.username;
     data['email'] = this.email;
+    data['telpon'] = this.telpon;
     data['email_verified_at'] = this.emailVerifiedAt;
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
@@ -390,6 +394,7 @@ class Courier {
   String nama;
   String email;
   String telpon;
+  String rute;
   String kodeCabang;
   int kendaraanId;
   Null userId;
@@ -405,6 +410,7 @@ class Courier {
       this.kode,
       this.nama,
       this.email,
+      this.rute,
       this.telpon,
       this.kodeCabang,
       this.kendaraanId,
@@ -420,6 +426,7 @@ class Courier {
     id = json['id'];
     kode = json['kode'];
     nama = json['nama'];
+    rute = json['rute'];
     email = json['email'];
     telpon = json['telpon'];
     kodeCabang = json['kode_cabang'];
@@ -440,6 +447,7 @@ class Courier {
     data['id'] = this.id;
     data['kode'] = this.kode;
     data['nama'] = this.nama;
+    data['rute'] = this.rute;
     data['email'] = this.email;
     data['telpon'] = this.telpon;
     data['kode_cabang'] = this.kodeCabang;

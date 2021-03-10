@@ -60,7 +60,9 @@ class _MapTabViewState extends State<MapTabView> {
   @override
   void dispose() {
     _timer.cancel();
-    _controller.dispose();
+    if (_controller != null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 

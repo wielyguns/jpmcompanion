@@ -62,6 +62,7 @@ dependencies:
   flutter_masked_text: ^0.8.0
   flutter_countdown_timer: ^3.0.0
   url_launcher: ^5.7.10
+  convex_bottom_bar: ^2.7.1+2
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
   

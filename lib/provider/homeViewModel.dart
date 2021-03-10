@@ -93,15 +93,17 @@ class HomeViewModel extends BaseViewModel {
           default:
         }
       }
+
+      setBusy(true);
+      _tabController = TabController(length: 4, vsync: vsync);
+      firebase.subscribeToTopic('cabang${_user.kodeCabang}');
+      firebase.subscribeToTopic('courier');
+      await getAllNopolActive();
+      await generateShortcut(context);
+      await saveTokenFirebase(vsync);
+      setBusy(false);
     }
 
-    setBusy(true);
-    _tabController = TabController(length: 4, vsync: vsync);
-    firebase.subscribeToTopic('cabang${_user.kodeCabang}');
-    firebase.subscribeToTopic('courier');
-    await getAllNopolActive();
-    await generateShortcut(context);
-    await saveTokenFirebase(vsync);
     setBusy(false);
     notifyListeners();
   }

@@ -1,3 +1,4 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/provider/homeViewModel.dart';
 import 'package:jpmcompanion/view/dashboardTabView.dart';
 import 'package:jpmcompanion/view/mapTabView.dart';
+import 'package:jpmcompanion/view/profileTabView.dart';
 import 'package:jpmcompanion/widget/customBottomNavigationBar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vibration/vibration.dart';
@@ -187,21 +189,22 @@ class _HomeViewState extends State<HomeView>
                             ),
                           ),
                           Container(
-                            child: Image(
-                              width: 0.3.wp,
-                              image: AssetImage('assets/Asset 2@4x.png'),
-                            ),
+                            child: ProfileTabView(),
                           ),
                         ],
                       )
                     : Container(),
               ),
             ),
-            bottomNavigationBar: CustomBottomNavigationBar(
-              height: kToolbarHeight,
-              onTap: (index) {
-                model.changeTab(index);
-              },
+            bottomNavigationBar: ConvexAppBar(
+              items: [
+                TabItem(icon: Icons.home, title: 'Home'),
+                TabItem(icon: Icons.map, title: 'Discovery'),
+                TabItem(icon: Icons.message, title: 'Notification'),
+                TabItem(icon: Icons.people, title: 'Profile'),
+              ],
+              initialActiveIndex: 0, //optional, default as 0
+              onTap: (int i) => model.changeTab(i),
             ),
           ),
         ),
