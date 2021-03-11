@@ -214,7 +214,7 @@ class _DashboardTabViewState extends State<DashboardTabView> {
                   ),
                 ),
                 SizedBox(
-                  height: 0.02.hp,
+                  height: 0.1.hp,
                 )
               ],
             ),

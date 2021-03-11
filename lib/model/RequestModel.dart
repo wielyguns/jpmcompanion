@@ -404,23 +404,29 @@ class Courier {
   String createdAt;
   String updatedAt;
   Kendaraan kendaraan;
-
-  Courier(
-      {this.id,
-      this.kode,
-      this.nama,
-      this.email,
-      this.rute,
-      this.telpon,
-      this.kodeCabang,
-      this.kendaraanId,
-      this.userId,
-      this.status,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.kendaraan});
+  dynamic total;
+  dynamic totalOnProgress;
+  dynamic totalFail;
+  Courier({
+    this.id,
+    this.kode,
+    this.nama,
+    this.email,
+    this.rute,
+    this.telpon,
+    this.kodeCabang,
+    this.kendaraanId,
+    this.userId,
+    this.status,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.kendaraan,
+    this.total,
+    this.totalOnProgress,
+    this.totalFail,
+  });
 
   Courier.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -440,6 +446,9 @@ class Courier {
     kendaraan = json['kendaraan'] != null
         ? new Kendaraan.fromJson(json['kendaraan'])
         : null;
+    total = json['total'];
+    totalOnProgress = json['total_on_progress'];
+    totalFail = json['total_fail'];
   }
 
   Map<String, dynamic> toJson() {
@@ -461,6 +470,9 @@ class Courier {
     if (this.kendaraan != null) {
       data['kendaraan'] = this.kendaraan.toJson();
     }
+    data['total'] = this.total;
+    data['total_on_progress'] = this.totalOnProgress;
+    data['total_fail'] = this.totalFail;
     return data;
   }
 }

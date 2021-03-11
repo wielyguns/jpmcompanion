@@ -12,6 +12,7 @@ import 'package:jpmcompanion/service/mainService.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/widget/mapDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:stacked/stacked.dart';
 import '../const.dart';
 
@@ -19,6 +20,11 @@ class HomeViewModel extends BaseViewModel {
   // SETTER
   TabController _tabController;
   TextEditingController _search = TextEditingController();
+  TextEditingController _routeText = TextEditingController();
+  TextEditingController _namaText = TextEditingController();
+  TextEditingController _emailText = TextEditingController();
+  TextEditingController _telponText = TextEditingController();
+  TextEditingController _passwordText = TextEditingController();
 
   List<FlSpot> _pendapatanSpots = [
     FlSpot(0, 0),
@@ -40,8 +46,22 @@ class HomeViewModel extends BaseViewModel {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TrackingResult _activeTracking = TrackingResult();
   List<Map> _shortcut = [];
+  bool _darken = false;
+  bool _isApiBusy = false;
+  String _snappingStatus;
+  SnappingSheetController _snappingRouteController = SnappingSheetController();
+
   // GETTER
   TextEditingController get search => _search;
+  bool get darken => _darken;
+  bool get isApiBusy => _isApiBusy;
+  String get snappingStatus => _snappingStatus;
+
+  TextEditingController get routeText => _routeText;
+  TextEditingController get namaText => _namaText;
+  TextEditingController get emailText => _emailText;
+  TextEditingController get telponText => _telponText;
+  TextEditingController get passwordText => _passwordText;
   TabController get tabController => _tabController;
   TrackingResult get activeTracking => _activeTracking;
   List<FlSpot> get pendapatanSpots => _pendapatanSpots;
@@ -49,51 +69,17 @@ class HomeViewModel extends BaseViewModel {
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   bool get isSnapOpen => _isSnapOpen;
   User get user => _user;
+  SnappingSheetController get snappingRouteController =>
+      _snappingRouteController;
+
   List<Map> get shortcut => _shortcut;
   // FUNCTION
   init(context, vsync, firebase) async {
     await redirectToLogin(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var temp = prefs.getString('user');
+    var temp = prefs.getString('token');
     if (temp != null) {
-      _user = User.fromJson(jsonDecode(temp));
-      for (HakAkses item in _user.hakAkses) {
-        print(item.masterMenu.url);
-        switch (item.masterMenu.url) {
-          case createDoRoute:
-            if (item.view == 'true') {
-              createDoAccess = true;
-            }
-            break;
-          case trackingDoRoute:
-            if (item.view == 'true') {
-              trackingDoAccess = true;
-            }
-            break;
-          case updateDoRoute:
-            if (item.view == 'true') {
-              updateDoAccess = true;
-            }
-            break;
-          case purchaseOrderRoute:
-            if (item.view == 'true') {
-              purchaseOrderAccess = true;
-            }
-            break;
-          case map:
-            if (item.view == 'true') {
-              mapAccess = true;
-            }
-            break;
-          case pickupCourierRoute:
-            if (item.view == 'true') {
-              pickupCourierAccess = true;
-            }
-            break;
-          default:
-        }
-      }
-
+      await getDataUser();
       setBusy(true);
       _tabController = TabController(length: 4, vsync: vsync);
       firebase.subscribeToTopic('cabang${_user.kodeCabang}');
@@ -108,8 +94,73 @@ class HomeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  getDataUser() async {
+    await MainService().user().then((value) async {
+      if (value['status'] == 1) {
+        _user = User.fromJson(value['data']);
+        for (HakAkses item in _user.hakAkses) {
+          switch (item.masterMenu.url) {
+            case createDoRoute:
+              if (item.view == 'true') {
+                createDoAccess = true;
+              }
+              break;
+            case trackingDoRoute:
+              if (item.view == 'true') {
+                trackingDoAccess = true;
+              }
+              break;
+            case updateDoRoute:
+              if (item.view == 'true') {
+                updateDoAccess = true;
+              }
+              break;
+            case purchaseOrderRoute:
+              if (item.view == 'true') {
+                purchaseOrderAccess = true;
+              }
+              break;
+            case map:
+              if (item.view == 'true') {
+                mapAccess = true;
+              }
+              break;
+            case pickupCourierRoute:
+              if (item.view == 'true') {
+                pickupCourierAccess = true;
+              }
+              break;
+            default:
+          }
+        }
+      } else if (value['status'] == 0) {
+        // await redirectToLogin(context);
+      }
+    });
+    notifyListeners();
+  }
+
   saveTokenFirebase(args) async {
     await MainService().saveTokenFireBase(args.token);
+  }
+
+  changeRoute(context, param) async {
+    _snappingStatus = param;
+    _darken = true;
+    notifyListeners();
+    await Future.delayed(Duration(milliseconds: 200)).then((value) {
+      if (_snappingRouteController != null) {
+        _snappingRouteController.snapToPosition(
+          SnapPosition(
+            positionPixel: 0.5.hp,
+            positionFactor: 0.5,
+            snappingCurve: Curves.ease,
+            snappingDuration: Duration(milliseconds: 200),
+          ),
+        );
+      }
+      notifyListeners();
+    });
   }
 
   generateShortcut(context) async {
@@ -192,6 +243,19 @@ class HomeViewModel extends BaseViewModel {
     );
   }
 
+  collapseSnapping() {
+    _darken = false;
+    _snappingRouteController.snapToPosition(
+      SnapPosition(
+        positionPixel: 0,
+        positionFactor: 0.5,
+        snappingCurve: Curves.ease,
+        snappingDuration: Duration(milliseconds: 200),
+      ),
+    );
+    notifyListeners();
+  }
+
   changeTab(index) {
     _index = index;
     _tabController.animateTo(index);
@@ -204,6 +268,79 @@ class HomeViewModel extends BaseViewModel {
     } else {
       _isSnapOpen = false;
     }
+    notifyListeners();
+  }
+
+  submitRoutePickUp(context) async {
+    switch (_snappingStatus) {
+      case 'rute':
+        Map data = {
+          'rute': _routeText.text,
+        };
+        _isApiBusy = true;
+        notifyListeners();
+        await MainService().changeRouteCourier(data).then((value) async {
+          if (value['status'] == 1) {
+            messageToast(value['message'], Colors.black54);
+          } else {
+            messageToast(value['message'], Colors.black54);
+          }
+        });
+        _isApiBusy = false;
+        break;
+      case 'user':
+        Map data = {
+          'nama': _namaText.text,
+          'email': _emailText.text,
+          'telpon': _telponText.text,
+        };
+        _isApiBusy = true;
+        notifyListeners();
+        await MainService().updateUser(data).then((value) async {
+          if (value['status'] == 1) {
+            messageToast(value['message'], Colors.black54);
+          } else {
+            messageToast(value['message'], Colors.black54);
+          }
+        });
+        _isApiBusy = false;
+        break;
+      case 'password':
+        Map data = {
+          'password': _passwordText.text,
+        };
+        _isApiBusy = true;
+        notifyListeners();
+        await MainService().updatePassword(data).then((value) async {
+          if (value['status'] == 1) {
+            messageToast(value['message'], Colors.black54);
+          } else {
+            messageToast(value['message'], Colors.black54);
+          }
+        });
+        _isApiBusy = false;
+        break;
+      default:
+    }
+    collapseSnapping();
+    notifyListeners();
+  }
+
+  submitUser(context) async {
+    Map data = {
+      'rute': _routeText.text,
+    };
+    _isApiBusy = true;
+    notifyListeners();
+    await MainService().updateUser(data).then((value) async {
+      if (value['status'] == 1) {
+        messageToast(value['message'], Colors.black54);
+      } else {
+        messageToast(value['message'], Colors.black54);
+      }
+    });
+    _isApiBusy = false;
+    collapseSnapping();
     notifyListeners();
   }
 

@@ -573,4 +573,102 @@ class MainService extends Model {
     }
     return responseJson;
   }
+
+  Future<Map<String, dynamic>> changeRouteCourier(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$changeRouteCourierBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> updateUser(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$updateUserBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> updatePassword(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$updatePasswordBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> changeUserPicture(data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String apiKey = (prefs.getString('token') ?? "");
+    apiKey = "Bearer " + apiKey;
+    var responseJson;
+    var dataJson;
+    try {
+      var uri = Uri.parse('$changeUserPictureApi');
+      var request = new http.MultipartRequest("POST", uri);
+      request.headers['Authorization'] = apiKey;
+
+      if (data['image'] != null) {
+        var file = File(data['image']);
+
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "image",
+          stream,
+          length,
+          filename: file.path.split('/').last,
+        );
+        request.files.add(multipartFile);
+      }
+      responseJson = await request.send();
+      dataJson = await http.Response.fromStream(responseJson);
+    } on SocketException {
+      responseJson = {"status": 2, "message": "No Internet connection"};
+    }
+    dataJson = json.decode(dataJson.body.toString());
+    debugPrint('$dataJson');
+    return dataJson;
+  }
 }
