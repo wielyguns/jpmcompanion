@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/provider/listDoViewModel.dart';
 import 'package:jpmcompanion/widget/listDo.dart';
-import 'package:jpmcompanion/widget/nopolList.dart';
 import 'package:stacked/stacked.dart';
 
 class ListDoView extends StatefulWidget {
@@ -128,7 +126,7 @@ class _ListDoViewState extends State<ListDoView> {
                                   model.runFilter(value);
                                 },
                                 decoration: InputDecoration(
-                                  hintText: 'Filter Nopol...',
+                                  hintText: 'Filter DO...',
                                   contentPadding: EdgeInsets.only(
                                     left: 0.05.wp,
                                     right: 0.12.wp,
@@ -271,7 +269,8 @@ class _ListDoViewState extends State<ListDoView> {
                                           width: 50.ssp,
                                           height: 50.ssp,
                                           image: AssetImage(
-                                              'assets/Asset 59300 1.png'),
+                                            'assets/Asset 59300 1.png',
+                                          ),
                                         ),
                                       ),
                                       TextSpan(
@@ -301,7 +300,8 @@ class _ListDoViewState extends State<ListDoView> {
                                           width: 50.ssp,
                                           height: 50.ssp,
                                           image: AssetImage(
-                                              'assets/Asset 52 1.png'),
+                                            'assets/Asset 52 1.png',
+                                          ),
                                         ),
                                       ),
                                       TextSpan(
@@ -411,10 +411,20 @@ class _ListDoViewState extends State<ListDoView> {
                                             child: ListDo(
                                               result: e.value,
                                               onPressed: () {
-                                                Navigator.of(context).pushNamed(
-                                                  doDetailRoute,
-                                                  arguments: e.value,
-                                                );
+                                                if (widget.param['route'] ==
+                                                    doDetailRoute) {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                    doDetailRoute,
+                                                    arguments: e.value,
+                                                  );
+                                                } else {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                    trackingDoRoute,
+                                                    arguments: e.value,
+                                                  );
+                                                }
                                               },
                                             ),
                                           ),
@@ -433,10 +443,18 @@ class _ListDoViewState extends State<ListDoView> {
                                     return ListDo(
                                       result: e.value,
                                       onPressed: () {
-                                        Navigator.of(context).pushNamed(
-                                          doDetailRoute,
-                                          arguments: e.value,
-                                        );
+                                        if (widget.param['route'] ==
+                                            doDetailRoute) {
+                                          Navigator.of(context).pushNamed(
+                                            doDetailRoute,
+                                            arguments: e.value,
+                                          );
+                                        } else {
+                                          Navigator.of(context).pushNamed(
+                                            trackingDoRoute,
+                                            arguments: e.value,
+                                          );
+                                        }
                                       },
                                     );
                                   }

@@ -495,7 +495,7 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: 'Siganture',
+                                          text: 'Bukti',
                                           style: TextStyle(
                                             color: purpleTheme,
                                             fontSize: 45.ssp,
@@ -506,32 +506,78 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                     ),
                                   ),
                                   Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 1,
-                                        color: borderBox,
+                                    height: 300,
+                                    margin: EdgeInsets.only(top: 0.04.wp),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        model.getImage(context);
+                                      },
+                                      child: Container(
+                                        width: 1.wp,
+                                        height: 300,
+                                        color: Colors.white,
+                                        child: Stack(
+                                          children: [
+                                            Text(
+                                              'Foto',
+                                              style: TextStyle(
+                                                color: purpleTheme,
+                                                fontSize: 45.ssp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Container(
+                                              alignment: Alignment.center,
+                                              width: 1.wp,
+                                              height: 300,
+                                              child: model.image == null
+                                                  ? Icon(
+                                                      Icons.camera_alt,
+                                                      size: 70.ssp,
+                                                      color: purpleTheme,
+                                                    )
+                                                  : Image.file(model.image),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    margin: EdgeInsets.only(top: 0.04.wp),
-                                    child: Stack(
-                                      children: [
-                                        Signature(
-                                          controller: model.signatureController,
-                                          height: 300,
-                                          backgroundColor: Colors.white,
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.clear),
-                                          color: Colors.blue,
-                                          onPressed: () {
-                                            setState(() => model
-                                                .signatureController
-                                                .clear());
-                                          },
-                                        ),
-                                      ],
+                                  ),
+                                  Visibility(
+                                    visible: false,
+                                    child: Container(
+                                      child: Stack(
+                                        children: [
+                                          Signature(
+                                            controller:
+                                                model.signatureController,
+                                            height: 300,
+                                            backgroundColor: Colors.white,
+                                          ),
+                                          Text(
+                                            'Tanda Tangan',
+                                            style: TextStyle(
+                                              color: purpleTheme,
+                                              fontSize: 45.ssp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            child: IconButton(
+                                              icon: const Icon(Icons.clear),
+                                              color: Colors.blue,
+                                              onPressed: () {
+                                                setState(() => model
+                                                    .signatureController
+                                                    .clear());
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

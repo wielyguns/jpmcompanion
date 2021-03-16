@@ -14,6 +14,7 @@ const loginRoute = '/login-route';
 const dashboardRoute = '/';
 const purchaseOrderRoute = '/purchase-order-route';
 const listKotaRoute = '/list-kota-route';
+const listCustomerRoute = '/list-customer-route';
 const listNopolRoute = '/list-nopol-route';
 const mapSelectRoute = '/map-select-route';
 const shippingOrderDetailRoute = '/shipping-order-detail-route';
@@ -22,6 +23,29 @@ const updateDoScannerRoute = '/update-do-scanner-route';
 const trackingDoRoute = '/tracking-do-route';
 const listDoRoute = '/list-do-route';
 const doDetailRoute = '/do-detail-route';
+const createDoRoute = '/create-do-route';
+const shortcutMenuRoute = '/shortcut-menu-route';
+const pickupCourierRoute = '/pick-up-courier-route';
+const camera = '/camera';
+const map = '/map';
+
+// HAK AKSES
+
+var dashboardAccess = true;
+var purchaseOrderAccess = false;
+var listKotaAccess = false;
+var listCustomerAccess = false;
+var listNopolAccess = false;
+var mapSelectAccess = false;
+var shippingOrderDetailAccess = false;
+var updateDoAccess = false;
+var updateDoScannerAccess = false;
+var trackingDoAccess = false;
+var listDoAccess = false;
+var doDetailAccess = false;
+var createDoAccess = false;
+var mapAccess = false;
+var pickupCourierAccess = false;
 // COLOR
 Color greenTea = Color(hexStringToHexInt('#7bc145'));
 Color borderBox = Color(hexStringToHexInt('#DEDEDE'));

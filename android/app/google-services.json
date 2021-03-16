@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "160347012061",
+    "firebase_url": "https://jpmcompanion.firebaseio.com",
+    "project_id": "jpmcompanion",
+    "storage_bucket": "jpmcompanion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160347012061:android:c8f221631a869650a1d434",
+        "android_client_info": {
+          "package_name": "com.jpmandiri.jpmcompanion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160347012061-rrrjb2qenebfjin5hvhbq1421atvs1h0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEDiA5vR33Yr_2S10u7j1OPsBfWeyoyB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160347012061-rrrjb2qenebfjin5hvhbq1421atvs1h0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

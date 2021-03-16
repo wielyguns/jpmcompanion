@@ -71,11 +71,10 @@ class ListDoViewModel extends BaseViewModel {
 
   runFilter(value) async {
     setBusy(true);
-    _currentPage = 1;
-    _deliveryOrder = [];
-    notifyListeners();
 
     _debouncer.run(() async {
+      _currentPage = 1;
+      _deliveryOrder = [];
       await getDeliveryOrder(_scaffoldKey.currentContext);
       setBusy(false);
       notifyListeners();

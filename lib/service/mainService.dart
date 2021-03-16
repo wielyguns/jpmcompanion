@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/apiConst.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
@@ -79,7 +80,81 @@ class MainService extends Model {
         },
         body: data,
       );
-      responseJson = await await responseCheck(response);
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getCustomer(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.post("$getCustomerApi", headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      }, body: {
+        "param": value,
+      });
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getSubCity(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.post("$getKecamatanApi", headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      }, body: {
+        "tujuan_id": '$value',
+      });
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> searchTarif(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    if (param.jenisUnit == null) {
+      param.jenisUnit = [];
+    }
+
+    var body = jsonEncode(param.toJson());
+    try {
+      final response = await http.post(
+        "$searchTarifApi?jenis_do=BARU",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getJenisKiriman() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+    try {
+      final response = await http.get("$getJenisKirimanApi", headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      });
+      responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }
@@ -97,7 +172,7 @@ class MainService extends Model {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
       );
-      responseJson = await await responseCheck(response);
+      responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }
@@ -213,7 +288,6 @@ class MainService extends Model {
   Future<Map<String, dynamic>> updateTracking(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var responseJson;
-    print(data);
     try {
       final response = await http.post(
         "$updateTrackingApi",
@@ -235,9 +309,9 @@ class MainService extends Model {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String apiKey = (prefs.getString('token') ?? "");
     apiKey = "Bearer " + apiKey;
+    print(apiKey);
     var responseJson;
     var dataJson;
-    print(data);
     try {
       var uri = Uri.parse('$updateTrackingApi');
       var request = new http.MultipartRequest("POST", uri);
@@ -259,22 +333,43 @@ class MainService extends Model {
           "signature",
           stream,
           length,
-          filename: file.toString(),
+          filename: file.path.split('/').last,
         );
         request.files.add(multipartFile);
       }
+
+      if (data['foto'] != null) {
+        var file = File(data['foto']);
+
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "foto",
+          stream,
+          length,
+          filename: file.path.split('/').last,
+        );
+        request.files.add(multipartFile);
+      }
+
       request.fields['nomor'] = data['nomor'];
       request.fields['penerima'] = data['penerima'];
       request.fields['type'] = data['type'];
       request.fields['deskripsi'] = data['deskripsi'];
       responseJson = await request.send();
       dataJson = await http.Response.fromStream(responseJson);
-
-      print(dataJson);
+      debugPrint('$dataJson');
     } on SocketException {
       responseJson = {"status": 2, "message": "No Internet connection"};
     }
-    print(dataJson.body.toString());
+    debugPrint(dataJson.body.toString());
     dataJson = json.decode(dataJson.body.toString());
     return dataJson;
   }
@@ -290,10 +385,290 @@ class MainService extends Model {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
       );
-      responseJson = await await responseCheck(response);
+      responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }
     return responseJson;
+  }
+
+  Future<Map<String, dynamic>> detailDeliveryOrder(nomor) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$deliveryOrderApi/$nomor",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> saveDo(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    if (param.jenisUnit == null) {
+      param.jenisUnit = [];
+    }
+
+    var body = jsonEncode(param.toJson());
+    try {
+      final response = await http.post(
+        "$saveDoApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getTracking(nomor) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+    var param = "?nomor=$nomor";
+    try {
+      final response = await http.get(
+        "$getTrackingApiRoute$param",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getDataDashboard() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.get(
+        "$getDataDashboardApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getPickUp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$getPickUpApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+      print(responseJson);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> submitReceivedPickUp(data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String apiKey = (prefs.getString('token') ?? "");
+    apiKey = "Bearer " + apiKey;
+    var responseJson;
+    var dataJson;
+    try {
+      var uri = Uri.parse('$submitReceivedPickUpApi');
+      var request = new http.MultipartRequest("POST", uri);
+      request.headers['Authorization'] = apiKey;
+
+      if (data['image'] != null) {
+        var file = File(data['image']);
+
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "image",
+          stream,
+          length,
+          filename: file.path.split('/').last,
+        );
+        request.files.add(multipartFile);
+      }
+
+      request.fields['id'] = data['id'];
+      responseJson = await request.send();
+      dataJson = await http.Response.fromStream(responseJson);
+    } on SocketException {
+      responseJson = {"status": 2, "message": "No Internet connection"};
+    }
+    dataJson = json.decode(dataJson.body.toString());
+    debugPrint('$dataJson');
+    return dataJson;
+  }
+
+  Future<Map<String, dynamic>> submitCancelPickUp(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$submitCancelPickUpApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> saveTokenFireBase(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$saveTokenFireBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: {
+          "token": param.toString(),
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> changeRouteCourier(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$changeRouteCourierBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> updateUser(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$updateUserBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> updatePassword(param) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        "$updatePasswordBaseApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+        body: param,
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> changeUserPicture(data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String apiKey = (prefs.getString('token') ?? "");
+    apiKey = "Bearer " + apiKey;
+    var responseJson;
+    var dataJson;
+    try {
+      var uri = Uri.parse('$changeUserPictureApi');
+      var request = new http.MultipartRequest("POST", uri);
+      request.headers['Authorization'] = apiKey;
+
+      if (data['image'] != null) {
+        var file = File(data['image']);
+        var stream = new http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(
+            file.openRead(),
+          ),
+        );
+
+        var length = await File(file.path).length();
+
+        var multipartFile = new http.MultipartFile(
+          "image",
+          stream,
+          length,
+          filename: file.path.split('/').last,
+        );
+        request.files.add(multipartFile);
+      }
+      request.fields['source'] = data['source'];
+      responseJson = await request.send();
+      dataJson = await http.Response.fromStream(responseJson);
+    } on SocketException {
+      responseJson = {"status": 2, "message": "No Internet connection"};
+    }
+    dataJson = json.decode(dataJson.body.toString());
+    debugPrint('$dataJson');
+    return dataJson;
   }
 }

@@ -26,7 +26,13 @@ class _DashboardSearchBarState extends State<DashboardSearchBar> {
             alignment: Alignment.center,
             child: MaterialButton(
               splashColor: purpleLightTheme,
-              onPressed: () {},
+              onPressed: () {
+                Map<String, dynamic> data = {
+                  "route": doDetailRoute,
+                };
+                Navigator.of(context)
+                    .pushNamed(updateDoScannerRoute, arguments: data);
+              },
               elevation: 0,
               color: Colors.white,
               child: Column(
@@ -73,7 +79,7 @@ class _DashboardSearchBarState extends State<DashboardSearchBar> {
                   child: TextField(
                     onTap: () {
                       Map data = {
-                        "route": trackingDoRoute,
+                        "route": doDetailRoute,
                       };
 
                       Navigator.of(context).pushNamed(

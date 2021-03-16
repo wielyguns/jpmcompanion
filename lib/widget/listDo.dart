@@ -152,7 +152,8 @@ class _ShippingOrderListState extends State<ListDo> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '${widget.result.asal.nama}',
+                                      text:
+                                          '${(widget.result.asal != null) ? widget.result.asal.nama : 'Tidak ada asal'}',
                                       style: TextStyle(
                                         fontSize: 25.ssp,
                                         fontWeight: FontWeight.bold,
@@ -189,7 +190,8 @@ class _ShippingOrderListState extends State<ListDo> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: '${widget.result.tujuan.nama}',
+                                        text:
+                                            '${(widget.result.tujuan != null) ? widget.result.tujuan.nama : 'Tidak ada asal'}',
                                         style: TextStyle(
                                           fontSize: 25.ssp,
                                           fontWeight: FontWeight.bold,

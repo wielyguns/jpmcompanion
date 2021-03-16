@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/model/deliveryOrderModel.dart';
 import 'package:jpmcompanion/provider/updateDoScannerViewModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:jpmcompanion/widget/debouncer.dart';
@@ -24,6 +25,7 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
   final debounce = Debouncer(milliseconds: 200);
   AudioPlayer audioPlayer = AudioPlayer();
   bool isScanning = false;
+  bool preventBackAgain = true;
   Map<String, dynamic> _data;
   QRViewController controller;
 
@@ -47,23 +49,46 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
       setState(() {
         isScanning = true;
         debounce.run(() async {
-          if (await Vibration.hasVibrator()) {
-            Vibration.vibrate();
-          }
-
           print("QRCode: $scanData");
           _data['nomor'] = scanData.toString().replaceAll(' ', '');
 
           if (widget.param['callback'] == null) {
-            await MainService().updateTracking(_data).then((value) {
-              if (value['status'] == 1) {
-                play(value['message']);
-              } else {
-                messageToast(value['message'], Colors.red);
+            if (widget.param['route'] != null) {
+              switch (widget.param['route']) {
+                case doDetailRoute:
+                  await MainService()
+                      .detailDeliveryOrder(scanData)
+                      .then((value) {
+                    if (value['status'] == 1) {
+                      DeliveryOrder data = DeliveryOrder.fromJson(
+                        value['data'],
+                      );
+                      Navigator.of(context).pushNamed(
+                        widget.param['route'],
+                        arguments: data,
+                      );
+                    } else {
+                      messageToast(value['message'], Colors.red);
+                    }
+                  });
+                  break;
+                default:
               }
-            });
+            } else {
+              await MainService().updateTracking(_data).then((value) {
+                if (value['status'] == 1) {
+                  play(value['message']);
+                } else {
+                  messageToast(value['message'], Colors.red);
+                }
+              });
+            }
           } else {
-            Navigator.of(context).pop(_data['nomor']);
+            if (preventBackAgain == true) {
+              Vibration.vibrate();
+              Navigator.of(context).pop(_data['nomor']);
+              preventBackAgain = false;
+            }
           }
         });
       });

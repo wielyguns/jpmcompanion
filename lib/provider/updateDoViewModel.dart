@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
-import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/service/mainService.dart';
-import 'package:jpmcompanion/view/homeView.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,8 +27,19 @@ class UpdateDoViewModel extends BaseViewModel {
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
   String _trackingDescriptionValue;
+  String _jenisBuktiPembayaranValue = 'foto';
   User _user = User();
   List<DropdownMenuItem> _trackingDescriptionDropdown = [];
+  List<DropdownMenuItem> _jenisBuktiPembayaran = [
+    DropdownMenuItem<String>(
+      child: Text('Foto'),
+      value: 'foto',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('Tanda tangan'),
+      value: 'tanda_tangan',
+    ),
+  ];
   List<TrackingType> _trackingType = [];
   List<TrackingDescription> _trackingDescription = [];
   TextEditingController _tanggal = TextEditingController();
@@ -43,10 +52,11 @@ class UpdateDoViewModel extends BaseViewModel {
   final LocalStorage storage = new LocalStorage('tracking');
   final SignatureController _signatureController = SignatureController(
     penStrokeWidth: 5,
-    penColor: Colors.red,
-    exportBackgroundColor: Colors.blue,
+    penColor: Colors.black,
+    exportBackgroundColor: Colors.white,
   );
-
+  final picker = ImagePicker();
+  File _image;
   // SETTER
   User get user => _user;
   String get trackingTypeValue => _trackingTypeValue;
@@ -61,18 +71,24 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController get penerima => _penerima;
   TextEditingController get nomor => _nomor;
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
+  List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
   List<DropdownMenuItem> get trackingDescriptionDropdown =>
       _trackingDescriptionDropdown;
   SignatureController get signatureController => _signatureController;
 
   String get titleSnap => _titleSnap;
+  String get jenisBuktiPembayaranValue => _jenisBuktiPembayaranValue;
   List<Asal> get feedData => _feedData;
+  File get image => _image;
   // FUNCTION
   init(context) async {
-    redirectToLogin(context);
+    await redirectToLogin(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getString('user');
-    _user = User.fromJson(jsonDecode(temp));
+    if (temp != null) {
+      _user = User.fromJson(jsonDecode(temp));
+    }
+
     setBusy(true);
     await getTrackingDescription();
     await getTrackingType();
@@ -82,6 +98,25 @@ class UpdateDoViewModel extends BaseViewModel {
 
   selectedData(context, item) {
     Navigator.of(context).pop(item);
+  }
+
+  getImage(context) async {
+    // final pickedFile = await picker.getImage(
+    //   source: ImageSource.camera,
+    //   maxWidth: double.infinity,
+    //   maxHeight: double.infinity,
+    //   imageQuality: 10,
+    // );
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    // } else {
+    //   print('No image selected.');
+    // }
+    var result = await Navigator.of(context).pushNamed(camera);
+    if (result != null) {
+      _image = result;
+    }
+    notifyListeners();
   }
 
   getTrackingDescription() async {
@@ -113,6 +148,7 @@ class UpdateDoViewModel extends BaseViewModel {
 
   getTrackingType() async {
     await storage.clear();
+
     if (storage.getItem('trackingType') == null) {
       await MainService().getTrackingType().then((value) {
         if (value['status'] == 1) {
@@ -136,8 +172,7 @@ class UpdateDoViewModel extends BaseViewModel {
     }
 
     for (var item in _trackingType) {
-      print(_user.kodeAgen);
-      if (_user.jabatan.id == 2) {
+      if (_user.jabatan.id == 2 || _user.jabatan.id == 3) {
         if (item.id == 1 || item.id == 4 || item.id == 5) {
           _trackingTypeDropdown.add(
             DropdownMenuItem<String>(
@@ -261,32 +296,43 @@ class UpdateDoViewModel extends BaseViewModel {
   delivered(context) async {
     setBusy(true);
     Uint8List temp = await _signatureController.toPngBytes();
-    final tempDir = await getTemporaryDirectory();
-    final file = await new File('${tempDir.path}/image.jpg').create();
-    file.writeAsBytesSync(temp);
+    var signature;
+    var foto;
+    if (temp != null) {
+      final tempDir = await getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/signature.jpg').create();
+      file.writeAsBytesSync(temp);
+      signature = file.path;
+    }
+
+    if (_image != null) {
+      final tempDir = await getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/foto.jpg').create();
+      file.writeAsBytesSync(_image.readAsBytesSync());
+      foto = file.path;
+    }
 
     Map<String, dynamic> data = {
       "type": _trackingTypeValue,
       "deskripsi": _trackingDescriptionValue,
       "penerima": _penerima.text,
-      "signature": file.path,
+      "signature": signature,
+      "foto": foto,
       "nomor": _nomor.text,
     };
-
+    // print(file.path);
     await MainService().processDelivered(data).then((value) {
       if (value['status'] == 1) {
         messageToast(value['message'], Colors.black);
-        Navigator.pushAndRemoveUntil(
-          context,
-          RouteAnimationDurationFade(
-            widget: HomeView(),
-          ),
-          (route) => false,
-        );
       } else {
         messageToast(value['message'], Colors.red);
       }
     });
     setBusy(false);
+  }
+
+  changeJenisBuktiPembayaran(value) async {
+    _jenisBuktiPembayaranValue = value;
+    notifyListeners();
   }
 }

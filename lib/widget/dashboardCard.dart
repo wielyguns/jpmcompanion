@@ -55,7 +55,7 @@ class _DashboardCardState extends State<DashboardCard> {
                 ),
                 Container(
                   child: Text(
-                    '${oCcy.format(widget.total)}',
+                    '${oCcy.format((widget.total != null) ? widget.total : 0)}',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
