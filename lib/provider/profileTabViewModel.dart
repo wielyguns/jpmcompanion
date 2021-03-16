@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,6 +47,9 @@ class ProfileTabViewModel extends BaseViewModel {
     await MainService().user().then((value) async {
       if (value['status'] == 1) {
         _user = User.fromJson(value['data']);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('user', jsonEncode(value['data']).toString());
       } else if (value['status'] == 0) {
         // await redirectToLogin(context);
       }
@@ -154,7 +157,7 @@ class ProfileTabViewModel extends BaseViewModel {
         _image = result;
       }
     } else {
-      var pickedFile = await picker.getImage(
+      var pickedFile = await ImagePicker.pickImage(
         source: ImageSource.gallery,
         maxWidth: double.infinity,
         maxHeight: double.infinity,
@@ -167,27 +170,36 @@ class ProfileTabViewModel extends BaseViewModel {
     }
 
     if (_image != null) {
-      var foto;
-      setBusy(true);
-      if (_image != null) {
-        final tempDir = await getTemporaryDirectory();
-        final file = await new File('${tempDir.path}/foto.jpg').create();
-        file.writeAsBytesSync(_image.readAsBytesSync());
-        foto = file.path;
-      }
-
-      Map data = {
-        "image": foto,
-      };
-      await MainService().changeUserPicture(data).then((value) {
-        if (value['status'] == 1) {
-          onRefresh();
-          messageToast(value['message'], Colors.black54);
-        } else {
-          messageToast(value['message'], Colors.black54);
+      var tempFile = _image.path.split('/').last;
+      var ext = tempFile.split('.').last;
+      print(ext);
+      if ((ext == 'jpg' || ext == 'jpeg') || param == 'camera') {
+        var foto;
+        setBusy(true);
+        if (_image != null) {
+          final tempDir = await getTemporaryDirectory();
+          final file = await new File('${tempDir.path}/foto.$ext').create();
+          file.writeAsBytesSync(_image.readAsBytesSync());
+          foto = file.path;
         }
-      });
-      notifyListeners();
+
+        Map data = {
+          "image": foto,
+          "source": param,
+        };
+        await MainService().changeUserPicture(data).then((value) {
+          if (value['status'] == 1) {
+            onRefresh();
+            messageToast(value['message'], Colors.black54);
+          } else {
+            messageToast(value['message'], Colors.black54);
+          }
+        });
+        notifyListeners();
+      } else {
+        messageToast('Format file harus jpg/jpeg', Colors.red);
+        return false;
+      }
     }
   }
 }

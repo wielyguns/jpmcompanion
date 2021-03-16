@@ -256,9 +256,11 @@ class HomeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  changeTab(index) {
+  changeTab(index) async {
     _index = index;
     _tabController.animateTo(index);
+    await getDataUser();
+
     notifyListeners();
   }
 
@@ -346,293 +348,298 @@ class HomeViewModel extends BaseViewModel {
 
   drawer(context) {
     ScreenUtil.init(context);
-    switch (_index) {
-      case 1:
-        return MapDrawer(
-          result: _trackingResult,
-          onTap: (e) async {
-            _scaffoldKey.currentState.openEndDrawer();
-            _activeTracking = e;
-            notifyListeners();
-          },
-          onRefresh: () async {
-            await getAllNopolActive();
-            notifyListeners();
-          },
-        );
-        break;
-      case 0:
-        return Drawer(
-          child: SafeArea(
-            child: Container(
-              child: Column(
-                children: [
-                  if (_user != null && _user.image != null)
-                    UserAccountsDrawerHeader(
-                      margin: EdgeInsets.only(bottom: 0.02.hp),
-                      currentAccountPicture: CircleAvatar(
-                        radius: 60,
-                        backgroundImage: NetworkImage('$baseApi${_user.image}'),
+    if (isBusy) {
+      return Container();
+    } else {
+      switch (_index) {
+        case 1:
+          return MapDrawer(
+            result: _trackingResult,
+            onTap: (e) async {
+              _scaffoldKey.currentState.openEndDrawer();
+              _activeTracking = e;
+              notifyListeners();
+            },
+            onRefresh: () async {
+              await getAllNopolActive();
+              notifyListeners();
+            },
+          );
+          break;
+        case 0:
+          return Drawer(
+            child: SafeArea(
+              child: Container(
+                child: Column(
+                  children: [
+                    if (_user != null && _user.image != null)
+                      UserAccountsDrawerHeader(
+                        margin: EdgeInsets.only(bottom: 0.02.hp),
+                        currentAccountPicture: CircleAvatar(
+                          radius: 60,
+                          backgroundImage:
+                              NetworkImage('$baseApi${_user.image}'),
+                        ),
+                        accountName: Text(_user.nama),
+                        accountEmail: Text(_user.email),
                       ),
-                      accountName: Text(_user.nama),
-                      accountEmail: Text(_user.email),
-                    ),
-                  if (createDoAccess)
+                    if (createDoAccess)
+                      Container(
+                        width: 1.wp,
+                        height: 0.07.hp,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(createDoRoute);
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage('assets/Asset 47300 2.png'),
+                                  width: 0.1.wp,
+                                  height: 0.1.wp,
+                                ),
+                                SizedBox(
+                                  width: 0.05.wp,
+                                ),
+                                Text(
+                                  'Delivery Order',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 45.ssp,
+                                    color: textGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (purchaseOrderAccess)
+                      Container(
+                        width: 1.wp,
+                        height: 0.07.hp,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(purchaseOrderRoute);
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage('assets/Asset 48300 1.png'),
+                                  width: 0.1.wp,
+                                  height: 0.1.wp,
+                                ),
+                                SizedBox(
+                                  width: 0.05.wp,
+                                ),
+                                Text(
+                                  'Shipping Order',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 45.ssp,
+                                    color: textGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (updateDoAccess)
+                      Container(
+                        width: 1.wp,
+                        height: 0.07.hp,
+                        child: FlatButton(
+                          onPressed: () {
+                            return print('tes');
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage('assets/Asset 57300 1.png'),
+                                  width: 0.1.wp,
+                                ),
+                                SizedBox(
+                                  width: 0.05.wp,
+                                ),
+                                Text(
+                                  'Update DO V1',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 45.ssp,
+                                    color: textGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (updateDoAccess)
+                      Container(
+                        width: 1.wp,
+                        height: 0.07.hp,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(updateDoRoute);
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage('assets/Asset 8@4x.png'),
+                                  width: 0.1.wp,
+                                ),
+                                SizedBox(
+                                  width: 0.05.wp,
+                                ),
+                                Text(
+                                  'Update DO V2',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 45.ssp,
+                                    color: textGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (pickupCourierAccess)
+                      Container(
+                        width: 1.wp,
+                        height: 0.07.hp,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(pickupCourierRoute);
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage('assets/Asset 55300 1.png'),
+                                  width: 0.1.wp,
+                                ),
+                                SizedBox(
+                                  width: 0.05.wp,
+                                ),
+                                Text(
+                                  'Pick Up',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 45.ssp,
+                                    color: textGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     Container(
                       width: 1.wp,
                       height: 0.07.hp,
                       child: FlatButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(createDoRoute);
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Image(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/Asset 47300 2.png'),
-                                width: 0.1.wp,
-                                height: 0.1.wp,
-                              ),
-                              SizedBox(
-                                width: 0.05.wp,
-                              ),
-                              Text(
-                                'Delivery Order',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 45.ssp,
-                                  color: textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (purchaseOrderAccess)
-                    Container(
-                      width: 1.wp,
-                      height: 0.07.hp,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(purchaseOrderRoute);
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Image(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/Asset 48300 1.png'),
-                                width: 0.1.wp,
-                                height: 0.1.wp,
-                              ),
-                              SizedBox(
-                                width: 0.05.wp,
-                              ),
-                              Text(
-                                'Shipping Order',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 45.ssp,
-                                  color: textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (updateDoAccess)
-                    Container(
-                      width: 1.wp,
-                      height: 0.07.hp,
-                      child: FlatButton(
-                        onPressed: () {
-                          return print('tes');
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Image(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/Asset 57300 1.png'),
-                                width: 0.1.wp,
-                              ),
-                              SizedBox(
-                                width: 0.05.wp,
-                              ),
-                              Text(
-                                'Update DO V1',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 45.ssp,
-                                  color: textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (updateDoAccess)
-                    Container(
-                      width: 1.wp,
-                      height: 0.07.hp,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(updateDoRoute);
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Image(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/Asset 8@4x.png'),
-                                width: 0.1.wp,
-                              ),
-                              SizedBox(
-                                width: 0.05.wp,
-                              ),
-                              Text(
-                                'Update DO V2',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 45.ssp,
-                                  color: textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (pickupCourierAccess)
-                    Container(
-                      width: 1.wp,
-                      height: 0.07.hp,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(pickupCourierRoute);
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Image(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/Asset 55300 1.png'),
-                                width: 0.1.wp,
-                              ),
-                              SizedBox(
-                                width: 0.05.wp,
-                              ),
-                              Text(
-                                'Pick Up',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 45.ssp,
-                                  color: textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  Container(
-                    width: 1.wp,
-                    height: 0.07.hp,
-                    child: FlatButton(
-                      onPressed: () {
-                        Map data = {
-                          "route": trackingDoRoute,
-                        };
+                          Map data = {
+                            "route": trackingDoRoute,
+                          };
 
-                        Navigator.of(context).pushNamed(
-                          listDoRoute,
-                          arguments: data,
-                        );
-                      },
+                          Navigator.of(context).pushNamed(
+                            listDoRoute,
+                            arguments: data,
+                          );
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/magnificient.png'),
+                                width: 0.1.wp,
+                              ),
+                              SizedBox(
+                                width: 0.05.wp,
+                              ),
+                              Text(
+                                'Tracking DO',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 45.ssp,
+                                  color: textGrey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
                       child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Image(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/magnificient.png'),
-                              width: 0.1.wp,
-                            ),
-                            SizedBox(
-                              width: 0.05.wp,
-                            ),
-                            Text(
-                              'Tracking DO',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 45.ssp,
-                                color: textGrey,
+                            Container(
+                              width: 1.wp,
+                              height: 0.07.hp,
+                              child: FlatButton(
+                                onPressed: () {
+                                  return logout(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.powerOff,
+                                        color: Colors.red,
+                                      ),
+                                      SizedBox(
+                                        width: 0.05.wp,
+                                      ),
+                                      Text(
+                                        'Logout',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 45.ssp,
+                                          color: textGrey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 1.wp,
-                            height: 0.07.hp,
-                            child: FlatButton(
-                              onPressed: () {
-                                return logout(context);
-                              },
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.powerOff,
-                                      color: Colors.red,
-                                    ),
-                                    SizedBox(
-                                      width: 0.05.wp,
-                                    ),
-                                    Text(
-                                      'Logout',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 45.ssp,
-                                        color: textGrey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-        break;
-      default:
-        return Drawer(
-          child: Text('hello'),
-        );
+          );
+          break;
+        default:
+          return Drawer(
+            child: Text('hello'),
+          );
+      }
     }
   }
 }

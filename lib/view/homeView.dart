@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    // super.dispose();
+    super.dispose();
   }
 
   @override
@@ -98,7 +98,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           showLoadingScreen: model.isBusy,
           child: Scaffold(
             key: model.scaffoldKey,
-            drawer: model.drawer(context),
+            drawer: (model.isBusy) ? Drawer() : model.drawer(context),
             appBar: AppBar(
               elevation: 0,
               leading: Container(

@@ -644,7 +644,6 @@ class MainService extends Model {
 
       if (data['image'] != null) {
         var file = File(data['image']);
-
         var stream = new http.ByteStream(
           // ignore: deprecated_member_use
           DelegatingStream.typed(
@@ -662,6 +661,7 @@ class MainService extends Model {
         );
         request.files.add(multipartFile);
       }
+      request.fields['source'] = data['source'];
       responseJson = await request.send();
       dataJson = await http.Response.fromStream(responseJson);
     } on SocketException {
