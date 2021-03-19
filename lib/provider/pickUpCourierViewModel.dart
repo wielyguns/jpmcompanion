@@ -392,7 +392,6 @@ class PickUpCourierViewModel extends BaseViewModel {
       "id": main.onProcessPickUp.id.toString(),
       'alasan_cancel': _alasanCancel.text,
     };
-
     await MainService().submitCancelPickUp(data).then((value) async {
       if (value['status'] == 1) {
         main.onProcessPickUp = null;
