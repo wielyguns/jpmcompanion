@@ -21,8 +21,11 @@ class ListCourierViewModel extends BaseViewModel {
   List<Courier> get feedData => _feedData;
   // FUNCTION
   init(context) async {
+    setBusy(true);
     await redirectToLogin(context);
     await getCourier(context);
+    setBusy(false);
+    notifyListeners();
   }
 
   getCourier(context) async {

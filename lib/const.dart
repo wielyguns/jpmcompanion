@@ -16,6 +16,7 @@ const purchaseOrderRoute = '/purchase-order-route';
 const listKotaRoute = '/list-kota-route';
 const listCustomerRoute = '/list-customer-route';
 const listNopolRoute = '/list-nopol-route';
+const listCourierRoute = '/list-courier-route';
 const mapSelectRoute = '/map-select-route';
 const shippingOrderDetailRoute = '/shipping-order-detail-route';
 const updateDoRoute = '/update-do-route';

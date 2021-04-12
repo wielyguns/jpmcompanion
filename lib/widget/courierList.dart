@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/model/courierModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
+import 'dart:ui' as ui;
 
 import '../const.dart';
 
@@ -19,186 +22,231 @@ class _CourierListState extends State<CourierList> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 0.01.hp,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(0.02.wp),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 2),
-            color: borderBox,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
+      margin: EdgeInsets.symmetric(vertical: 0.01.hp),
       child: FlatButton(
         onPressed: () {
           widget.onPressed();
         },
+        onLongPress: () {
+          Clipboard.setData(
+            ClipboardData(text: '${widget.result.kode}'),
+          );
+          messageToast('Kode disalin', textBlack);
+        },
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 0.02.hp,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  constraints: BoxConstraints(
-                    minHeight: 0.14.wp,
+          width: 1.wp,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 0.02.hp,
+              horizontal: 0.02.wp,
+            ),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 2,
+                  offset: Offset(
+                    0,
+                    2,
                   ),
-                  child: Column(
+                  color: Color(
+                    hexStringToHexInt(
+                      '#dfebff',
+                    ),
+                  ),
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              height: 0.03.hp,
-                              child: VerticalDivider(
-                                color: Color(
-                                  hexStringToHexInt(
-                                    '#FF5373',
-                                  ),
-                                ),
-                                thickness: 0.015.wp,
+                            Image(
+                              width: 25,
+                              height: 25,
+                              image: AssetImage(
+                                'assets/Asset 91300 1.png',
                               ),
                             ),
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  '${widget.result.kendaraan.nopol}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontFamily: "PlexSans",
-                                    fontSize: 50.ssp,
-                                    color: Color(
-                                      hexStringToHexInt(
-                                        '#FF5373',
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                            SizedBox(width: 5),
+                            Text(
+                              '${widget.result.kode}',
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
                               ),
                             )
                           ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                          top: 0.01.hp,
+                        padding: EdgeInsets.all(
+                          0.02.wp,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Kendaraan\n',
-                                      style: TextStyle(
-                                        fontSize: 35.ssp,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PlexSans",
-                                        color: Color(
-                                          hexStringToHexInt(
-                                            '#736B6D',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: Container(
-                                child: RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'Cabang\n',
-                                        style: TextStyle(
-                                          fontSize: 35.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: '${widget.result.cabang.nama}',
-                                        style: TextStyle(
-                                          fontSize: 25.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: Container(
-                                child: RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'Divisi\n',
-                                        style: TextStyle(
-                                          fontSize: 35.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: '',
-                                        style: TextStyle(
-                                          fontSize: 25.ssp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PlexSans",
-                                          color: Color(
-                                            hexStringToHexInt(
-                                              '#736B6D',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        decoration: BoxDecoration(
+                          color: Colors.green[200],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          'ACTIVE',
+                          style: TextStyle(
+                            color: Colors.green[600],
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              )
-            ],
+                Divider(
+                  color: Colors.blue[50],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(
+                        width: 20,
+                        height: 20,
+                        image: AssetImage(
+                          'assets/Asset 50300 1.png',
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'NAMA',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${widget.result.nama}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(
+                        width: 20,
+                        height: 20,
+                        image: AssetImage(
+                          'assets/Asset 86300.png',
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'TELPON',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${widget.result.telpon}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.wp),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShaderMask(
+                        blendMode: BlendMode.srcIn,
+                        shaderCallback: (Rect bounds) {
+                          return ui.Gradient.linear(
+                            Offset(4.0, 24.0),
+                            Offset(24.0, 4.0),
+                            [
+                              Colors.blue[300],
+                              Colors.blue,
+                            ],
+                          );
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.route,
+                          size: 55.ssp,
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'RUTE',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${widget.result.rute}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

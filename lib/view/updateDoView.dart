@@ -336,6 +336,117 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                 ],
                               ),
                             ),
+                          if (model.trackingDescriptionValue == '3')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 67300 1.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'Hub',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      top: 0.02.hp,
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 0.02.wp),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Color(
+                                        hexStringToHexInt('#F9F9F9'),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(1, 2),
+                                          color: borderBox,
+                                          blurRadius: 8,
+                                        )
+                                      ],
+                                    ),
+                                    child: DropdownButton(
+                                      value: model.hubValue,
+                                      items: model.hubDropdown,
+                                      onChanged: (value) {
+                                        model.changeHub(value);
+                                      },
+                                      isExpanded: true,
+                                      disabledHint: Text('Pilih tipe dahulu'),
+                                      underline: Text(''),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (model.trackingDescriptionValue == '6')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              height: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 91300 1.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'Courier',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ShippingOrderInputField(
+                                    controller: model.courier,
+                                    readOnly: true,
+                                    onTap: () {
+                                      model.getCourier(context);
+                                    },
+                                    hintText: 'Select Courier',
+                                  ),
+                                ],
+                              ),
+                            ),
                           if (model.trackingTypeValue != null &&
                               model.trackingTypeValue != '1' &&
                               model.trackingTypeValue != '5')

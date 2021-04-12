@@ -16,6 +16,7 @@ import 'package:signature/signature.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
+import 'package:jpmcompanion/model/courierModel.dart' as co;
 
 class UpdateDoViewModel extends BaseViewModel {
   // GETTER
@@ -27,9 +28,11 @@ class UpdateDoViewModel extends BaseViewModel {
   List<DropdownMenuItem> _trackingTypeDropdown = [];
   String _trackingTypeValue;
   String _trackingDescriptionValue;
+  String _hubValue;
   String _jenisBuktiPembayaranValue = 'foto';
   User _user = User();
   List<DropdownMenuItem> _trackingDescriptionDropdown = [];
+  List<DropdownMenuItem> _hubDropdown = [];
   List<DropdownMenuItem> _jenisBuktiPembayaran = [
     DropdownMenuItem<String>(
       child: Text('Foto'),
@@ -46,6 +49,7 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController _deskripsi = TextEditingController();
   TextEditingController _kota = TextEditingController();
   TextEditingController _nopol = TextEditingController();
+  TextEditingController _courier = TextEditingController();
   TextEditingController _penerima = TextEditingController();
   TextEditingController _nomor = TextEditingController();
   po.Asal _kotaData;
@@ -62,15 +66,18 @@ class UpdateDoViewModel extends BaseViewModel {
   String get trackingTypeValue => _trackingTypeValue;
   String get penerimaValidation => _penerimaValidation;
   String get trackingDescriptionValue => _trackingDescriptionValue;
+  String get hubValue => _hubValue;
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   GlobalKey<FormState> get formKey => _formKey;
   TextEditingController get tanggal => _tanggal;
   TextEditingController get deskripsi => _deskripsi;
   TextEditingController get kota => _kota;
   TextEditingController get nopol => _nopol;
+  TextEditingController get courier => _courier;
   TextEditingController get penerima => _penerima;
   TextEditingController get nomor => _nomor;
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
+  List<DropdownMenuItem> get hubDropdown => _hubDropdown;
   List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
   List<DropdownMenuItem> get trackingDescriptionDropdown =>
       _trackingDescriptionDropdown;
@@ -92,6 +99,7 @@ class UpdateDoViewModel extends BaseViewModel {
     setBusy(true);
     await getTrackingDescription();
     await getTrackingType();
+    await getHub();
     setBusy(false);
     notifyListeners();
   }
@@ -144,6 +152,25 @@ class UpdateDoViewModel extends BaseViewModel {
       }
     }
     notifyListeners();
+  }
+
+  getHub() async {
+    _hubDropdown = [];
+    await MainService().getHub().then(
+      (value) {
+        print(value);
+        if (value['status'] == 1) {
+          for (var item in value['data']) {
+            _hubDropdown.add(
+              DropdownMenuItem<String>(
+                child: Text('${item['hub']} (${item['nama']})'),
+                value: '${item['id']}',
+              ),
+            );
+          }
+        }
+      },
+    );
   }
 
   getTrackingType() async {
@@ -222,7 +249,6 @@ class UpdateDoViewModel extends BaseViewModel {
     if (result != null) {
       _kotaData = result;
       _kota.text = _kotaData.nama;
-      print(_kotaData.nama);
     }
     notifyListeners();
   }
@@ -239,7 +265,9 @@ class UpdateDoViewModel extends BaseViewModel {
     Map<String, dynamic> data = {
       "type": _trackingTypeValue,
       "deskripsi": _trackingDescriptionValue,
+      "courier": _courier.text,
       "nopol": _nopol.text,
+      "hub": _hubValue,
     };
     Navigator.pushNamed(context, updateDoScannerRoute, arguments: data);
   }
@@ -283,11 +311,26 @@ class UpdateDoViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  changeHub(value) async {
+    _hubValue = value;
+    notifyListeners();
+  }
+
   getNopol(context) async {
     var result = await Navigator.of(context).pushNamed(listNopolRoute);
     if (result != null) {
       po.Nopol temp = po.Nopol.fromJson(result);
       _nopol.text = temp.nopol;
+    }
+
+    notifyListeners();
+  }
+
+  getCourier(context) async {
+    var result = await Navigator.of(context).pushNamed(listCourierRoute);
+    if (result != null) {
+      co.Courier temp = co.Courier.fromJson(result);
+      _courier.text = '${temp.kode} | ${temp.nama}';
     }
 
     notifyListeners();

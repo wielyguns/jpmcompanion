@@ -5,6 +5,7 @@ import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/view/createDoView.dart';
 import 'package:jpmcompanion/view/doDetailView.dart';
 import 'package:jpmcompanion/view/homeView.dart';
+import 'package:jpmcompanion/view/listCourierView.dart';
 import 'package:jpmcompanion/view/listCustomerView.dart';
 import 'package:jpmcompanion/view/listDoView.dart';
 import 'package:jpmcompanion/view/listKotaView.dart';
@@ -48,6 +49,10 @@ class Routers {
       case listNopolRoute:
         return RouteAnimationDurationTween(
           widget: ListNopolView(),
+        );
+      case listCourierRoute:
+        return RouteAnimationDurationTween(
+          widget: ListCourierView(),
         );
       case mapSelectRoute:
         Position position = settings.arguments;

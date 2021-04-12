@@ -41,7 +41,6 @@ class UpdateDoScannerViewModel extends BaseViewModel {
 
   void onQRViewCreate(QRViewController cont) {
     cont = _controller;
-    print('ini $cont');
     _controller.scannedDataStream.listen((scanData) {
       print("QRCode: $scanData");
     });

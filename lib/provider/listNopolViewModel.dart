@@ -21,8 +21,11 @@ class ListNopolViewModel extends BaseViewModel {
   List<Nopol> get feedData => _feedData;
   // FUNCTION
   init(context) async {
+    setBusy(true);
     await redirectToLogin(context);
     await getNopol(context);
+    setBusy(false);
+    notifyListeners();
   }
 
   getNopol(context) async {

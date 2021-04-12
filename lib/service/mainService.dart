@@ -184,12 +184,13 @@ class MainService extends Model {
 
     var responseJson;
     try {
-      final response = await http.post(
+      final response = await http.get(
         "$getCourierApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
         },
       );
+
       responseJson = await responseCheck(response);
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
@@ -202,7 +203,7 @@ class MainService extends Model {
 
     var responseJson;
     try {
-      final response = await http.post(
+      final response = await http.get(
         "$getHubApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',

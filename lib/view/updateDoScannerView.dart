@@ -49,9 +49,7 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
       setState(() {
         isScanning = true;
         debounce.run(() async {
-          print("QRCode: $scanData");
           _data['nomor'] = scanData.toString().replaceAll(' ', '');
-
           if (widget.param['callback'] == null) {
             if (widget.param['route'] != null) {
               switch (widget.param['route']) {
@@ -75,6 +73,7 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
                 default:
               }
             } else {
+              print(_data);
               await MainService().updateTracking(_data).then((value) {
                 if (value['status'] == 1) {
                   play(value['message']);

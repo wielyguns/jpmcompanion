@@ -533,18 +533,21 @@ class Kota {
   String updateBy;
   String updateAt;
   String nama2;
+  String hub;
 
-  Kota(
-      {this.id,
-      this.nama,
-      this.namaIbuKota,
-      this.kodeKota,
-      this.idProvinsi,
-      this.createBy,
-      this.createdAt,
-      this.updateBy,
-      this.updateAt,
-      this.nama2});
+  Kota({
+    this.id,
+    this.nama,
+    this.namaIbuKota,
+    this.kodeKota,
+    this.idProvinsi,
+    this.createBy,
+    this.createdAt,
+    this.updateBy,
+    this.updateAt,
+    this.nama2,
+    this.hub,
+  });
 
   Kota.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -557,6 +560,7 @@ class Kota {
     updateBy = json['update_by'];
     updateAt = json['update_at'];
     nama2 = json['nama2'];
+    hub = json['hub'];
   }
 
   Map<String, dynamic> toJson() {
@@ -571,6 +575,7 @@ class Kota {
     data['update_by'] = this.updateBy;
     data['update_at'] = this.updateAt;
     data['nama2'] = this.nama2;
+    data['hub'] = this.hub;
     return data;
   }
 }
