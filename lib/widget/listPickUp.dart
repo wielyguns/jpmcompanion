@@ -229,6 +229,42 @@ class _ListPickUpState extends State<ListPickUp> {
                             ],
                           ),
                         ),
+                      ),
+                      Image(
+                        width: 20,
+                        height: 20,
+                        image: AssetImage(
+                          'assets/Asset 85300.png',
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'PICKUP TYPE',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                child: Text(
+                                  '${widget.result.tujuanId == null ? 'MULTI DROP' : 'MEMBER'}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       )
                     ],
                   ),

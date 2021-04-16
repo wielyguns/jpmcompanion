@@ -41,50 +41,53 @@ class PickUp {
   Asal asal;
   Customer customer;
   Tujuan tujuan;
+  dynamic jumlahTujuan;
 
-  PickUp(
-      {this.id,
-      this.kode,
-      this.tanggal,
-      this.waktuSelesai,
-      this.kodeCabang,
-      this.namaPengirim,
-      this.asalId,
-      this.emailPengirim,
-      this.alamatPengirim,
-      this.telponPengirim,
-      this.kodePosPengirim,
-      this.namaPenerima,
-      this.tujuanId,
-      this.emailPenerima,
-      this.alamatPenerima,
-      this.telponPenerima,
-      this.kodePosPenerima,
-      this.lat,
-      this.long,
-      this.keterangan,
-      this.berat,
-      this.koli,
-      this.panjang,
-      this.lebar,
-      this.tinggi,
-      this.total,
-      this.biayaTambahan,
-      this.totalNet,
-      this.status,
-      this.metodePembayaran,
-      this.typeKiriman,
-      this.customerId,
-      this.courierId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.alasanCancel,
-      this.proofment,
-      this.asal,
-      this.customer,
-      this.tujuan});
+  PickUp({
+    this.id,
+    this.kode,
+    this.tanggal,
+    this.waktuSelesai,
+    this.kodeCabang,
+    this.namaPengirim,
+    this.asalId,
+    this.emailPengirim,
+    this.alamatPengirim,
+    this.telponPengirim,
+    this.kodePosPengirim,
+    this.namaPenerima,
+    this.tujuanId,
+    this.emailPenerima,
+    this.alamatPenerima,
+    this.telponPenerima,
+    this.kodePosPenerima,
+    this.lat,
+    this.long,
+    this.keterangan,
+    this.berat,
+    this.koli,
+    this.panjang,
+    this.lebar,
+    this.tinggi,
+    this.total,
+    this.biayaTambahan,
+    this.totalNet,
+    this.status,
+    this.metodePembayaran,
+    this.typeKiriman,
+    this.customerId,
+    this.courierId,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.alasanCancel,
+    this.proofment,
+    this.asal,
+    this.customer,
+    this.tujuan,
+    this.jumlahTujuan,
+  });
 
   PickUp.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -132,6 +135,7 @@ class PickUp {
         : null;
     tujuan =
         json['tujuan'] != null ? new Tujuan.fromJson(json['tujuan']) : null;
+    jumlahTujuan = json['jumlah_tujuan'];
   }
 
   Map<String, dynamic> toJson() {
@@ -175,6 +179,7 @@ class PickUp {
     data['updated_at'] = this.updatedAt;
     data['alasan_cancel'] = this.alasanCancel;
     data['proofment'] = this.proofment;
+    data['jumlah_tujuan'] = this.jumlahTujuan;
     if (this.asal != null) {
       data['asal'] = this.asal.toJson();
     }

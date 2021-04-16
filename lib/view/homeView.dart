@@ -121,39 +121,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 ),
               ),
               backgroundColor: Colors.white,
-              actions: [
-                Container(
-                  width: 0.1.wp,
-                  height: 0.1.wp,
-                  margin: EdgeInsets.only(right: 0.03.wp),
-                  alignment: Alignment.center,
-                  child: MaterialButton(
-                    splashColor: purpleLightTheme,
-                    onPressed: () {},
-                    elevation: 0,
-                    color: Colors.white,
-                    child: Stack(
-                      children: [
-                        Icon(
-                          Icons.notifications_active,
-                          color: textGrey,
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Icon(
-                            FontAwesomeIcons.solidCircle,
-                            color: Colors.red,
-                            size: 25.ssp,
-                          ),
-                        )
-                      ],
-                    ),
-                    padding: EdgeInsets.all(0),
-                    shape: CircleBorder(),
-                  ),
-                ),
-              ],
             ),
             body: DoubleBackToCloseApp(
               snackBar: const SnackBar(

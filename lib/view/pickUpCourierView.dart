@@ -341,7 +341,7 @@ class _PickUpCourierViewState extends State<PickUpCourierView>
                                                                   GestureDetector(
                                                                     onTap: () {
                                                                       return model
-                                                                          .getImage(
+                                                                          .onImageButtonPressed(
                                                                         context,
                                                                       );
                                                                     },
@@ -579,6 +579,74 @@ class _PickUpCourierViewState extends State<PickUpCourierView>
                                                               height: 20,
                                                             ),
                                                             Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                horizontal:
+                                                                    0.04.wp,
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Text(
+                                                                'Pickup Type',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      40.ssp,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                horizontal:
+                                                                    0.04.wp,
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Container(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    RichText(
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      text:
+                                                                          TextSpan(
+                                                                        children: [
+                                                                          TextSpan(
+                                                                            text:
+                                                                                '${main.onProcessPickUp.tujuanId == null ? 'MULTI DROP' : 'MEMBER'}',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 40.ssp,
+                                                                              color: Colors.black54,
+                                                                              fontWeight: FontWeight.w600,
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Container(
                                                               width: 1.wp,
                                                               height: 20,
                                                               color: Color(
@@ -670,6 +738,10 @@ class _PickUpCourierViewState extends State<PickUpCourierView>
                                                                   horizontal:
                                                                       0.02.wp,
                                                                 ),
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        bottom:
+                                                                            0.1.hp),
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   boxShadow: [

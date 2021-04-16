@@ -561,6 +561,7 @@ class MainService extends Model {
       }
 
       request.fields['id'] = data['id'];
+      request.fields['jumlah_tujuan'] = data['jumlah_tujuan'];
       responseJson = await request.send();
       dataJson = await http.Response.fromStream(responseJson);
     } on SocketException {

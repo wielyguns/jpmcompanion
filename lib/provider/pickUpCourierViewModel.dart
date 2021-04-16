@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/main.dart' as main;
@@ -10,6 +11,7 @@ import 'package:jpmcompanion/model/PickUpModel.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
+import 'package:jpmcompanion/widget/deliveryOrderInputField.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +49,7 @@ class PickUpCourierViewModel extends BaseViewModel {
   List<TrackingType> _trackingType = [];
   List<TrackingDescription> _trackingDescription = [];
   TextEditingController _alasanCancel = TextEditingController();
+  TextEditingController _jumlahMultiDrop = TextEditingController();
   po.Asal _kotaData;
   final LocalStorage storage = new LocalStorage('tracking');
   final SignatureController _signatureController = SignatureController(
@@ -68,6 +71,7 @@ class PickUpCourierViewModel extends BaseViewModel {
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   GlobalKey<FormState> get formKey => _formKey;
   TextEditingController get alasanCancel => _alasanCancel;
+  TextEditingController get jumlahMultiDrop => _jumlahMultiDrop;
 
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
   List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
@@ -231,6 +235,7 @@ class PickUpCourierViewModel extends BaseViewModel {
 
   processing(item) async {
     main.onProcessPickUp = item;
+    _jumlahMultiDrop.text = main.onProcessPickUp.jumlahTujuan.toString();
     _tabController.animateTo(1);
   }
 
@@ -274,11 +279,28 @@ class PickUpCourierViewModel extends BaseViewModel {
     return showDialog(
       context: context,
       child: new AlertDialog(
-        title: new Text(
-          "Anda yakin ingin menyelesaikan orderan ini?",
-          style: TextStyle(
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
+        title: Container(
+          child: Column(
+            children: [
+              new Text(
+                "Anda yakin ingin menyelesaikan orderan ini?",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (main.onProcessPickUp.tujuan == null)
+                Container(
+                  child: DeliveryOrderInputField(
+                    title: 'Jumlah Multi Drop',
+                    keyboard: TextInputType.number,
+                    controller: _jumlahMultiDrop,
+                    onTap: () {
+                      return false;
+                    },
+                  ),
+                )
+            ],
           ),
         ),
         actions: [
@@ -356,6 +378,95 @@ class PickUpCourierViewModel extends BaseViewModel {
     );
   }
 
+  onImageButtonPressed(context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Pilih Sumber Gambar'),
+          content: Container(
+            height: 120,
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: RaisedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      onCameraSelected(context, 'camera');
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(
+                              FontAwesomeIcons.camera,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    color: Colors.cyan,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: RaisedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      onCameraSelected(context, 'gallery');
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(
+                              Icons.camera,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    color: Colors.cyan,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  onCameraSelected(context, param) async {
+    _image = null;
+    if (param == 'camera') {
+      var result = await Navigator.of(context).pushNamed(camera);
+      if (result != null) {
+        _image = result;
+      }
+    } else {
+      var pickedFile = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: double.infinity,
+        maxHeight: double.infinity,
+        imageQuality: 10,
+      );
+
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    }
+    notifyListeners();
+  }
+
   submitReceivedPickup(context) async {
     var foto;
     setBusy(true);
@@ -368,8 +479,15 @@ class PickUpCourierViewModel extends BaseViewModel {
 
     _image = null;
 
+    if (foto == null) {
+      setBusy(false);
+      messageToast('Bukti pickup harus diisi', Colors.red);
+      return false;
+    }
+
     Map data = {
       "id": main.onProcessPickUp.id.toString(),
+      "jumlah_tujuan": _jumlahMultiDrop.text,
       "image": foto,
     };
 
