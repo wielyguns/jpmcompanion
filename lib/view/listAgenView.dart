@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/model/AgenModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
-import 'package:jpmcompanion/provider/listKotaViewModel.dart';
+import 'package:jpmcompanion/provider/listAgenViewModel.dart';
 import 'package:stacked/stacked.dart';
 
-class ListKotaView extends StatefulWidget {
+class ListAgenView extends StatefulWidget {
   @override
-  _ListKotaViewState createState() => _ListKotaViewState();
+  _ListAgenViewState createState() => _ListAgenViewState();
 }
 
-class _ListKotaViewState extends State<ListKotaView> {
+class _ListAgenViewState extends State<ListAgenView> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      viewModelBuilder: () => ListKotaViewModel(),
+      viewModelBuilder: () => ListAgenViewModel(),
       onModelReady: (model) => model.init(context),
       builder: (context, model, child) => GestureDetector(
         onTap: () {
@@ -51,7 +52,7 @@ class _ListKotaViewState extends State<ListKotaView> {
                             },
                           ),
                           title: Text(
-                            'Kota',
+                            'Agen',
                             style: TextStyle(
                               fontFamily: "PlexSans",
                               fontWeight: FontWeight.bold,
@@ -133,7 +134,7 @@ class _ListKotaViewState extends State<ListKotaView> {
                                                 model.runFilter(value);
                                               },
                                               decoration: InputDecoration(
-                                                hintText: 'Filter Kota...',
+                                                hintText: 'Filter Agen...',
                                                 contentPadding: EdgeInsets.only(
                                                   left: 0.05.wp,
                                                   right: 0.12.wp,
@@ -229,7 +230,7 @@ class _ListKotaViewState extends State<ListKotaView> {
                           : AlwaysScrollableScrollPhysics(),
                       child: (model.feedData.length != 0)
                           ? Column(
-                              children: model.feedData.map<Widget>((Kota item) {
+                              children: model.feedData.map<Widget>((Agen item) {
                                 return Container(
                                   alignment: Alignment.centerLeft,
                                   margin: EdgeInsets.symmetric(),

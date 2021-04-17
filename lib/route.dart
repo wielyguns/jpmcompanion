@@ -5,6 +5,7 @@ import 'package:jpmcompanion/routeTransition.dart';
 import 'package:jpmcompanion/view/createDoView.dart';
 import 'package:jpmcompanion/view/doDetailView.dart';
 import 'package:jpmcompanion/view/homeView.dart';
+import 'package:jpmcompanion/view/listAgenView.dart';
 import 'package:jpmcompanion/view/listCourierView.dart';
 import 'package:jpmcompanion/view/listCustomerView.dart';
 import 'package:jpmcompanion/view/listDoView.dart';
@@ -17,6 +18,7 @@ import 'package:jpmcompanion/view/shippingOrderDetailView.dart';
 import 'package:jpmcompanion/view/shippingOrderView.dart';
 import 'package:jpmcompanion/view/shortcutMenuView.dart';
 import 'package:jpmcompanion/view/trackingDoView.dart';
+import 'package:jpmcompanion/view/updateDoNonQrView.dart';
 import 'package:jpmcompanion/view/updateDoScannerView.dart';
 import 'package:jpmcompanion/view/updateDoView.dart';
 import 'package:jpmcompanion/widget/camera.dart';
@@ -41,6 +43,10 @@ class Routers {
       case listKotaRoute:
         return RouteAnimationDurationTween(
           widget: ListKotaView(),
+        );
+      case listAgenRoute:
+        return RouteAnimationDurationTween(
+          widget: ListAgenView(),
         );
       case listCustomerRoute:
         return RouteAnimationDurationTween(
@@ -73,6 +79,11 @@ class Routers {
         ShippingOrderData data = settings.arguments;
         return RouteAnimationDurationTween(
           widget: UpdateDoView(),
+        );
+      case updateDoNonQrRoute:
+        // ignore: unused_local_variable
+        return RouteAnimationDurationTween(
+          widget: UpdateDoNonQrView(),
         );
       case updateDoScannerRoute:
         var data = settings.arguments;

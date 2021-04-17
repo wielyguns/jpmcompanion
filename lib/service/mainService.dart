@@ -216,6 +216,24 @@ class MainService extends Model {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> getAgen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$getAgenApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
   Future<Map<String, dynamic>> getLocation(value) async {
     // ignore: deprecated_member_use
     Position position = await getCurrentPosition(
@@ -325,6 +343,15 @@ class MainService extends Model {
   Future<Map<String, dynamic>> updateTracking(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var responseJson;
+    (data['courier_id'] == null)
+        ? data['courier_id'] = 'null'
+        : data['courier_id'] = data['courier_id'];
+
+    (data['kota_id'] == null)
+        ? data['kota_id'] = 'null'
+        : data['kota_id'] = data['kota_id'];
+
+    (data['hub'] == null) ? data['hub'] = 'null' : data['hub'] = data['hub'];
     try {
       final response = await http.post(
         "$updateTrackingApi",
@@ -334,7 +361,7 @@ class MainService extends Model {
         body: data,
       );
       responseJson = await responseCheck(response);
-
+      print(data);
       print(response.body.toString());
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};

@@ -82,8 +82,10 @@ class HomeViewModel extends BaseViewModel {
       await getDataUser();
       setBusy(true);
       _tabController = TabController(length: 4, vsync: vsync);
-      firebase.subscribeToTopic('cabang${_user.kodeCabang}');
-      firebase.subscribeToTopic('courier');
+      if (_user != null) {
+        firebase.subscribeToTopic('cabang${_user.kodeCabang}');
+        firebase.subscribeToTopic('courier');
+      }
       await getAllNopolActive();
       await generateShortcut(context);
       await saveTokenFirebase(vsync);
@@ -457,7 +459,7 @@ class HomeViewModel extends BaseViewModel {
                         height: 0.07.hp,
                         child: FlatButton(
                           onPressed: () {
-                            return print('tes');
+                            Navigator.of(context).pushNamed(updateDoNonQrRoute);
                           },
                           child: Container(
                             alignment: Alignment.centerLeft,

@@ -1,62 +1,51 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
+import 'package:jpmcompanion/model/AgenModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:stacked/stacked.dart';
 
-class ListKotaViewModel extends BaseViewModel {
+class ListAgenViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<Kota> _asal;
+  List<Agen> _agen;
   String _titleSnap;
-  List<Kota> _feedData = [];
+  List<Agen> _feedData = [];
 
   final LocalStorage storage = new LocalStorage('kota');
   // SETTER
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-  List<Kota> get asal => _asal;
+  List<Agen> get asal => _agen;
 
   String get titleSnap => _titleSnap;
-  List<Kota> get feedData => _feedData;
+  List<Agen> get feedData => _feedData;
   // FUNCTION
   init(context) async {
     await redirectToLogin(context);
-    await getKota(context);
+    await getAgen(context);
   }
 
-  getKota(context) async {
-    _asal = [];
-    Map data = {"jenis": "asal"};
-    if (storage.getItem('asal') == null) {
-      await MainService().getKota(data).then(
-        (value) async {
-          if (value['status'] == 1) {
-            storage.setItem('asal', GetKota.fromJson(value));
-            var result = storage.getItem('asal');
-
-            for (var item in result['data']) {
-              _asal.add(Kota.fromJson(item));
-            }
-          } else if (value['status'] == 0) {
-            redirectToLogin(context);
+  getAgen(context) async {
+    _agen = [];
+    await MainService().getAgen().then(
+      (value) async {
+        if (value['status'] == 1) {
+          for (var item in value['data']) {
+            _agen.add(Agen.fromJson(item));
           }
-        },
-      );
-    } else {
-      var result = storage.getItem('asal');
-      for (var item in result['data']) {
-        _asal.add(Kota.fromJson(item));
-      }
-    }
-
+        } else if (value['status'] == 0) {
+          redirectToLogin(context);
+        }
+      },
+    );
     notifyListeners();
   }
 
   runFilter(value) async {
     _feedData = [];
-    for (Kota item in _asal) {
+    for (Agen item in _agen) {
       if (item.nama.contains(value.toUpperCase())) {
         _feedData.add(item);
       }

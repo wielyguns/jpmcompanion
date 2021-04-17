@@ -19,7 +19,7 @@ import 'package:intl/intl.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
 import 'package:jpmcompanion/model/courierModel.dart' as co;
 
-class UpdateDoViewModel extends BaseViewModel {
+class UpdateDoNonQrViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -258,27 +258,7 @@ class UpdateDoViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  getKota(context) async {
-    var result = await Navigator.of(context).pushNamed(listKotaRoute);
-    if (result != null) {
-      _kotaData = result;
-      _kota.text = ' ${_kotaData.nama}';
-    }
-
-    notifyListeners();
-  }
-
-  getAgen(context) async {
-    var result = await Navigator.of(context).pushNamed(listAgenRoute);
-    if (result != null) {
-      _agenData = result;
-      _agen.text = ' ${_agenData.nama}';
-    }
-
-    notifyListeners();
-  }
-
-  openQrCode(context) async {
+  processData(context) async {
     if (_trackingTypeValue == '' ||
         _trackingDescriptionValue == '' ||
         _trackingTypeValue == null ||
@@ -286,7 +266,7 @@ class UpdateDoViewModel extends BaseViewModel {
       messageToast('Semua data harus diisi', Colors.red);
       return;
     }
-
+    setBusy(true);
     Map<String, dynamic> data = {
       "nomor": _nomor.text,
       "type": _trackingTypeValue,
@@ -298,7 +278,14 @@ class UpdateDoViewModel extends BaseViewModel {
       "hub": _hubValue,
     };
 
-    Navigator.pushNamed(context, updateDoScannerRoute, arguments: data);
+    await MainService().updateTracking(data).then((value) {
+      if (value['status'] == 1) {
+        messageToast(value['message'], Colors.black);
+      } else {
+        messageToast(value['message'], Colors.red);
+      }
+    });
+    setBusy(false);
   }
 
   searchNopol(context) async {
@@ -360,6 +347,26 @@ class UpdateDoViewModel extends BaseViewModel {
     if (result != null) {
       _courierData = co.Courier.fromJson(result);
       _courier.text = '${_courierData.kode} | ${_courierData.nama}';
+    }
+
+    notifyListeners();
+  }
+
+  getKota(context) async {
+    var result = await Navigator.of(context).pushNamed(listKotaRoute);
+    if (result != null) {
+      _kotaData = result;
+      _kota.text = ' ${_kotaData.nama}';
+    }
+
+    notifyListeners();
+  }
+
+  getAgen(context) async {
+    var result = await Navigator.of(context).pushNamed(listAgenRoute);
+    if (result != null) {
+      _agenData = result;
+      _agen.text = ' ${_agenData.nama}';
     }
 
     notifyListeners();

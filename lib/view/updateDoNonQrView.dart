@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/provider/updateDoViewModel.dart';
+import 'package:jpmcompanion/provider/updateDoNonQrViewModel.dart';
 import 'package:jpmcompanion/widget/loadingScreen.dart';
 import 'package:jpmcompanion/widget/shippingOrderInputField.dart';
 import 'package:signature/signature.dart';
 import 'package:stacked/stacked.dart';
 
-class UpdateDoView extends StatefulWidget {
+class UpdateDoNonQrView extends StatefulWidget {
   @override
-  _UpdateDoViewState createState() => _UpdateDoViewState();
+  _UpdateDoNonQrViewState createState() => _UpdateDoNonQrViewState();
 }
 
-class _UpdateDoViewState extends State<UpdateDoView> {
+class _UpdateDoNonQrViewState extends State<UpdateDoNonQrView> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return ViewModelBuilder.reactive(
-      viewModelBuilder: () => UpdateDoViewModel(),
+      viewModelBuilder: () => UpdateDoNonQrViewModel(),
       onModelReady: (model) => model.init(context),
       builder: (context, model, child) => LoadingScreen(
         showLoadingApi: model.isBusy,
@@ -583,51 +583,48 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                 ],
                               ),
                             ),
-                          if (model.trackingTypeValue == '5')
-                            Container(
-                              margin: EdgeInsets.only(top: 0.04.wp),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        WidgetSpan(
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                              right: 0.02.wp,
-                                            ),
-                                            child: Image(
-                                              width: 0.05.wp,
-                                              height: 0.05.wp,
-                                              image: AssetImage(
-                                                'assets/Asset 57300 1.png',
-                                              ),
+                          Container(
+                            margin: EdgeInsets.only(top: 0.04.wp),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            right: 0.02.wp,
+                                          ),
+                                          child: Image(
+                                            width: 0.05.wp,
+                                            height: 0.05.wp,
+                                            image: AssetImage(
+                                              'assets/Asset 57300 1.png',
                                             ),
                                           ),
                                         ),
-                                        TextSpan(
-                                          text: 'Nomor DO',
-                                          style: TextStyle(
-                                            color: purpleTheme,
-                                            fontSize: 45.ssp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                      ),
+                                      TextSpan(
+                                        text: 'Nomor DO',
+                                        style: TextStyle(
+                                          color: purpleTheme,
+                                          fontSize: 45.ssp,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  ShippingOrderInputField(
-                                    controller: model.nomor,
-                                    readOnly: true,
-                                    onTap: () {
-                                      model.searchNopol(context);
-                                    },
-                                    hintText: '6435545',
-                                  ),
-                                ],
-                              ),
+                                ),
+                                ShippingOrderInputField(
+                                  controller: model.nomor,
+                                  readOnly: false,
+                                  onTap: () {},
+                                  hintText: '6435545',
+                                ),
+                              ],
                             ),
+                          ),
                           if (model.trackingTypeValue == '5')
                             Container(
                               margin: EdgeInsets.only(top: 0.04.wp),
@@ -799,7 +796,7 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   onPressed: () {
-                                    model.openQrCode(context);
+                                    model.processData(context);
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(0.02.wp),
@@ -808,11 +805,11 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Container(
-                                          child: Image(
-                                            color: Colors.white,
-                                            width: 0.08.wp,
-                                            image: AssetImage(
-                                              'assets/qrcode.png',
+                                          child: Text(
+                                            'Update Status',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 40.ssp,
                                             ),
                                           ),
                                         ),
