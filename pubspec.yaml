@@ -48,6 +48,7 @@ dependencies:
   localstorage: ^3.0.0
   geolocator: ^6.1.4
   twitter_qr_scanner: ^1.0.4
+  flutter_beep: ^0.2.0
   audioplayers: ^0.16.2
   vibration: ^1.7.2
   signature: ^3.2.0

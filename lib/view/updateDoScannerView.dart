@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
@@ -95,13 +96,12 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
   }
 
   play(scanData) async {
-    int result = await audioPlayer.play(
-        'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=$scanData&tl=id&total=1&idx=0&textlen=8');
-    if (result == 1) {
-      setState(() {
-        isScanning = false;
-      });
-    }
+    // int result = await audioPlayer.play(
+    //     'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=$scanData&tl=id&total=1&idx=0&textlen=8');
+    FlutterBeep.beep(false);
+    setState(() {
+      isScanning = false;
+    });
   }
 
   @override
