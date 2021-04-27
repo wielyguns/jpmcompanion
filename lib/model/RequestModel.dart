@@ -397,7 +397,7 @@ class Courier {
   String rute;
   String kodeCabang;
   int kendaraanId;
-  Null userId;
+  dynamic userId;
   String status;
   String createdBy;
   String updatedBy;
@@ -483,8 +483,8 @@ class Kendaraan {
   String brncde;
   String divisi;
   String status;
-  Null vdrcde;
-  Null vdrnme;
+  dynamic vdrcde;
+  dynamic vdrnme;
   String kode;
   String merk;
   String tipeAngkutan;
@@ -513,20 +513,20 @@ class Kendaraan {
   String keterangan;
   String kodeCabang;
   int version;
-  Null createBy;
-  Null createAt;
-  Null updateBy;
-  Null updateAt;
+  dynamic createBy;
+  dynamic createAt;
+  dynamic updateBy;
+  dynamic updateAt;
   int act;
-  Null tglPajakTahunan;
-  Null tglPajak5Tahunan;
+  dynamic tglPajakTahunan;
+  dynamic tglPajak5Tahunan;
   String kodeSubcon;
   String aktif;
-  Null createdAt;
-  Null updatedAt;
-  Null nopolLama;
-  Null createdBy;
-  Null updatedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic nopolLama;
+  dynamic createdBy;
+  dynamic updatedBy;
 
   Kendaraan(
       {this.id,
