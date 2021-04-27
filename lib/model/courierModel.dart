@@ -6,13 +6,13 @@ class Courier {
   String telpon;
   String kodeCabang;
   int kendaraanId;
-  Null userId;
+  dynamic userId;
   String status;
   String createdBy;
   String updatedBy;
   String createdAt;
   String updatedAt;
-  String rute;
+  dynamic rute;
   Cabang cabang;
   Kendaraan kendaraan;
 
@@ -89,11 +89,11 @@ class Cabang {
   String telpon;
   String fax;
   int idKota;
-  Null version;
-  Null createBy;
-  Null createAt;
-  Null updateBy;
-  Null updateAt;
+  dynamic version;
+  dynamic createBy;
+  dynamic createAt;
+  dynamic updateBy;
+  dynamic updateAt;
   String status;
   int jamCutOff;
   String lat;
@@ -170,11 +170,11 @@ class Cabang {
 class Kendaraan {
   int id;
   String nopol;
-  Null brncde;
+  dynamic brncde;
   String divisi;
   String status;
-  Null vdrcde;
-  Null vdrnme;
+  dynamic vdrcde;
+  dynamic vdrnme;
   String kode;
   String merk;
   String tipeAngkutan;
@@ -184,7 +184,7 @@ class Kendaraan {
   int p;
   int l;
   int t;
-  Null volume;
+  dynamic volume;
   int tahun;
   String seriUnit;
   String warnaKabin;
@@ -203,20 +203,20 @@ class Kendaraan {
   String keterangan;
   String kodeCabang;
   int version;
-  Null createBy;
-  Null createAt;
-  Null updateBy;
-  Null updateAt;
+  dynamic createBy;
+  dynamic createAt;
+  dynamic updateBy;
+  dynamic updateAt;
   int act;
-  Null tglPajakTahunan;
-  Null tglPajak5Tahunan;
+  dynamic tglPajakTahunan;
+  dynamic tglPajak5Tahunan;
   String kodeSubcon;
   String aktif;
-  Null createdAt;
-  Null updatedAt;
-  Null nopolLama;
-  Null createdBy;
-  Null updatedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic nopolLama;
+  dynamic createdBy;
+  dynamic updatedBy;
 
   Kendaraan(
       {this.id,
