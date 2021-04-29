@@ -47,6 +47,7 @@ class TrackingDoViewModel extends BaseViewModel {
 
   getTracking() async {
     await MainService().getTracking(_deliveryOrder.nomor).then((value) {
+      print(value);
       if (value['status'] == 1) {
         if (value['data'] != null) {
           _tracking = track.Tracking.fromJson(value['data']);
