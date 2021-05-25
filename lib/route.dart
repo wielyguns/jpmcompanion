@@ -11,6 +11,7 @@ import 'package:jpmcompanion/view/listCustomerView.dart';
 import 'package:jpmcompanion/view/listDoView.dart';
 import 'package:jpmcompanion/view/listKotaView.dart';
 import 'package:jpmcompanion/view/listNopolView.dart';
+import 'package:jpmcompanion/view/listVendorView.dart';
 import 'package:jpmcompanion/view/loginView.dart';
 import 'package:jpmcompanion/view/mapSelectView.dart';
 import 'package:jpmcompanion/view/pickUpCourierView.dart';
@@ -47,6 +48,10 @@ class Routers {
       case listAgenRoute:
         return RouteAnimationDurationTween(
           widget: ListAgenView(),
+        );
+      case listVendorRoute:
+        return RouteAnimationDurationTween(
+          widget: ListVendorView(),
         );
       case listCustomerRoute:
         return RouteAnimationDurationTween(

@@ -15,6 +15,7 @@ const dashboardRoute = '/';
 const purchaseOrderRoute = '/purchase-order-route';
 const listKotaRoute = '/list-kota-route';
 const listAgenRoute = '/list-agen-route';
+const listVendorRoute = '/list-vendor-route';
 const listCustomerRoute = '/list-customer-route';
 const listNopolRoute = '/list-nopol-route';
 const listCourierRoute = '/list-courier-route';
@@ -31,7 +32,6 @@ const shortcutMenuRoute = '/shortcut-menu-route';
 const pickupCourierRoute = '/pick-up-courier-route';
 const camera = '/camera';
 const map = '/map';
-
 // HAK AKSES
 
 var dashboardAccess = true;

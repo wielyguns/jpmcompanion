@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/AgenModel.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
+import 'package:jpmcompanion/model/VendorModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
@@ -35,6 +36,7 @@ class UpdateDoViewModel extends BaseViewModel {
   co.Courier _courierData = co.Courier();
   Kota _kotaData = Kota();
   Agen _agenData = Agen();
+  Vendor _vendorData;
   List<DropdownMenuItem> _trackingDescriptionDropdown = [];
   List<DropdownMenuItem> _hubDropdown = [];
   List<DropdownMenuItem> _jenisBuktiPembayaran = [
@@ -57,6 +59,7 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController _penerima = TextEditingController();
   TextEditingController _nomor = TextEditingController();
   TextEditingController _agen = TextEditingController();
+  TextEditingController _vendor = TextEditingController();
   final LocalStorage storage = new LocalStorage('tracking');
   final SignatureController _signatureController = SignatureController(
     penStrokeWidth: 5,
@@ -81,6 +84,7 @@ class UpdateDoViewModel extends BaseViewModel {
   TextEditingController get penerima => _penerima;
   TextEditingController get nomor => _nomor;
   TextEditingController get agen => _agen;
+  TextEditingController get vendor => _vendor;
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
   List<DropdownMenuItem> get hubDropdown => _hubDropdown;
   List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
@@ -278,6 +282,16 @@ class UpdateDoViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  getVendor(context) async {
+    var result = await Navigator.of(context).pushNamed(listVendorRoute);
+    if (result != null) {
+      _vendorData = result;
+      _vendor.text = ' ${_vendorData.nama}';
+    }
+
+    notifyListeners();
+  }
+
   openQrCode(context) async {
     if (_trackingTypeValue == '' ||
         _trackingDescriptionValue == '' ||
@@ -294,6 +308,7 @@ class UpdateDoViewModel extends BaseViewModel {
       "courier_id": _courierData.id.toString(),
       "kota_id": _kotaData.id.toString(),
       "kode_agen": _agenData.kode.toString(),
+      "kode_vendor": _vendorData.kode.toString(),
       "nopol": _nopol.text,
       "hub": _hubValue,
     };

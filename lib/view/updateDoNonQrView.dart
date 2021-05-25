@@ -536,6 +536,50 @@ class _UpdateDoNonQrViewState extends State<UpdateDoNonQrView> {
                                 ],
                               ),
                             ),
+                          if (model.trackingDescriptionValue == '14')
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 51300 1.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'Vendor',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ShippingOrderInputField(
+                                    controller: model.vendor,
+                                    readOnly: true,
+                                    onTap: () {
+                                      model.getVendor(context);
+                                    },
+                                    hintText: 'Select Vendor',
+                                  ),
+                                ],
+                              ),
+                            ),
                           if (model.trackingTypeValue != null &&
                               model.trackingTypeValue != '1' &&
                               model.trackingTypeValue != '5')

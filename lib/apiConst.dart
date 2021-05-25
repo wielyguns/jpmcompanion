@@ -14,6 +14,7 @@ const getTrackingTypeApi = '${baseApi}api/v1/get-tracking-type';
 const getCourierApi = '${baseApi}api/v1/get-courier';
 const getHubApi = '${baseApi}api/v1/get-hub';
 const getAgenApi = '${baseApi}api/v1/get-agen';
+const getVendorApi = '${baseApi}api/v1/get-vendor';
 const getUserApi = '${baseApi}api/v1/check-auth';
 const updateTrackingApi = '${baseApi}api/v1/update-tracking';
 const paginateDoApiRoute = '${baseApi}api/v1/paginate-do';

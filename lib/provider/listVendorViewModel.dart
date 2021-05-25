@@ -1,38 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpmcompanion/const.dart';
-import 'package:jpmcompanion/model/AgenModel.dart';
+import 'package:jpmcompanion/model/VendorModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:stacked/stacked.dart';
 
-class ListAgenViewModel extends BaseViewModel {
+class ListVendorViewModel extends BaseViewModel {
   // GETTER
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<Agen> _agen;
+  List<Vendor> _vendor;
   String _titleSnap;
-  List<Agen> _feedData = [];
+  List<Vendor> _feedData = [];
 
   final LocalStorage storage = new LocalStorage('kota');
   // SETTER
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-  List<Agen> get asal => _agen;
+  List<Vendor> get vendor => _vendor;
 
   String get titleSnap => _titleSnap;
-  List<Agen> get feedData => _feedData;
+  List<Vendor> get feedData => _feedData;
   // FUNCTION
   init(context) async {
     await redirectToLogin(context);
-    await getAgen(context);
+    await getVendor(context);
   }
 
-  getAgen(context) async {
-    _agen = [];
-    await MainService().getAgen().then(
+  getVendor(context) async {
+    _vendor = [];
+    await MainService().getVendor().then(
       (value) async {
         if (value['status'] == 1) {
           for (var item in value['data']) {
-            _agen.add(Agen.fromJson(item));
+            _vendor.add(Vendor.fromJson(item));
           }
         } else if (value['status'] == 0) {
           redirectToLogin(context);
@@ -44,7 +44,7 @@ class ListAgenViewModel extends BaseViewModel {
 
   runFilter(value) async {
     _feedData = [];
-    for (Agen item in _agen) {
+    for (Vendor item in _vendor) {
       if (item.nama.contains(value.toUpperCase())) {
         _feedData.add(item);
       }

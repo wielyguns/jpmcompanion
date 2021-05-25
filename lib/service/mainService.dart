@@ -234,6 +234,24 @@ class MainService extends Model {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> getVendor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var responseJson;
+    try {
+      final response = await http.get(
+        "$getVendorApi",
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString('token')}',
+        },
+      );
+      responseJson = await responseCheck(response);
+    } on SocketException {
+      responseJson = {"status": 502, "message": "No Internet connection"};
+    }
+    return responseJson;
+  }
+
   Future<Map<String, dynamic>> getLocation(value) async {
     // ignore: deprecated_member_use
     Position position = await getCurrentPosition(
@@ -361,8 +379,6 @@ class MainService extends Model {
         body: data,
       );
       responseJson = await responseCheck(response);
-      print(data);
-      print(response.body.toString());
     } on SocketException {
       responseJson = {"status": 502, "message": "No Internet connection"};
     }

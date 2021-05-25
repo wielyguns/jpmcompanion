@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/AgenModel.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
+import 'package:jpmcompanion/model/VendorModel.dart';
 import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/model/updateDoModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
@@ -47,6 +48,8 @@ class UpdateDoNonQrViewModel extends BaseViewModel {
       value: 'tanda_tangan',
     ),
   ];
+  Vendor _vendorData;
+
   List<TrackingType> _trackingType = [];
   List<TrackingDescription> _trackingDescription = [];
   TextEditingController _tanggal = TextEditingController();
@@ -57,6 +60,7 @@ class UpdateDoNonQrViewModel extends BaseViewModel {
   TextEditingController _penerima = TextEditingController();
   TextEditingController _nomor = TextEditingController();
   TextEditingController _agen = TextEditingController();
+  TextEditingController _vendor = TextEditingController();
   final LocalStorage storage = new LocalStorage('tracking');
   final SignatureController _signatureController = SignatureController(
     penStrokeWidth: 5,
@@ -81,6 +85,7 @@ class UpdateDoNonQrViewModel extends BaseViewModel {
   TextEditingController get penerima => _penerima;
   TextEditingController get nomor => _nomor;
   TextEditingController get agen => _agen;
+  TextEditingController get vendor => _vendor;
   List<DropdownMenuItem> get trackingTypeDropdown => _trackingTypeDropdown;
   List<DropdownMenuItem> get hubDropdown => _hubDropdown;
   List<DropdownMenuItem> get jenisBuktiPembayaran => _jenisBuktiPembayaran;
@@ -367,6 +372,16 @@ class UpdateDoNonQrViewModel extends BaseViewModel {
     if (result != null) {
       _agenData = result;
       _agen.text = ' ${_agenData.nama}';
+    }
+
+    notifyListeners();
+  }
+
+  getVendor(context) async {
+    var result = await Navigator.of(context).pushNamed(listVendorRoute);
+    if (result != null) {
+      _vendorData = result;
+      _vendor.text = ' ${_vendorData.nama}';
     }
 
     notifyListeners();
