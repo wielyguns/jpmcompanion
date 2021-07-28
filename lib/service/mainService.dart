@@ -373,6 +373,9 @@ class MainService extends Model {
         ? data['kota_id'] = 'null'
         : data['kota_id'] = data['kota_id'];
 
+    (data['nopol'] == null)
+        ? data['nopol'] = 'null'
+        : data['nopol'] = data['nopol'];
     (data['hub'] == null) ? data['hub'] = 'null' : data['hub'] = data['hub'];
 
     final response = await http.post(
