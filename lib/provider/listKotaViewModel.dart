@@ -29,28 +29,17 @@ class ListKotaViewModel extends BaseViewModel {
   getKota(context) async {
     _asal = [];
     Map data = {"jenis": "asal"};
-    if (storage.getItem('asal') == null) {
-      await MainService().getKota(data).then(
-        (value) async {
-          if (value['status'] == 1) {
-            storage.setItem('asal', GetKota.fromJson(value));
-            var result = storage.getItem('asal');
-
-            for (var item in result['data']) {
-              _asal.add(Kota.fromJson(item));
-            }
-          } else if (value['status'] == 0) {
-            redirectToLogin(context);
+    await MainService().getKota(data).then(
+      (value) async {
+        if (value['status'] == 1) {
+          for (var item in value['data']) {
+            _asal.add(Kota.fromJson(item));
           }
-        },
-      );
-    } else {
-      var result = storage.getItem('asal');
-      for (var item in result['data']) {
-        _asal.add(Kota.fromJson(item));
-      }
-    }
-
+        } else if (value['status'] == 0) {
+          redirectToLogin(context);
+        }
+      },
+    );
     notifyListeners();
   }
 

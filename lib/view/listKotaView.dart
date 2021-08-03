@@ -239,7 +239,8 @@ class _ListKotaViewState extends State<ListKotaView> {
                                     },
                                     child: Container(
                                       width: 1.wp,
-                                      child: Text('${item.nama}'),
+                                      child: Text(
+                                          '${item.prefix} ${item.nama} ${item.cabang != null ? '( ${item.cabang.nama} )' : ''}'),
                                     ),
                                   ),
                                 );

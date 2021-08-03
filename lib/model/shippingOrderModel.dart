@@ -383,20 +383,37 @@ class Cabang {
   String updateBy;
   String updateAt;
   String status;
+  int jamCutOff;
+  String lat;
+  String long;
+  int penanggungJawab;
+  String image;
+  String keterangan;
+  int regionalId;
+  String tlc;
 
-  Cabang(
-      {this.kode,
-      this.nama,
-      this.alamat,
-      this.telpon,
-      this.fax,
-      this.idKota,
-      this.version,
-      this.createBy,
-      this.createAt,
-      this.updateBy,
-      this.updateAt,
-      this.status});
+  Cabang({
+    this.kode,
+    this.nama,
+    this.alamat,
+    this.telpon,
+    this.fax,
+    this.idKota,
+    this.version,
+    this.createBy,
+    this.createAt,
+    this.updateBy,
+    this.updateAt,
+    this.status,
+    this.jamCutOff,
+    this.lat,
+    this.long,
+    this.penanggungJawab,
+    this.image,
+    this.keterangan,
+    this.regionalId,
+    this.tlc,
+  });
 
   Cabang.fromJson(Map<String, dynamic> json) {
     kode = json['kode'];
@@ -411,6 +428,14 @@ class Cabang {
     updateBy = json['update_by'];
     updateAt = json['update_at'];
     status = json['status'];
+    jamCutOff = json['jam_cut_off'];
+    lat = json['lat'];
+    long = json['long'];
+    penanggungJawab = json['penanggung_jawab'];
+    image = json['image'];
+    keterangan = json['keterangan'];
+    regionalId = json['regional_id'];
+    tlc = json['tlc'];
   }
 
   Map<String, dynamic> toJson() {
@@ -427,6 +452,14 @@ class Cabang {
     data['update_by'] = this.updateBy;
     data['update_at'] = this.updateAt;
     data['status'] = this.status;
+    data['jam_cut_off'] = this.jamCutOff;
+    data['lat'] = this.lat;
+    data['long'] = this.long;
+    data['penanggung_jawab'] = this.penanggungJawab;
+    data['image'] = this.image;
+    data['keterangan'] = this.keterangan;
+    data['regional_id'] = this.regionalId;
+    data['tlc'] = this.tlc;
     return data;
   }
 }
@@ -534,20 +567,23 @@ class Kota {
   String updateAt;
   String nama2;
   String hub;
+  String prefix;
+  Cabang cabang;
 
-  Kota({
-    this.id,
-    this.nama,
-    this.namaIbuKota,
-    this.kodeKota,
-    this.idProvinsi,
-    this.createBy,
-    this.createdAt,
-    this.updateBy,
-    this.updateAt,
-    this.nama2,
-    this.hub,
-  });
+  Kota(
+      {this.id,
+      this.nama,
+      this.namaIbuKota,
+      this.kodeKota,
+      this.idProvinsi,
+      this.createBy,
+      this.createdAt,
+      this.updateBy,
+      this.updateAt,
+      this.nama2,
+      this.hub,
+      this.prefix,
+      this.cabang});
 
   Kota.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -561,6 +597,9 @@ class Kota {
     updateAt = json['update_at'];
     nama2 = json['nama2'];
     hub = json['hub'];
+    prefix = json['prefix'];
+    cabang =
+        json['cabang'] != null ? new Cabang.fromJson(json['cabang']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -576,6 +615,10 @@ class Kota {
     data['update_at'] = this.updateAt;
     data['nama2'] = this.nama2;
     data['hub'] = this.hub;
+    data['prefix'] = this.prefix;
+    if (this.cabang != null) {
+      data['cabang'] = this.cabang.toJson();
+    }
     return data;
   }
 }
@@ -616,20 +659,20 @@ class Kendaraan {
   String keterangan;
   String kodeCabang;
   int version;
-  Null createBy;
-  Null createAt;
-  Null updateBy;
-  Null updateAt;
+  String createBy;
+  String createAt;
+  String updateBy;
+  String updateAt;
   int act;
-  Null tglPajakTahunan;
-  Null tglPajak5Tahunan;
+  String tglPajakTahunan;
+  String tglPajak5Tahunan;
   String kodeSubcon;
   String aktif;
-  Null createdAt;
-  Null updatedAt;
-  Null nopolLama;
-  Null createdBy;
-  Null updatedBy;
+  String createdAt;
+  String updatedAt;
+  String nopolLama;
+  String createdBy;
+  String updatedBy;
 
   Kendaraan(
       {this.id,
