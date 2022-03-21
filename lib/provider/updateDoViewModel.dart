@@ -103,6 +103,16 @@ class UpdateDoViewModel extends BaseViewModel {
     var temp = prefs.getString('user');
     if (temp != null) {
       _user = User.fromJson(jsonDecode(temp));
+      if (_user.courier != null) {
+        _courierData = co.Courier(
+          nama: _user.courier.nama,
+          kodeCabang: _user.courier.kodeCabang,
+          kode: _user.courier.kode,
+          id: _user.courier.id,
+        );
+        _courier.text = '${_user.courier.kode} | ${_user.courier.nama}';
+        print(_courierData.toJson());
+      }
     }
 
     setBusy(true);
@@ -305,14 +315,25 @@ class UpdateDoViewModel extends BaseViewModel {
       "nomor": _nomor.text,
       "type": _trackingTypeValue,
       "deskripsi": _trackingDescriptionValue,
-      "courier_id": _courierData.id.toString(),
+      "courier_id": 'null',
       "kota_id": _kotaData.id.toString(),
-      "kode_agen": _agenData.kode.toString(),
-      "kode_vendor": _vendorData.kode.toString(),
+      "kode_agen": 'null',
+      "kode_vendor": 'null',
       "nopol": _nopol.text,
       "hub": _hubValue,
     };
 
+    if (_vendorData != null) {
+      data['kode_vendor'] = _vendorData.kode.toString();
+    }
+
+    if (_agenData != null) {
+      data['kode_agen'] = _agenData.kode.toString();
+    }
+
+    if (_courierData != null) {
+      data['courier_id'] = _courierData.id.toString();
+    }
     Navigator.pushNamed(context, updateDoScannerRoute, arguments: data);
   }
 
@@ -407,13 +428,16 @@ class UpdateDoViewModel extends BaseViewModel {
       "foto": foto,
       "nomor": _nomor.text,
     };
-    // print(file.path);
+
     await MainService().processDelivered(data).then((value) {
       if (value['status'] == 1) {
         messageToast(value['message'], Colors.black);
       } else {
         messageToast(value['message'], Colors.red);
       }
+    }, onError: (e) {
+      print(e);
+      messageToast('$e', Colors.red);
     });
     setBusy(false);
   }

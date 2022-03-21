@@ -365,23 +365,26 @@ class MainService extends Model {
         ? data['courier_id'] = 'null'
         : data['courier_id'] = data['courier_id'];
 
+    (data['kode_vendor'] == null)
+        ? data['kode_vendor'] = 'null'
+        : data['kode_vendor'] = data['kode_vendor'];
+
     (data['kota_id'] == null)
         ? data['kota_id'] = 'null'
         : data['kota_id'] = data['kota_id'];
 
     (data['hub'] == null) ? data['hub'] = 'null' : data['hub'] = data['hub'];
-    try {
-      final response = await http.post(
-        "$updateTrackingApi",
-        headers: {
-          'Authorization': 'Bearer ${prefs.getString('token')}',
-        },
-        body: data,
-      );
-      responseJson = await responseCheck(response);
-    } on SocketException {
-      responseJson = {"status": 502, "message": "No Internet connection"};
-    }
+
+    final response = await http.post(
+      "$updateTrackingApi",
+      headers: {
+        'Authorization': 'Bearer ${prefs.getString('token')}',
+      },
+      body: data,
+    );
+    responseJson = await responseCheck(response);
+    debugPrint('${response.body.toString()}');
+
     return responseJson;
   }
 
@@ -389,11 +392,11 @@ class MainService extends Model {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String apiKey = (prefs.getString('token') ?? "");
     apiKey = "Bearer " + apiKey;
-    print(apiKey);
     var responseJson;
     var dataJson;
     try {
       var uri = Uri.parse('$updateTrackingApi');
+
       var request = new http.MultipartRequest("POST", uri);
       request.headers['Authorization'] = apiKey;
 
@@ -445,7 +448,6 @@ class MainService extends Model {
       request.fields['deskripsi'] = data['deskripsi'];
       responseJson = await request.send();
       dataJson = await http.Response.fromStream(responseJson);
-      debugPrint('$dataJson');
     } on SocketException {
       responseJson = {"status": 2, "message": "No Internet connection"};
     }
@@ -606,7 +608,9 @@ class MainService extends Model {
       request.fields['id'] = data['id'];
       request.fields['jumlah_tujuan'] = data['jumlah_tujuan'];
       responseJson = await request.send();
+
       dataJson = await http.Response.fromStream(responseJson);
+      debugPrint(dataJson.body.toString());
     } on SocketException {
       responseJson = {"status": 2, "message": "No Internet connection"};
     }

@@ -127,12 +127,14 @@ dynamic responseCheck(http.Response response) async {
         return responseJson;
       case 500:
       default:
-        var responseJson = {"status": 502, "message": "No Internet connection"};
+        var responseJson = {
+          "status": 502,
+          "message": '${response.body.toString()}'
+        };
         return responseJson;
     }
   } catch (e) {
-    print('${response.body.toString()}');
-    var responseJson = {"status": 502, "msg": "No Internet connection"};
+    var responseJson = {"status": 502, "msg": '${response.body.toString()}'};
     return responseJson;
   }
 }

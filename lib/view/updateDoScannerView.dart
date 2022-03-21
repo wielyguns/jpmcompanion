@@ -74,13 +74,15 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
                 default:
               }
             } else {
-              print(_data);
               await MainService().updateTracking(_data).then((value) {
                 if (value['status'] == 1) {
                   play(value['message']);
+                  messageToast(value['message'], Colors.black54);
                 } else {
                   messageToast(value['message'], Colors.red);
                 }
+              }, onError: (e) {
+                messageToast(e, Colors.red);
               });
             }
           } else {
@@ -145,7 +147,7 @@ class _UpdateDoScannerViewState extends State<UpdateDoScannerView> {
                         width: 0.1.wp,
                         height: 0.1.wp,
                         decoration: BoxDecoration(
-                          color: isScanning ? Colors.red : Colors.green,
+                          color: isScanning ? Colors.green : Colors.red,
                           shape: BoxShape.circle,
                         ),
                       )
