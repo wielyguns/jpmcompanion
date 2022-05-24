@@ -583,51 +583,50 @@ class _UpdateDoViewState extends State<UpdateDoView> {
                           if (model.trackingTypeValue != null &&
                               model.trackingTypeValue != '1' &&
                               model.trackingTypeValue != '5')
-                            if (model.user.jabatanId != 3)
-                              Container(
-                                margin: EdgeInsets.only(top: 0.04.wp),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                right: 0.02.wp,
-                                              ),
-                                              child: Image(
-                                                width: 0.05.wp,
-                                                height: 0.05.wp,
-                                                image: AssetImage(
-                                                  'assets/Asset 77300 2.png',
-                                                ),
+                            Container(
+                              margin: EdgeInsets.only(top: 0.04.wp),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              right: 0.02.wp,
+                                            ),
+                                            child: Image(
+                                              width: 0.05.wp,
+                                              height: 0.05.wp,
+                                              image: AssetImage(
+                                                'assets/Asset 77300 2.png',
                                               ),
                                             ),
                                           ),
-                                          TextSpan(
-                                            text: 'Nopol',
-                                            style: TextStyle(
-                                              color: purpleTheme,
-                                              fontSize: 45.ssp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                        ),
+                                        TextSpan(
+                                          text: 'Nopol',
+                                          style: TextStyle(
+                                            color: purpleTheme,
+                                            fontSize: 45.ssp,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    ShippingOrderInputField(
-                                      controller: model.nopol,
-                                      readOnly: true,
-                                      onTap: () {
-                                        model.getNopol(context);
-                                      },
-                                      hintText: 'L 8758 PO',
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  ShippingOrderInputField(
+                                    controller: model.nopol,
+                                    readOnly: true,
+                                    onTap: () {
+                                      model.getNopol(context);
+                                    },
+                                    hintText: 'L 8758 PO',
+                                  ),
+                                ],
                               ),
+                            ),
                           if (model.trackingTypeValue == '5')
                             Container(
                               margin: EdgeInsets.only(top: 0.04.wp),
