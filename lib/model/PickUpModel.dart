@@ -250,7 +250,7 @@ class Customer {
   String kode;
   String nama;
   String alamat;
-  String kota;
+  dynamic kota;
   dynamic propinsi;
   dynamic negara;
   String telpon;

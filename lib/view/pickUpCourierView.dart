@@ -47,7 +47,6 @@ class _PickUpCourierViewState extends State<PickUpCourierView>
           child: Scaffold(
             key: model.scaffoldKey,
             backgroundColor: Colors.white,
-            resizeToAvoidBottomPadding: false,
             appBar: AppBar(
               elevation: 0,
               leading: IconButton(
@@ -374,8 +373,6 @@ class _PickUpCourierViewState extends State<PickUpCourierView>
                                                                   Expanded(
                                                                     child:
                                                                         Container(
-                                                                      height:
-                                                                          100,
                                                                       padding:
                                                                           EdgeInsets
                                                                               .symmetric(

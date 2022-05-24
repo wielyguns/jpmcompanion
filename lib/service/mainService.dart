@@ -5,10 +5,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:jpmcompanion/apiConst.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/locationPrediction.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:jpmcompanion/main.dart' as main;
 import 'package:async/async.dart';
 import '../const.dart';
 
@@ -34,6 +35,8 @@ class MainService extends Model {
         "$getUserApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -70,13 +73,14 @@ class MainService extends Model {
 
   Future<Map<String, dynamic>> getKota(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     var responseJson;
     try {
       final response = await http.post(
         "$getAsalApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
         body: data,
       );
@@ -94,6 +98,8 @@ class MainService extends Model {
     try {
       final response = await http.post("$getCustomerApi", headers: {
         'Authorization': 'Bearer ${prefs.getString('token')}',
+        'version': main.version['version'],
+        'app_name': main.version['appName']
       }, body: {
         "param": value,
       });
@@ -111,6 +117,8 @@ class MainService extends Model {
     try {
       final response = await http.post("$getKecamatanApi", headers: {
         'Authorization': 'Bearer ${prefs.getString('token')}',
+        'version': main.version['version'],
+        'app_name': main.version['appName']
       }, body: {
         "tujuan_id": '$value',
       });
@@ -135,6 +143,8 @@ class MainService extends Model {
         "$searchTarifApi?jenis_do=BARU",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName'],
           'Content-Type': 'application/json',
         },
         body: body,
@@ -153,6 +163,8 @@ class MainService extends Model {
     try {
       final response = await http.get("$getJenisKirimanApi", headers: {
         'Authorization': 'Bearer ${prefs.getString('token')}',
+        'version': main.version['version'],
+        'app_name': main.version['appName']
       });
       responseJson = await responseCheck(response);
     } on SocketException {
@@ -170,6 +182,8 @@ class MainService extends Model {
         "$getNopolApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -181,6 +195,7 @@ class MainService extends Model {
 
   Future<Map<String, dynamic>> getCourier() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(main.version);
 
     var responseJson;
     try {
@@ -188,6 +203,8 @@ class MainService extends Model {
         "$getCourierApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
 
@@ -207,6 +224,8 @@ class MainService extends Model {
         "$getHubApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -225,6 +244,8 @@ class MainService extends Model {
         "$getAgenApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -243,6 +264,8 @@ class MainService extends Model {
         "$getVendorApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -331,6 +354,8 @@ class MainService extends Model {
         "$getTrackingDescriptionApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -349,6 +374,8 @@ class MainService extends Model {
         "$getTrackingTypeApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -382,6 +409,8 @@ class MainService extends Model {
       "$updateTrackingApi",
       headers: {
         'Authorization': 'Bearer ${prefs.getString('token')}',
+        'version': main.version['version'],
+        'app_name': main.version['appName']
       },
       body: data,
     );
@@ -468,6 +497,8 @@ class MainService extends Model {
         "$paginateDoApiRoute?page=$page&nomor=$nomor",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -486,6 +517,8 @@ class MainService extends Model {
         "$deliveryOrderApi/$nomor",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -509,6 +542,8 @@ class MainService extends Model {
         "$saveDoApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName'],
           'Content-Type': 'application/json',
         },
         body: body,
@@ -529,6 +564,8 @@ class MainService extends Model {
         "$getTrackingApiRoute$param",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -548,6 +585,8 @@ class MainService extends Model {
         "$getDataDashboardApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -566,6 +605,8 @@ class MainService extends Model {
         "$getPickUpApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
       );
       responseJson = await responseCheck(response);
@@ -631,6 +672,8 @@ class MainService extends Model {
         "$submitCancelPickUpApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
         body: param,
       );
@@ -650,6 +693,8 @@ class MainService extends Model {
         "$saveTokenFireBaseApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
         body: {
           "token": param.toString(),
@@ -671,6 +716,8 @@ class MainService extends Model {
         "$changeRouteCourierBaseApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
         body: param,
       );
@@ -690,6 +737,8 @@ class MainService extends Model {
         "$updateUserBaseApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
         body: param,
       );
@@ -709,6 +758,8 @@ class MainService extends Model {
         "$updatePasswordBaseApi",
         headers: {
           'Authorization': 'Bearer ${prefs.getString('token')}',
+          'version': main.version['version'],
+          'app_name': main.version['appName']
         },
         body: param,
       );

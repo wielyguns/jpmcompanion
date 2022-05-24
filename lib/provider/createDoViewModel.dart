@@ -6,10 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jpmcompanion/const.dart';
 import 'package:jpmcompanion/model/RequestModel.dart';
 import 'package:jpmcompanion/model/deliveryOrderModel.dart';
+import 'package:jpmcompanion/model/shippingOrderModel.dart';
 import 'package:jpmcompanion/service/mainService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
-import 'package:jpmcompanion/model/shippingOrderModel.dart' as po;
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:intl/intl.dart';
 
@@ -23,10 +23,13 @@ class CreateDoViewModel extends BaseViewModel {
   String _titleSnap;
   String _typeKirimanValue = 'KILOGRAM';
   String _jenisKirimanValue;
+  String _serviceExpressValue;
   String _kecamatanValue;
+  bool _barangFragile = false;
   User _user = User();
   PageController _pageController = PageController(initialPage: 0);
   List<DropdownMenuItem> _jenisKiriman = [];
+  List<DropdownMenuItem> _serviceExpress = [];
   List<DropdownMenuItem> _kecamatan = [];
   List<DropdownMenuItem> _typeKiriman = [
     DropdownMenuItem<String>(
@@ -66,7 +69,7 @@ class CreateDoViewModel extends BaseViewModel {
   String _tanggalError = '';
   TextEditingController _asal = TextEditingController();
   String _asalError = '';
-  po.Asal _asalData;
+  Kota _asalData;
   TextEditingController _customer = TextEditingController();
   String _customerError = '';
   Customer _customerData;
@@ -78,7 +81,7 @@ class CreateDoViewModel extends BaseViewModel {
   String _alamatPengirimError = '';
   TextEditingController _tujuan = TextEditingController();
   String _tujuanError = '';
-  po.Asal _tujuanData;
+  Kota _tujuanData;
   TextEditingController _penerima = TextEditingController();
   String _penerimaError = '';
   TextEditingController _telpPenerima = TextEditingController();
@@ -182,7 +185,9 @@ class CreateDoViewModel extends BaseViewModel {
   List<DropdownMenuItem> get typeKiriman => _typeKiriman;
   String get typeKirimanValue => _typeKirimanValue;
   List<DropdownMenuItem> get jenisKiriman => _jenisKiriman;
+  List<DropdownMenuItem> get serviceExpress => _serviceExpress;
   String get jenisKirimanValue => _jenisKirimanValue;
+  String get serviceExpressValue => _serviceExpressValue;
   List<DropdownMenuItem> get jenisSepeda => _jenisSepeda;
   List<DropdownMenuItem> get kecamatan => _kecamatan;
   String get kecamatanValue => _kecamatanValue;
@@ -201,6 +206,7 @@ class CreateDoViewModel extends BaseViewModel {
   String get tarifTambahanText => _tarifTambahanText;
   String get tarifPenerusText => _tarifPenerusText;
   String get diskonText => _diskonText;
+  bool get barangFragile => _barangFragile;
   // FUNCTION
   init(context) async {
     setBusy(true);
@@ -231,6 +237,16 @@ class CreateDoViewModel extends BaseViewModel {
           );
         }
 
+        for (var item in value['service_express']) {
+          _serviceExpress.add(
+            DropdownMenuItem<String>(
+              child: Text('${item['name']}'),
+              value: '${item['id']}',
+            ),
+          );
+        }
+        _nomor.text = value['nota'].toString();
+
         print(_jenisKiriman);
       } else if (value['status'] == 0) {
         await redirectToLogin(_scaffoldKey.currentContext);
@@ -247,6 +263,16 @@ class CreateDoViewModel extends BaseViewModel {
 
   changeJenisKiriman(value) {
     _jenisKirimanValue = value;
+    notifyListeners();
+  }
+
+  changeJenisExpress(value) {
+    _serviceExpressValue = value;
+    notifyListeners();
+  }
+
+  changeBarangFragile(value) {
+    _barangFragile = value;
     notifyListeners();
   }
 
@@ -384,12 +410,12 @@ class CreateDoViewModel extends BaseViewModel {
     if (result != null) {
       if (param == 'asal') {
         _asalData = result;
-        _asal.text = _asalData.nama;
+        _asal.text = '${_asalData.prefix} ${_asalData.nama}';
       } else {
         _kecamatan = [];
         _kecamatanValue = null;
         _tujuanData = result;
-        _tujuan.text = _tujuanData.nama;
+        _tujuan.text = '${_tujuanData.prefix} ${_tujuanData.nama}';
         await MainService().getSubCity(_tujuanData.id).then((value) {
           print(value);
           if (value['status'] == 1) {
@@ -503,9 +529,11 @@ class CreateDoViewModel extends BaseViewModel {
       jenisTarif: _jenisKirimanValue.toString(),
       typeKiriman: _typeKirimanValue.toString(),
       jenisUnit: _sepeda,
+      kodeCustomer: _customerData.kode.toString(),
+      serviceExpress: _serviceExpressValue.toString(),
     );
+
     await MainService().searchTarif(param).then((value) {
-      print(value);
       if (value['status'] == 1) {
         _searchTarifResponse = SearchTarifResponse.fromJson(value);
         _tarifDasar.text = _searchTarifResponse.tarif.toString();
@@ -569,7 +597,6 @@ class CreateDoViewModel extends BaseViewModel {
     } else {
       maxDiskon = 0;
     }
-    print(maxDiskon);
     var totalTemp = int.parse(_tarifDasar.text.replaceAll(',', '')) +
         int.parse(_tarifTambahan.text.replaceAll(',', ''));
     if (param == 'persen') {
@@ -642,16 +669,19 @@ class CreateDoViewModel extends BaseViewModel {
       tarifPenerus: _tarifPenerus.text.toString(),
       tarifTambahan: _tarifTambahan.text.toString(),
       jenisUnit: _sepeda,
+      serviceExpress: _serviceExpressValue,
       diskonValue: _diskonText,
       diskon: '0',
+      totalNet: _netto.toString(),
+      barangFragile: _barangFragile,
     );
+
     setBusy(true);
-    print(jsonEncode(data.toJson()));
     await MainService().saveDo(data).then((value) {
       if (value['status'] == 1) {
         messageToast(value['message'], textBlack);
         jumpToPage(0);
-        _nomor.text = '';
+        getJenisKiriman();
       } else {
         messageToast(value['message'], Colors.red);
       }

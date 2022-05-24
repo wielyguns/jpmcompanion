@@ -123,7 +123,9 @@ class PickUpCourierViewModel extends BaseViewModel {
             if (item['status'] == 'On Progress') {
               _onProgressPickUp.add(PickUp.fromJson(item));
             } else if (item['status'] == 'Completed') {
-              _completedPickUp.add(PickUp.fromJson(item));
+              if (_completedPickUp.length < 20) {
+                _completedPickUp.add(PickUp.fromJson(item));
+              }
             }
           }
         }

@@ -973,17 +973,22 @@ class SearchTarifParam {
   dynamic dokumen;
   dynamic jenisTarif;
   dynamic typeKiriman;
+  dynamic kodeCustomer;
+  dynamic serviceExpress;
   List<DeliveryOrderSepeda> jenisUnit;
 
-  SearchTarifParam(
-      {this.asalId,
-      this.tujuanId,
-      this.idKecamatanTujuan,
-      this.berat,
-      this.dokumen,
-      this.jenisTarif,
-      this.typeKiriman,
-      this.jenisUnit});
+  SearchTarifParam({
+    this.asalId,
+    this.tujuanId,
+    this.idKecamatanTujuan,
+    this.berat,
+    this.dokumen,
+    this.jenisTarif,
+    this.typeKiriman,
+    this.kodeCustomer,
+    this.jenisUnit,
+    this.serviceExpress,
+  });
 
   SearchTarifParam.fromJson(Map<String, dynamic> json) {
     asalId = json['asal_id'];
@@ -992,7 +997,9 @@ class SearchTarifParam {
     berat = json['berat'];
     dokumen = json['dokumen'];
     jenisTarif = json['jenis_tarif'];
+    kodeCustomer = json['kode_customer'];
     typeKiriman = json['type_kiriman'];
+    serviceExpress = json['service_express'];
     if (json['jenis_unit'] != null) {
       jenisUnit = new List<DeliveryOrderSepeda>();
       json['jenis_unit'].forEach((v) {
@@ -1009,7 +1016,9 @@ class SearchTarifParam {
     data['berat'] = this.berat;
     data['dokumen'] = this.dokumen;
     data['jenis_tarif'] = this.jenisTarif;
+    data['kode_customer'] = this.kodeCustomer;
     data['type_kiriman'] = this.typeKiriman;
+    data['service_express'] = this.serviceExpress;
     if (this.jenisUnit != null) {
       data['jenis_unit'] = this.jenisUnit.map((v) => v.toJson()).toList();
     }
@@ -1147,33 +1156,40 @@ class DeliveryOrderParam {
   String tarifTambahan;
   String diskon;
   String diskonValue;
+  String serviceExpress;
+  String totalNet;
+  bool barangFragile;
   List<DeliveryOrderSepeda> jenisUnit;
 
-  DeliveryOrderParam(
-      {this.nomor,
-      this.asal,
-      this.tujuan,
-      this.tanggal,
-      this.customer,
-      this.namaPengirim,
-      this.teleponCustomer,
-      this.alamatCustomer,
-      this.kecamatan,
-      this.penerima,
-      this.teleponPenerima,
-      this.alamatPenerima,
-      this.namaBarang,
-      this.typeKiriman,
-      this.jenisKiriman,
-      this.berat,
-      this.koli,
-      this.jumlah,
-      this.tarifDasar,
-      this.tarifPenerus,
-      this.tarifTambahan,
-      this.jenisUnit,
-      this.diskon,
-      this.diskonValue});
+  DeliveryOrderParam({
+    this.nomor,
+    this.asal,
+    this.tujuan,
+    this.tanggal,
+    this.customer,
+    this.namaPengirim,
+    this.teleponCustomer,
+    this.alamatCustomer,
+    this.kecamatan,
+    this.penerima,
+    this.teleponPenerima,
+    this.alamatPenerima,
+    this.namaBarang,
+    this.typeKiriman,
+    this.jenisKiriman,
+    this.berat,
+    this.koli,
+    this.jumlah,
+    this.tarifDasar,
+    this.tarifPenerus,
+    this.tarifTambahan,
+    this.jenisUnit,
+    this.diskon,
+    this.diskonValue,
+    this.serviceExpress,
+    this.totalNet,
+    this.barangFragile,
+  });
 
   DeliveryOrderParam.fromJson(Map<String, dynamic> json) {
     nomor = json['nomor'];
@@ -1205,6 +1221,9 @@ class DeliveryOrderParam {
     }
     diskon = json['diskon'];
     diskonValue = json['diskon_value'];
+    serviceExpress = json['service_express'];
+    totalNet = json['total_net'];
+    barangFragile = json['barang_fragile'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1235,6 +1254,9 @@ class DeliveryOrderParam {
     }
     data['diskon'] = this.diskon;
     data['diskon_value'] = this.diskonValue;
+    data['total_net'] = this.totalNet;
+    data['service_express'] = this.serviceExpress;
+    data['barang_fragile'] = this.barangFragile;
     return data;
   }
 }
